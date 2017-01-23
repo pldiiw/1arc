@@ -102,6 +102,15 @@ A | 0 | B | F
  * `ANNN` - Store memory address `0xNNN` in register `I`.
  * `FX1E` - Add the value stored in register `VX` to register `I`.
 
+### Memory storage
+
+ * `FX55` - Store values of registers `V0` through `VX` inclusive in memory
+   starting at address stored in register `I`. Register `I` is set to `I + 0xX
+   + 1` afterwards.
+ * `FX65` - Fill register `V0` through `VX` inclusive with the values stored in
+   memory starting at address `I`. Register `I` is set to `I + 0xX + 1`
+   afterwards.
+
 ## Resources
 
 Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html
