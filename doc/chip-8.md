@@ -110,6 +110,8 @@ A | 0 | B | F
  * `FX65` - Fill register `V0` through `VX` inclusive with the values stored in
    memory starting at address `I`. Register `I` is set to `I + 0xX + 1`
    afterwards.
+ * `FX33` - Store the binary-coded decimal equivalent to the value of register
+   `VX` at addresses `I`, `I+1` and `I+2`.
 
 ## Resources
 
