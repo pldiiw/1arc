@@ -85,10 +85,12 @@ you have 16 data register + 2 timer registers + 1 address-specific register:
 The CHIP-8 programming language can receive input from a sixteen key keypad
 like so:
 
+```
 1 | 2 | 3 | C
 4 | 5 | 6 | D
 7 | 8 | 9 | E
 A | 0 | B | F
+```
 
  * `FX0A` - Halts program execution until a key is pressed and store the result
    in register `VX`.
