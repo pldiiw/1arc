@@ -113,6 +113,14 @@ A | 0 | B | F
  * `FX33` - Store the binary-coded decimal equivalent to the value of register
    `VX` at addresses `I`, `I+1` and `I+2`.
 
+### Graphics
+
+ * `DXYN` - Draw a sprite at position `VX, VY` with `0xN` bytes of sprite data
+   starting at the address stored in `I`.
+ * `00E0` - Clear the screen.
+ * `FX29` - Set register `I` to the memory address of the sprite data
+   corresponding to the hexadecimal digit stored in register `VX`.
+
 ## Resources
 
 Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html
