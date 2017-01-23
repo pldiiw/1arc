@@ -74,6 +74,12 @@ you have 16 data register + 2 timer registers + 1 address-specific register:
  * `4XNN` - Skip the following instruction if `VX != 0xNN`.
  * `9XY0` - Skip the following instruction if `VX != VY`.
 
+### Timers
+
+ * `FX15` - Set the delay timer to the value of register `VX`.
+ * `FX07` - Store the current value of the delay timer in register `VX`.
+ * `FX18` - Set the sound timer to the value of register `VX`.
+
 ## Resources
 
 Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html
