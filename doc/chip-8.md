@@ -3,7 +3,7 @@
 ## Introduction
 
 CHIP-8 is an interpreted programming language. It is composed of a
-set of 31 instructions, each acting either on data registers or the screen
+set of 35 instructions, each acting either on data registers or the screen
 display.
 
 The data registers are the primary utility for manipulating values. In Chip-8,
