@@ -69,6 +69,11 @@ you have 16 data register + 2 timer registers + 1 address-specific register:
 
 ### Conditional branching / Skips
 
+ * `3XNN` - Skip the following instruction if `VX == 0xNN`.
+ * `5XY0` - Skip the following instruction if `VX == VY`.
+ * `4XNN` - Skip the following instruction if `VX != 0xNN`.
+ * `9XY0` - Skip the following instruction if `VX != VY`.
+
 ## Resources
 
 Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html
