@@ -80,6 +80,23 @@ you have 16 data register + 2 timer registers + 1 address-specific register:
  * `FX07` - Store the current value of the delay timer in register `VX`.
  * `FX18` - Set the sound timer to the value of register `VX`.
 
+### Keypad input
+
+The CHIP-8 programming language can receive input from a sixteen key keypad
+like so:
+
+1 | 2 | 3 | C
+4 | 5 | 6 | D
+7 | 8 | 9 | E
+A | 0 | B | F
+
+ * `FX0A` - Halts program execution until a key is pressed and store the result
+   in register `VX`.
+ * `EX9E` - Skip the following instruction if the key value in register `VX` is
+   being pressed.
+ * `EXA1` - Skip the following instruction if the key value in register `VX` is
+   not being pressed.
+
 ## Resources
 
 Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html
