@@ -39,6 +39,9 @@ CHIP-8 RAM     CHIP-8 programs           CHIP-8 RAM
 0x000 (0)      0x200 (512)               0xFFF (4095)
 ```
 
+It should be noted that CHIP-8 programs are normally stored in big-endian, i.e.
+with the most significant byte of a two-byte instruction being stored first.
+
 ## Keypad
 
 The CHIP-8 programming language can receive input from a sixteen key keypad
@@ -53,9 +56,109 @@ like so:
 +---------------+
 ```
 
+## Display
+
+The original implementation of the CHIP-8 language used a 64x32 monochrome
+display.
+
+```
++-------------------+
+|(0,0)        (63,0)|
+|                   |
+|(0,31)      (63,31)|
++-------------------+
+```
+
+Drawing on the screen is done through the use of sprites, a group of bytes
+which is the binary representation of the desired picture.  
+A sprite can be 8 pixels wide and from one up to fifteen pixels high. One byte
+corresponds to one row. The height of the sprite is specified through the
+instruction that draws the sprite on the screen. See instruction `DXYN` for
+more insight.  
+The bits inside the sprites represent either to a transparent (black) pixel
+when set to `0` and to a white pixel when set to `1`. When drawing, the sprite
+data is XORed with the current graphics data on the screen. This enable the
+programmer to erase a drawn sprite by redrawing it at the same location.  
+
+All the sprites are stored in memory, just like the instructions. Concerning
+where to place the sprite data, here's an extract from Mastering CHIP-8 by
+Matthew Mikolay:
+
+> As sprite data is stored in memory just like the actual CHIP-8 program
+> instructions, care should be taken to prevent the interpreter from attempting
+> to execute the sprite data as instructions. For this reason, it is advised to
+> place all sprite data in a section of memory that sits independently of the
+> main program memory. For example, the sprite data could be placed toward the
+> beginning of the program, and preceded by a jump instruction, forcing the
+> interpreter to skip over this data. In another case, sprite data could be
+> placed at the end of the program, and the program could be coded in a way
+> such that the sprite data would never be reached by the interpreter.
+
+### Font
+
+CHIP-8 contains a built-in font to allow simple output of characters. All
+hexadecimal digits have a corresponding sprite data that is already stored in
+the memory of the interpreter.
+
+Here's a table of the font sprites and their corresponding sprite data:
+
+```
++---------------------------+
+| Sprite  | Hex  | Binary   |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 |     *   | 0x20 | 00100000 |
+| *     * | 0x90 | 10010000 |    **   | 0x60 | 01100000 |
+| *     * | 0x90 | 10010000 |     *   | 0x20 | 00100000 |
+| *     * | 0x90 | 10010000 |     *   | 0x20 | 00100000 |
+| * * * * | 0xF0 | 11110000 |   * * * | 0x70 | 01110000 |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+|       * | 0x10 | 00010000 |       * | 0x10 | 00010000 |
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+| *       | 0x80 | 10000000 |       * | 0x10 | 00010000 |
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
++---------------------------+---------------------------+
+| *     * | 0x90 | 10010000 | * * * * | 0xF0 | 11110000 |
+| *     * | 0x90 | 10010000 | *       | 0x80 | 10000000 |
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+|       * | 0x10 | 00010000 |       * | 0x10 | 00010000 |
+|       * | 0x10 | 00010000 | * * * * | 0xF0 | 11110000 |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+| *       | 0x80 | 10000000 |       * | 0x10 | 00010000 |
+| * * * * | 0xF0 | 11110000 |     *   | 0x20 | 00100000 |
+| *     * | 0x90 | 10010000 |   *     | 0x40 | 01000000 |
+| * * * * | 0xF0 | 11110000 |   *     | 0x40 | 01000000 |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+| *     * | 0x90 | 10010000 | *     * | 0x90 | 10010000 |
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+| *     * | 0x90 | 10010000 |       * | 0x10 | 00010000 |
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 | * * *   | 0xE0 | 11100000 |
+| *     * | 0x90 | 10010000 | *     * | 0x90 | 10010000 |
+| * * * * | 0xF0 | 11110000 | * * *   | 0xE0 | 11100000 |
+| *     * | 0x90 | 10010000 | *     * | 0x90 | 10010000 |
+| *     * | 0x90 | 10010000 | * * *   | 0xE0 | 11100000 |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 | * * *   | 0xE0 | 11100000 |
+| *       | 0x80 | 10000000 | *     * | 0x90 | 10010000 |
+| *       | 0x80 | 10000000 | *     * | 0x90 | 10010000 |
+| *       | 0x80 | 10000000 | *     * | 0x90 | 10010000 |
+| * * * * | 0xF0 | 11110000 | * * *   | 0xE0 | 11100000 |
++---------------------------+---------------------------+
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+| *       | 0x80 | 10000000 | *       | 0x80 | 10000000 |
+| * * * * | 0xF0 | 11110000 | * * * * | 0xF0 | 11110000 |
+| *       | 0x80 | 10000000 | *       | 0x80 | 10000000 |
+| * * * * | 0xF0 | 11110000 | *       | 0x80 | 10000000 |
++---------------------------+---------------------------+
+```
+
 ## Instructions
 
-`N` is a hexadecimal digit.
+`N` is a hexadecimal digit.  
 `X` and `Y` represents arbitrary data registers.
 
 ### Arithmetic
@@ -129,8 +232,8 @@ like so:
 ### Memory storage
 
  * `FX55` - Store values of registers `V0` through `VX` inclusive in memory
-   starting at address stored in register `I`. Register `I` is set to `I + 0xX
-   + 1` afterwards.
+   starting at address stored in register `I`. Register `I` is set to
+   `I + 0xX 1` afterwards.
  * `FX65` - Fill register `V0` through `VX` inclusive with the values stored in
    memory starting at address `I`. Register `I` is set to `I + 0xX + 1`
    afterwards.
