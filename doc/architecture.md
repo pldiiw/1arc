@@ -24,6 +24,43 @@ instructions interpretation layer.
 
 ## Artefact removing
 
+This layer is the first one the source code passes through when being
+interpreted. Rather simple, it discard every character not being part of an
+instruction. This includes white-spaces, line returns, tabulations and
+comments.
+Here's a before/after example of source code being put into the artefact
+removing layer:
+
+Source code:
+```
+XXXX ; Here's an instruction
+
+;; A section of code
+YYYY
+  ZZZZ
+  AAAA
+    BBBB
+      CCCC
+      ;; Commented instructions
+      #|
+        DDDD
+        EEEE
+        FFFF
+      |#
+GGGG HHHH
+III ; There can be incorrect code too, but it is not the place where it is
+    ; checked
+JJJJKKKK
+```
+
+Source code after going through the artefact removing layer:
+```
+XXXXYYYYZZZZAAAABBBBCCCCGGGGGHHHHIIIJJJJKKKK
+```
+
+After this layer, we're left with only a suite of instructions, or more
+precisely at this state: a suite of hexadecimal digits.
+
 ## Instructions serialization
 
 ## Environment initialization
