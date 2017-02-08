@@ -63,6 +63,63 @@ precisely at this state: a suite of hexadecimal digits.
 
 ## Instructions serialization
 
+After the artefact removing layer, the source code goes through the
+instructions serialization layer. This is where our suite of hexadecimal digits
+will be transformed into a real suite of instructions.
+
+First, before doing any heavy computation, we should make sure that the
+number of hexadecimal digits from our source code is divisible per four. An
+instruction being composed of 4 hex digits, it is a quick check that our source
+code does not contain any incomplete instruction.
+
+Now, the instructions serialization layer will do what it is named after. Our
+source code is converted from a bare suite of digits to a list of instructions,
+where we can be ensured that each of these instructions is part of the CHIP-8
+specification. To reach this goal, we _just_ have to take each set of four
+digits in the source code, check that the instruction exists, that its
+parameters are correct and start again with the next four digits.
+
+The process to check if one of the provided supposed instructions exists can be
+thought as a [Trie][trie-wikipedia]. If our set of digits reaches a leaf, then
+this means this is an instruction. An example for instruction `8A34`:
+
+Here's a part of our Trie:
+
+```
+R means that a data register is awaited.
+N means any hex digit.
+...  5    6    7    8  ...
+    /    /    /      \
+   5R   6R   7R      8R <- a branch
+   |    |    |         \
+  5RR  6RN  7RN         \
+   |    |    |           \
+  5RR0 6RNN 7RNN          \
+                          8RR
+                        ___|___
+              _________///||\\\\_____________
+             /     ____// || \\\_________    \
+            /    /    /   ||  \\_____    \    \
+           /    /    /    | \  \_    \    \    \
+          /    /    /    /   |   \    \    \    \
+         |    |    |    |    |    |    |    |    |
+        8RR0 8RR1 8RR2 8RR3 8RR4 8RR5 8RR6 8RR7 8RRE <- a leaf
+```
+
+Since our instruction is `8A34`, it begins by an `8`, so we take the `8`
+branch. Then, we want a register. `A` is a register, so go on to the next
+branch. A register again, and `3` is one, next. We have a `4` now, does we have
+a leaf with a `4`? Yes! We have reach a leaf, so our instruction exists. If we
+had a `9` instead of our final `4`, then the fact that no corresponding leaf
+resides in our Trie means that the instruction `8A39` does not exist.
+
+The advantage of such a structure is that new instructions can added easily.
+
+We can think of this layer as a syntax check for each of our instructions. At
+this state we have executable code, but one thing is missing: the environment!
+
 ## Environment initialization
 
 ## Instructions interpretation
+
+[trie-wikipedia]: https://en.wikipedia.org/wiki/Trie
