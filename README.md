@@ -1,4 +1,4 @@
-# 1DEV Project - Night Machine Remake
+# 1ARC Project - CHIP-8 Interpreter
 
 ## LICENSE
 
