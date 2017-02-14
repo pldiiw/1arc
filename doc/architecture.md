@@ -88,6 +88,7 @@ Here's a part of our Trie:
 ```
 R means that a data register is awaited.
 N means any hex digit.
+
 ...  5    6    7    8  ...
     /    /    /      \
    5R   6R   7R      8R <- a branch
@@ -119,6 +120,37 @@ We can think of this layer as a syntax check for each of our instructions. At
 this state we have executable code, but one thing is missing: the environment!
 
 ## Environment initialization
+
+Every CHIP-8 instructions acts either on registers, memory or the screen. In
+order for our instructions to run, we need to create an environment that
+responds to what they request. Knowing that instructions should be stored in
+memory, this is a quite vital step!
+
+This environment should be composed of the following components:
+
+ * 16 data registers, named `0` through `F`, and 1 byte long
+ * 1 timer register, 1 byte
+ * 1 sound register, 1 byte
+ * An `I` register, 12 bits long
+ * 4096 bytes of memory
+ * A memory index which contains the current read memory address by the
+   interpreter, 12 bits long
+ * A 64x32 pixels monochrome display
+ * A 60Hz clock
+
+Each register should be initialized at `0x00`, empty. The memory is also
+initially filled with `0`s, with the memory index pointing to address `0x200`.
+The screen is all black.
+
+After this is initialized, we now have to fill our memory with the instructions
+and some utilities.  
+First, we should store our built-in CHIP-8 font in the memory. This sprite set
+is 80 bytes long. We will store it from the address `0x000` through `0x04F`
+included. Now it is time to write our instructions, starting with the first one
+written at address `0x200`, and so on.
+
+This is pretty much all the interpreter has to set up to get ready to read the
+instrutions.
 
 ## Instructions interpretation
 
