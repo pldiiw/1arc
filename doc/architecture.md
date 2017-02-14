@@ -20,7 +20,7 @@ distinguishing every instruction from the other. For our instructions to be
 executed, we need to initialize a dedicated environment, including the data
 registers and the memory. This is the environment initialization layer. Lastly,
 we are now able to run our parsed CHIP-8 program. This happens in the
-instructions interpretation layer.
+instruction interpretation layer.
 
 ## Artefact removing
 
@@ -134,8 +134,10 @@ This environment should be composed of the following components:
  * An `I` register, 12 bits long
  * 4096 bytes of memory
  * A memory index which contains the current read memory address by the
-   interpreter, 12 bits long
+   interpreter, 12 bits long, also known as the program counter.
+ * TODO: Stack and stack pointer
  * A 64x32 pixels monochrome display
+ * TODO: Input keypad
  * A 60Hz clock
 
 Each register should be initialized at `0x00`, empty. The memory is also
@@ -152,6 +154,17 @@ written at address `0x200`, and so on.
 This is pretty much all the interpreter has to set up to get ready to read the
 instrutions.
 
-## Instructions interpretation
+## Instruction interpretation
+
+Now that we have our sweet environment, we can set everything off and let
+our cute code get executed. This is the instruction interpretation layer.
+
+To run it, we initiate our 60Hz clock and for each cycle, we increment our
+program counter by two bytes (the size of an instruction), read the next 16
+bits opcode (instruction) and run what it wants (arithmetic, jumps, ...). We
+conclude our cycle by decrementing by 1 our sound and timer registers. Then
+the next cycle can begin if all went right. And so on.
+
+The interpreter stops after reading the last byte of memory (`0xFFF`).
 
 [trie-wikipedia]: https://en.wikipedia.org/wiki/Trie
