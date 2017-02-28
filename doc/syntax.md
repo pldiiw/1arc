@@ -19,6 +19,10 @@ Our interpreter is insensitive to white-spaces and line returns, therefore you
 can arrange your code however you may want when writing CHIP-8.
 You can also use tabs.
 
+### Case insensitivity
+
+Writing an instruction as `ABCD` or `abcd` or even `aBcD` has no difference.
+
 ### Comments
 
 Comments help making your code easier to understand. You can use two types of
