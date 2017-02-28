@@ -27,7 +27,8 @@ instruction interpretation layer.
 This layer is the first one the source code passes through when being
 interpreted. Rather simple, it discard every character not being part of an
 instruction. This includes white-spaces, line returns, tabulations and
-comments.
+comments. Concerning letter casing, everything is uppercased before returning
+the final string of source code.  
 Here's a before/after example of source code being put into the artefact
 removing layer:
 
@@ -39,11 +40,11 @@ XXXX ; Here's an instruction
 YYYY
   ZZZZ
   AAAA
-    BBBB
-      CCCC
+    BbBB ; One letter lowercase!
+      CCcc ; Half lowercase!
       ;; Commented instructions
       #|
-        DDDD
+        dddd ; Full lowercase!
         EEEE
         FFFF
       |#
