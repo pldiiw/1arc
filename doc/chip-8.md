@@ -9,7 +9,7 @@ display.
 ## Data registers
 
 The data registers are the primary utility for manipulating values. In Chip-8,
-you have 16 data register + 2 timer registers + 1 address-specific register:
+you have 16 data registers + 2 timer registers + 1 address-specific register:
 
  * Data registers:
    * `V0` through `VE` - Eight bits general purpose registers.
@@ -41,6 +41,29 @@ CHIP-8 RAM     CHIP-8 programs           CHIP-8 RAM
 
 It should be noted that CHIP-8 programs are normally stored in big-endian, i.e.
 with the most significant byte of a two-byte instruction being stored first.
+
+## The program counter, stack and stack pointer
+
+These are 3 special registers, some calls them "pseudo-registers", inacessables
+from a CHIP-8 program but essentials to the working of the interpreter.
+
+The first, the program counter, 12 bits long, is used to store the currently
+executed memory address. It is changed after an instruction is read, to next
+memory address, or to a specific one when jumping for instance.
+
+The stack is an array of sixteen 12 bits values. Each of these values also
+stores memory addresses. You have in CHIP-8 two instructions used to call and
+turn from subroutines, procedures. The one used to call a subroutine store the
+address of the called procedure into the first empty value inside the
+stack. This way, when we want to return from the subroutine, we take the last
+stored value stored inside the stack and set the program counter to it.  
+
+But how do we know which value inside the stack is the topmost one?
+
+This is where the stack pointer comes to the rescue. It is simply a 4 bit
+pseudo-register that gets incremented when we call a subroutine to point to
+the new topmost memory address inside the stack and decremented when we return
+from a subroutine.
 
 ## Keypad
 
@@ -197,8 +220,13 @@ Here's a table of the font sprites and their corresponding sprite data:
 
 ### Subroutines
 
- * `2NNN` - Execute subroutine starting at address `0xNNN`.
- * `00EE` - Return from a subroutine.
+ * `2NNN` - Execute subroutine starting at address `0xNNN`. Before changing the
+   program counter to the new address, it increments the current one (as we
+   don't want to re-execute the "call" instruction when we return from the
+   subroutine), stores it inside the stack and increments the stack pointer.
+ * `00EE` - Return from a subroutine. This means setting the program counter to
+   the memory address inside the stack value the stack pointer points to and
+   decrementing our stack pointer.
  * `0NNN` - Execute machine language subroutine at address `0xNNN` -
    **DEPRECATED**
 
