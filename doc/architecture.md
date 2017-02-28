@@ -135,7 +135,8 @@ This environment should be composed of the following components:
  * 4096 bytes of memory
  * A memory index which contains the current read memory address by the
    interpreter, 12 bits long, also known as the program counter.
- * TODO: Stack and stack pointer
+ * The stack and stack pointer (respectively an array of 16 12-bit values and
+   a 4 bit value)
  * A 64x32 pixels monochrome display
  * TODO: Input keypad
  * A 60Hz clock
@@ -150,6 +151,9 @@ First, we should store our built-in CHIP-8 font in the memory. This sprite set
 is 80 bytes long. We will store it from the address `0x000` through `0x04F`
 included. Now it is time to write our instructions, starting with the first one
 written at address `0x200`, and so on.
+
+Afterwards, the program counter should point to the address `0x200`. All values
+of the stack are set at `0x000` and the stack pointer at `0x0`.
 
 This is pretty much all the interpreter has to set up to get ready to read the
 instrutions.
