@@ -5,7 +5,7 @@ const removeArtefacts = require('interpreter').removeArtefacts;
 const program =
 `0000 ; comment
 ;;double comment
-1 ABB ;;; triple
+1 AbB ;;; triple
 
 
 
@@ -22,8 +22,8 @@ const program =
   #|;;;|#
 |#
 CC ;
-    C
+    c
 
-        DDDD`;
+        DddD`;
 
 log(removeArtefacts(program));
