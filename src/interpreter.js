@@ -1,6 +1,3 @@
-var test_serialization = 'AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHH';
-console.log(serialization_layer(test_serialization));
-
 function serialization_layer(unserialized_string)
 {
 /*Take a string in input and return an array
