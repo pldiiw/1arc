@@ -1,0 +1,43 @@
+{
+  "name": "1arc",
+  "version": "0.0.0",
+  "description": "CHIP-8 interpreter written in JS with a CLI and a GUI",
+  "main": "",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./run_tests.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pldiiw/1arc.git"
+  },
+  "author": "See contributors",
+  "contributors": [
+    {
+      "name": "Pierre-Louis DOURNEAU"
+    },
+    {
+      "name": "Joffrey JANIEC"
+    },
+    {
+      "name": "Ibrahim BAH-SALIFOU"
+    },
+    {
+      "name": "Clément GRIMAUD"
+    },
+    {
+      "name": "Juan ESTRADA"
+    }
+  ],
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/pldiiw/1arc/issues"
+  },
+  "homepage": "https://github.com/pldiiw/1arc#readme",
+  "devDependencies": {
+    "semistandard": "^10.0.0"
+  }
+}
