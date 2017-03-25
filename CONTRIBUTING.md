@@ -11,8 +11,8 @@ We try to follow a [DDD]/[TDD] oriented developement. All source code written
 must match what's written the documentation and the behaviour described in the
 tests.
 
-All the documentation is in the `doc/` directory.  
-All tests lies in the `test/` directory.  
+All the documentation is in the `doc/` directory.
+All tests lies in the `test/` directory.
 There's two little scripts to help you create the file for a new test and run
 the tests.
 
@@ -28,6 +28,12 @@ When running `XX-<test-name>.<file-ext>`, its output must match what's inside
 
 Tracking our work is essential. To fullfill this requirement we use Git along
 GitHub. This brings less friction when working in parallel.
+
+For a short introduction on Git, go to try.github.com.
+
+We follow the [GitHub Flow] and the way
+[Chris Beams describes a good commit message].
+
 
 ## Coding Style
 
@@ -49,3 +55,5 @@ having to over-configure our text editors.
 [DDD]: https://gist.github.com/zsup/9434452
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [Flet' semistandard]: https://github.com/Flet/semistandard
+[GitHub Flow]: https://guides.github.com/introduction/flow/
+[Chris Beams describes a good commit message]: https://chris.beams.io/posts/git-commit/
