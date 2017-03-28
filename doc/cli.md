@@ -7,13 +7,17 @@ using the command line tool. This latter one is composed of multiple commands
 that directly act on the interpreter engine and we will review each of these
 one by one.
 
-## What is the CLI?
+## What is a CLI?
 
 CLI stands for the "Command Line Interface". It means that this is a program
 that can be used within a terminal emulator, through a shell. Some examples of
 such tools are the *nix commands.
 
 ## Why a CLI?
+
+Any command line utility is a powerful tool. The goal is to provide a program
+that can be used in a shell session to operate on the CHIP-8 interpreter,
+examine it and run code on it. It should also be scriptable.
 
 ## Using the CLI
 
