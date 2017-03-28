@@ -98,7 +98,9 @@ The subparameters are given with their associated subcommand prefixed.
    memory. This is a mandatory subparameter.
  * `cycle [amount]` - You can choose how many cycles you want to run before
    terminating the command. For instance, `cycle 5` runs 5 cycles before
-   dumping the engine state. If not value are passed, it defaults to 1.
+   dumping the engine state. If an amount of `-1` is given, it will run until
+   it reaches the end of the engine's memory. If no value are passed, it
+   defaults to 1.
  * `display` does not have any subparameter.
  * `input <key>` - Along with `input`, we have to give the key we want to
    simulate the pressure. It can be given in lowercase or uppercase. The
@@ -138,15 +140,73 @@ The subparameters are given with their associated subcommand prefixed.
 
 ### Suboptions
 
+Each subcommand can be given a suite of switches called suboptions to modify a
+bit its behaviour. A suboption, as for options, has always this syntax:
+`-<character> [arg]` for short suboptions and `--<word> [arg]` for long
+suboptions. Long suboptions are just an alternative way to use a specific
+suboption, or just suboption, by using a word instead of just one character. It
+can be more readable to use long suboptions in some cases.
+
 #### Load suboptions
+
+ * `-d` or `--dry-run` - Do everything the `load` does but does not dump the
+   generated engine state at the end. It can help see if the source code given
+   is free of any typo.
 
 #### Cycle suboptions
 
-#### Display
+ * `-d` or `--dry-run` - As for the `load` subcommand, this suboption run the
+   cycle but instead of dumping the new engine state, it displays what has been
+   affected by this cycle, like the new value of the data registers and of the
+   program counter among other things. It's like a `diff` of the engine state
+   before running the cycle and after running it.
 
-#### Inspect
+#### Display suboptions
 
-#### Help
+ * `-1 <character>` or `--pixel-on <character>` - When displaying the screen,
+   use the given character for representing the non-transparent pixels, i.e.
+   `1`s, instead of the default one.
+ * `-0 <character>` or `--pixel-off <character>` - Same as `-1`, but for
+   the transparent pixels, the `0`s.
+
+#### Input suboptions
+
+ * `-n` or `--no` - Instead of setting the key to the _pressed_ state,
+   explicitly set it to the _not pressed_ state. Can be used if the user has
+   entered the wrong input and he wants to revert it.
+
+#### Inspect suboptions
+
+ * `-f <base>` or `--format <base>` - Let you choose in what base the value of
+   the inspected is displayed. For example, if you want to get the value in
+   hexadecimal instead of binary, you would use `-f hex` or even `-f 16`. It
+   defaults to the binary format. Here are the possible bases:
+   ```
+   16 hex
+    8 oct
+    2 bin
+   ```
+ * `-r [start]-[end]` or `--range [start]-[end]` - For some components of the
+   engine, you may not want the entire value of it. A such case is when
+   inspecting the memory, all of it may not be portion you're looking for.
+   Here's how to use it:
+   ```
+   $ ./cli.js inspect memory --range 98-100  # Log the 98th and 99th bytes of
+                                             # memory
+   $ ./cli.js inspect memory -r -42          # Log from the beginning of memory
+                                             # to the byte 42 excluded
+   $ ./cli.js inspect memory --range 4000-   # Log from byte 4000 until the end
+                                             # of the memory
+   $ ./cli.js inspect memory -r -            # The default, from beginning to
+                                             # end.
+   $ ./cli.js inspect memory -r 0x200-0x2EF  # You can also specify values in
+                                             # hexadecimal, but it must be
+                                             # prefixed with '0x'
+   ```
+
+#### Help suboptions
+
+Help doesn't have any suboptions.
 
 ### Options
 
