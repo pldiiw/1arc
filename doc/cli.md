@@ -210,3 +210,10 @@ Help doesn't have any suboptions.
 
 ### Options
 
+Options are like suboptions, instead that they can used accross all
+subcommands. This is why they must be specified before the subcommand. They
+have the same syntax as the subtoptions.
+
+ * `-s <file>` or `--state <file>` - This option is used to change the default
+   file read when retrieving and saving the engine state. It defaults to the
+   `.engine_state.chip8.txt` file in the current directory.
