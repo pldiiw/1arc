@@ -89,6 +89,53 @@ Here's the list of all the possible subcommands:
    get the bare binary data of the engine's memory.
  * `help` - Show the help.
 
+### Subparameters
+
+The subparameters are given with their associated subcommand prefixed.
+
+ * `load <source-file>` - `load`'s subparameter is used to specify the source
+   code file from which we want to feed our chip-8 instructions to the engine
+   memory. This is a mandatory subparameter.
+ * `cycle [amount]` - You can choose how many cycles you want to run before
+   terminating the command. For instance, `cycle 5` runs 5 cycles before
+   dumping the engine state. If not value are passed, it defaults to 1.
+ * `display` does not have any subparameter.
+ * `input <key>` - Along with `input`, we have to give the key we want to
+   simulate the pressure. It can be given in lowercase or uppercase. The
+   possible values are: `0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f`. This is
+   a mandatory parameter.
+ * `inspect [component]` - As seen earlier in the document, the `inspect`
+   subcommand takes an optional subparameter that indicates what part of the
+   engine we want to examine. If no component is given, it is a if we passed
+   `all`.  
+   The possible values are:
+   ```
+   data
+   data.0 data.1 data.2 data.3 data.4
+   data.5 data.6 data.7 data.8 data.9
+   data.A data.B data.C data.D data.E
+   data.F
+   I
+   timer
+   sound
+   memory
+   pc
+   pointer
+   stack
+   display
+   keypad
+   all
+   ```
+ * `help [subcommand]` - Calling `help` with no subparameter displays the CLI
+   syntax and the possible options and the subcommands along with their
+   subparameter with a short description of what they does. When passing a
+   subparameter, it means that user wants to have more information on a given
+   subcommand. It then displays the CLI syntax for the given subcommand,
+   explains what this subcommand does, what it is its awaited subparameter and
+   its possible values and all of the possible suboptions with a description of
+   each. Not giving a subparameter is same as calling `help short`. The
+   possible values are: `short load cycle display input inspect`.
+
 ### Suboptions
 
 #### Load suboptions
