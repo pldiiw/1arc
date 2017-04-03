@@ -5,7 +5,7 @@ thought.
 
 The design documentation is composed of the following documents:
  * [The distinction between Interpreter and Engine][6] - What's the difference
-   between the interpreter adn the engine? This is asnwered there.
+   between the interpreter and the engine? This is answered there.
  * [The Interpreter Architecture][0] - Defines how our interpreter is
    articulated, what are its core components, modules.
  * [The Engine Architecture][1] - This document describes how the core of our

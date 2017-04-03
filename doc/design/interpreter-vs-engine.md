@@ -9,5 +9,5 @@ modules, including the `engine`.
 
 The latter, the `engine`, is only a module of our project. The central one,
 actually. It takes care of creating a data structure and medorate how CHIP-8
-instructions will be able to manipulate it. This what actually _interpret_ the
-CHIP-8 code.
+instructions will be able to manipulate it. That's what actually _interpret_
+the CHIP-8 code.
