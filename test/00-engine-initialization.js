@@ -60,4 +60,4 @@ log('Number of 64-pixel long display rows: ' +
 // Keypad
 const kp = engine.keypad;
 log(`Keypad bit size: ${kp.length}`);
-log(`Keypad values sum: ${kp.reduce((a, v) => a + v, 0)}`);
+log(`Keypad values sum: ${kp.split('').reduce((a, v) => a + v, 0)}`);
