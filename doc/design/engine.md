@@ -94,9 +94,10 @@ The cycle is the part of the engine that is in charge of really interpreting
 the instructions of a given CHIP-8 program.
 One cycle reads and execute one instruction. That means that a cycle should
 read the instruction that the program counter is pointing to, call the
-subroutine corresponding to the read instruction, generating a new engine
-state derived from the one at the beginning of the cycle, decrement the timer
-and sound timer if they're not equal to 0 and increment the program counter so
-that the next cycle will read the next instruction.
+subroutine corresponding to the read instruction (using the instruction set
+module), generating a new engine state derived from the one at the beginning of
+the cycle, decrement the timer and sound timer if they're not equal to 0 and
+increment the program counter so that the next cycle will read the next
+instruction.
 A cycle should end itself by returning a new engine state that takes into
 account these modifications.
