@@ -3,21 +3,21 @@
 // The heavy use of const is intended, for testing the purity of each cycle.
 
 const log = console.log;
-const binToDec = (s) => parseInt(s, 2);
+const binToDec = s => parseInt(s, 2);
 
-const sumRegisters = (engine) => {
+const sumRegisters = engine => {
   return engine.data.reduce((a, v) => a + binToDec(v), 0);
 };
-const logPc = (engine) => {
+const logPc = engine => {
   log(`Program counter decimal value: ${binToDec(engine.pc)}`);
 };
-const logRegSum = (engine) => {
+const logRegSum = engine => {
   log(`Registers decimal sum value: ${sumRegisters(engine)}`);
 };
-const logTimer = (engine) => {
+const logTimer = engine => {
   log(`Timer decimal value: ${binToDec(engine.timer)}`);
 };
-const logSound = (engine) => {
+const logSound = engine => {
   log(`Sound timer decimal value: ${binToDec(engine.sound)}`);
 };
 

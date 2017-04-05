@@ -9,7 +9,7 @@ const loadedProgram =
     .slice(0, 7 * 2 * 8);
 
 [...Array(7)].keys()
-  .map(v => loadedProgram.slice(v, v + 16).join(''))
+  .map(v => loadedProgram.slice(v, v + 16))
   .map(v => parseInt(v, 2).toString(16))
   .forEach(v => console.log(v));
 

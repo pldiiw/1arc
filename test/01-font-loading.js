@@ -13,6 +13,6 @@ const loadedSpriteSet = memory.slice(0, 79 * 8 + 1);
 [...Array(16).keys()]
   .map(v => hex(v))
   .map(v => {
-    log(`${v}: ${loadedSpriteSet.slice(v * 5, (v + 1) * 5).join(' ')}`);
+    log(`${v}: ${loadedSpriteSet.slice(v * 5, (v + 1) * 5).match(/.{2}/).join(' ')}`);
   });
 
