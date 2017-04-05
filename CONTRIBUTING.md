@@ -52,8 +52,17 @@ In order to help to match the style guide, we use [EditorConfig]. It helps to
 control how an editor behaves and match how we should write the code without
 having to over-configure our text editors.
 
+## JSDoc
+
+Working in group we may encounter situations when we don't know how to use
+code written by others. JavaScript does not have type signatures, thus it is
+harder to know what a function awaits as arguments. To overcome this issue, we
+will use [JSDoc], it will enabling to automatically have an API documentation
+of all of our code, also providing a good overview of what we produce.
+
 [DDD]: https://gist.github.com/zsup/9434452
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [Flet' semistandard]: https://github.com/Flet/semistandard
 [GitHub Flow]: https://guides.github.com/introduction/flow/
 [Chris Beams describes a good commit message]: https://chris.beams.io/posts/git-commit/
+[JSDoc]: http://usejsdoc.org/
