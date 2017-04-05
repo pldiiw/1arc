@@ -1,0 +1,52 @@
+Init
+Program counter decimal value: 512
+Registers decimal sum value: 0
+
+Cycle 1
+Program counter decimal value: 514
+Registers decimal sum value: 20
+0 register decimal value: 20
+
+Cycle 2
+Program counter decimal value: 516
+Registers decimal sum value: 30
+1 register decimal value: 10
+
+Cycle 3
+Program counter decimal value: 518
+Timer decimal value: 10
+
+Cycle 4
+Program counter decimal value: 520
+Registers decimal sum value: 35
+2 register decimal value: 5
+Timer decimal value: 9
+
+Cycle 5
+Program counter decimal value: 522
+Timer decimal value: 8
+Sound timer decimal value: 3
+
+Cycle 6
+Program counter decimal value: 524
+Timer decimal value: 7
+Sound timer decimal value: 2
+
+Cycle 7
+Program counter decimal value: 526
+Timer decimal value: 6
+Sound timer decimal value: 1
+
+Cycle 8
+Program counter decimal value: 528
+Timer decimal value: 5
+Sound timer decimal value: 0
+
+Cycle 9
+Program counter decimal value: 530
+Registers decimal sum value: 35
+0 register decimal value: 20
+1 register decimal value: 10
+2 register decimal value: 5
+Timer decimal value: 4
+Sound timer decimal value: 0
