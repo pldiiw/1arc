@@ -1,0 +1,84 @@
+# Utility
+
+## What is this document?
+
+Here we will explain what is the purpose of the utility module.
+
+## Abstract
+
+If we enable people to write CHIP-8 source code based on the syntax defined in
+[syntax.md](./syntax.md), we need a tool to convert these texts files into a
+format that we can hand out to the engine.
+Also, having debugging tools is a big plus when having to write and understand
+CHIP-8 code.
+
+We answer these problems by providing tools that are accessible through this
+module.
+
+## Artefact removing
+
+This tool takes care of preparing source code to a format that the engine will
+be able to feed into its memory.
+
+Rather simple, it discard every character not being part of an
+instruction. This includes white-spaces, line returns, tabulations and
+comments. Concerning letter casing, everything is uppercased before returning
+the final string of source code. This syntax is defined in the document
+[syntax.md](./syntax.md).
+
+Here's a before/after example of source code being put into the artefact
+removing tool:
+
+Source code:
+```
+XXXX ; Here's an instruction
+
+;; A section of code
+YYYY
+  ZZZZ
+  AAAA
+    BbBB ; One letter lowercase!
+      CCcc ; Half lowercase!
+      ;; Commented instructions
+      #|
+        dddd ; Full lowercase!
+        EEEE
+        FFFF
+      |#
+GGGG HHHH
+III ; There can be incorrect code too, but it is not the place where it is
+    ; checked
+JJJJKKKK
+```
+
+After:
+```
+XXXXYYYYZZZZAAAABBBBCCCCGGGGGHHHHIIIJJJJKKKK
+```
+
+We're left with only a suite of instructions, or more
+precisely at this state: a suite of hexadecimal digits.
+
+## Linting
+
+A linter is a tool that checks for inconsistencies in source code. What it does
+in our case is checking that a suite of instructions (see previous section)
+contains only instructions that actually exists, anything else.
+
+Here's how it achieves this:
+
+First, before doing any heavy computation, we should make sure that the
+number of hexadecimal digits from our suite of instructions is divisible per
+four. An instruction being composed of 4 hex digits, it is a quick check that
+our suite does not contain any incomplete instruction.
+
+Now, the linter has to read every instruction and check that it is a correct
+one. It retrieves all the possible instructions from the
+[instruction set module](./instruction-set.md) and compare each set of four
+digits against the provided Map. If the linter can found a key inside the
+instruction Map that match this set of four digits, then this is a correct
+instruction.
+
+Any error is reported, but the linting should continue. Any incorrect
+instruction will make the linter return a null value after having check all the
+suite.
