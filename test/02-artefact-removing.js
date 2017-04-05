@@ -1,6 +1,6 @@
 'use strict';
 
-const removeArtefacts = require('interpreter').removeArtefacts;
+const removeArtefacts = require('utility').removeArtefacts;
 
 const program =
 `0000 ; comment

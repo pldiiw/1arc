@@ -4,7 +4,7 @@ const log = console.log;
 const hex = n => n.toString(16).toUpperCase();
 const binToDec = s => parseInt(s, 2);
 
-const engine = require('interpreter').initializeEngine();
+const engine = require('engine').initialize();
 
 // Data registers
 const data = engine.data;
