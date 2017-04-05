@@ -4,8 +4,8 @@ const log = console.log;
 const hex = n => n.toString(16).toUpperCase();
 const binToDec = s => parseInt(s, 2);
 
-const engine = require('interpreter').initializeEngine();
-const fontLoadedEngine = require('interpreter').loadFont(engine);
+const engine = require('engine').initialize();
+const fontLoadedEngine = require('engine').loadFont(engine);
 
 const memory = fontLoadedEngine.memory;
 const loadedSpriteSet = memory.slice(0, 79 * 8 + 1);

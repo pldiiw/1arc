@@ -1,7 +1,7 @@
 'use strict';
 
-const engine = require('interpreter').initializeEngine();
-const loadProgram = require('interpreter').loadProgram;
+const engine = require('engine').initialize();
+const loadProgram = require('engine').loadProgram;
 const program = '00001111222233334444AAAAFFFF';
 
 const loadedProgram =
