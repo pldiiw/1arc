@@ -1,6 +1,6 @@
 # Design Documentation
 
-Here's lies the documentation that shapes how our CHIP-8 interpreter was
+Here lies the documentation that shapes how our CHIP-8 interpreter was
 thought.
 
 The design documentation is composed of the following documents:

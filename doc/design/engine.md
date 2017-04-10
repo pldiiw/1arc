@@ -13,6 +13,10 @@ of providing the necessary core utilities to interpret given instructions. In
 order to reach a such goal, we need a way to represent the CHIP-8 environment
 and interact with it.
 
+Here's a diagram to outline how the engine works:
+
+![Engine outline diagram](./resources/engine-outline.svg)
+
 ## Representing the CHIP-8 environment
 
 The CHIP-8 environment is composed of memory, registers and timers for
@@ -24,44 +28,46 @@ Here's an implementation agnostic representation of the data structure in
 question:
 
 ```
-# -> Comment
+#              # -> Comment
 { key: value } # -> Map
-[] # -> Sequence (list, array, ...)
-"" # -> String
-abc # -> Keyword (unique identifier)
+[]             # -> Sequence (list, array, ...)
+abc            # -> Keyword (unique identifier)
+uint           # -> Unsigned Integer
 
 {
   data: [
-    "<8 bits>", # Register 0
-    "<8 bits>", # Register 1
-    "<8 bits>", # Register 2
-    "<8 bits>", # Register 3
-    "<8 bits>", # Register 4
-    "<8 bits>", # Register 5
-    "<8 bits>", # Register 6
-    "<8 bits>", # Register 7
-    "<8 bits>", # Register 8
-    "<8 bits>", # Register 9
-    "<8 bits>", # Register A
-    "<8 bits>", # Register B
-    "<8 bits>", # Register C
-    "<8 bits>", # Register D
-    "<8 bits>", # Register E
-    "<8 bits>"  # Register F
+    <8-bit uint>, # Register 0
+    <8-bit uint>, # Register 1
+    <8-bit uint>, # Register 2
+    <8-bit uint>, # Register 3
+    <8-bit uint>, # Register 4
+    <8-bit uint>, # Register 5
+    <8-bit uint>, # Register 6
+    <8-bit uint>, # Register 7
+    <8-bit uint>, # Register 8
+    <8-bit uint>, # Register 9
+    <8-bit uint>, # Register A
+    <8-bit uint>, # Register B
+    <8-bit uint>, # Register C
+    <8-bit uint>, # Register D
+    <8-bit uint>, # Register E
+    <8-bit uint>  # Register F
   ],
-  I: "<12 bits>",
-  timer: "<8 bits>",
-  sound: "<8 bits>",
-  memory: "<32768 bits (4096 bytes)>",
-  pc: "<12 bits>",
-  pointer: "<4 bits>",
+  I: <16-bit uint>,
+  timer: <8-bit uint>,
+  sound: <8-bit uint>,
+  memory: [
+    <8-bit uint> * 4096
+  ],
+  pc: <16-bit uint>,
+  pointer: <8-bit uint>,
   stack: [
-    "<12 bits>" * 16
+    <16-bit uint> * 16
   ],
   display: [
-    "<64 bits>" * 32
+    [<1-bit uint> * 64] * 32
   ],
-  keypad: "<16 bits>"
+  keypad: [<1-bit uint> * 16]
 }
 ```
 
@@ -74,6 +80,19 @@ current state if this data structure.
 This gives us the base of our CHIP-8 environment, but it is still quite empty.
 The next part of our engine should enables us to modify this new environment
 into one that is ready to execute instructions.
+
+_Note:_ In the original implementation of the CHIP-8 language, everything was
+stored in the engine's memory, including the registers, the stack, timers, ...
+The memory looked like so:
+ * `0x000 - 0x200 (512 bytes)` - Interpreter private space (registers, font,
+   ...)
+ * `0x200 - 0xE9F (3232 bytes)` - CHIP-8 program
+ * `0xEA0 - 0xEFF (96 bytes)` - Stack, internal use and other variables
+ * `0xF00 - 0xFFF (256 bytes)` - Display
+
+As we're not in an environment were we may suffer of resource scarcity, we do
+not need to stick to this memory layout. We can enable the user to store more
+CHIP-8 code than he could before, we do so.
 
 ## Filling up the environment
 
