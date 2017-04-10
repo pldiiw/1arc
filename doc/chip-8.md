@@ -56,7 +56,7 @@ stores memory addresses. You have in CHIP-8 two instructions used to call and
 turn from subroutines, procedures. The one used to call a subroutine store the
 address of the called procedure into the first empty value inside the
 stack. This way, when we want to return from the subroutine, we take the last
-stored value stored inside the stack and set the program counter to it.  
+stored value stored inside the stack and set the program counter to it.
 
 But how do we know which value inside the stack is the topmost one?
 
@@ -93,15 +93,15 @@ display.
 ```
 
 Drawing on the screen is done through the use of sprites, a group of bytes
-which is the binary representation of the desired picture.  
+which is the binary representation of the desired picture.
 A sprite can be 8 pixels wide and from one up to fifteen pixels high. One byte
 corresponds to one row. The height of the sprite is specified through the
 instruction that draws the sprite on the screen. See instruction `DXYN` for
-more insight.  
+more insight.
 The bits inside the sprites represent either to a transparent (black) pixel
 when set to `0` and to a white pixel when set to `1`. When drawing, the sprite
 data is XORed with the current graphics data on the screen. This enable the
-programmer to erase a drawn sprite by redrawing it at the same location.  
+programmer to erase a drawn sprite by redrawing it at the same location.
 
 All the sprites are stored in memory, just like the instructions. Concerning
 where to place the sprite data, here's an extract from Mastering CHIP-8 by
@@ -181,7 +181,7 @@ Here's a table of the font sprites and their corresponding sprite data:
 
 ## Instructions
 
-`N` is a hexadecimal digit.  
+`N` is a hexadecimal digit.
 `X` and `Y` represents arbitrary data registers.
 
 ### Arithmetic
@@ -190,7 +190,7 @@ Here's a table of the font sprites and their corresponding sprite data:
  * `8XY0` - Store the value of register `VY` in `VX`
  * `7XNN` - Add value `0xNN` to register `VX`
  * `8XY4` - Add value of register `VY` to `VX`. Set `VF` to `0x01` if carry
-   occurs (i.e. the result is greater than 256), to `0x00` if it doesn't.
+   occurs (i.e. the result is greater than 255), to `0x00` if it doesn't.
  * `8XY5` - Subtract `VY` from `VX`, setting `VF` to `0x00` if a borrow occurs,
    to `0x01` if it doesn't.
  * `8XY7` - Set `VX` to the value of `VY - VX`, setting `VF` to `0x00` if a
@@ -278,5 +278,5 @@ Here's a table of the font sprites and their corresponding sprite data:
 
 ## Resources
 
-Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html  
+Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html
 Cowgod's CHIP-8 Technical Reference v1.0: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
