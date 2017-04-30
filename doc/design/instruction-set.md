@@ -15,16 +15,51 @@ core, we don't want to touch it too often.
 
 ## The module
 
-What's contained in this module is solely the subroutines that acts onto the
-engine data structure. So for each possible instruction, you have a function
-that should take in parameter the engine data structure and returns a new one
-after having applied the effect of calling this instruction.
+The main component that this module provides should be the `instruction`
+function. This function takes as a parameter a string representing a CHIP-8
+instruction, like `'719A'` (the `7XNN` instruction), and returns a new function
+that awaits an engine data structure to apply the instruction upon it, deriving
+a new engine data structure.
 
-For instance, the instruction `7XNN`, the instruction that adds the hexadecimal
-number `NN` to the data register `X`, can be bound to the function
-`addToRegister` that takes as parameter the engine data structure, `X` and
-`NN`, and returns a new engine data structure with `NN` added to the data
-register `X`.
+Here's an example:
+```js
+engine.data[1] = 0x03;
+new_engine = instruction('719A')(engine);
 
-When importing this module, it should returns a Map with the instructions names
-as keys and the corresponding functions as values.
+engine.data[1]; // => 0x03
+new_engine.data[1]; // => 0x9D
+```
+
+Under the hood, the `instruction` function decompose the passed string in order
+to determine what the instruction is. After being decomposed, it returns the
+partially applied related function. Here's an example:
+
+```js
+const 719A = instruction('719A');
+/*
+ * 1. 719A is the 7XNN instruction, with X = 1 and NN = 9A.
+ * 2. The 7XNN instruction is implemented as addToRegister(engine, reg, n).
+ * 3. Return partial application of addToRegister with reg = X and n = NN.
+ */
+const engine1 = 719A(engine);
+const engine2 = addToRegister(engine, 0x1, 0x9A);
+
+engine1 == engine2 // => true (for demonstration purpose)
+```
+
+The module should also provide a Map that binds every instruction with its
+related function. `instruction()` uses it to get the appropriate function. It
+should look like this:
+
+```js
+{
+  '6XNN': setRegister,
+  '7XNN': addToRegister,
+  '8XY0': copyRegister,
+  '8XY4': addRegisters,
+  ...
+}
+```
+
+The module should also export each of the instructions' functions, in order to
+be able to use it in the tests for instance.
