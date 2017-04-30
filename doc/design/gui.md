@@ -1,4 +1,4 @@
-# Graphical User Insterface
+# Graphical User Interface
 
 ## What is this document?
 
