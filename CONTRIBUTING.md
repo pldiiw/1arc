@@ -24,6 +24,9 @@ the tests.
 When running `XX-<test-name>.<file-ext>`, its output must match what's inside
 `XX-<test-name>.expected`.
 
+For pure JavaScript tests, we use [Jest].
+The `run_tests.sh` script will also run the tests written with Jest.
+
 ## Git and GitHub
 
 Tracking our work is essential. To fullfill this requirement we use Git along
@@ -66,3 +69,4 @@ of all of our code, also providing a good overview of what we produce.
 [GitHub Flow]: https://guides.github.com/introduction/flow/
 [Chris Beams describes a good commit message]: https://chris.beams.io/posts/git-commit/
 [JSDoc]: http://usejsdoc.org/
+[Jest]: https://facebook.github.io/jest/
