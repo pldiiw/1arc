@@ -1,15 +1,11 @@
-'use strict';
-
-const engine = require('engine').initialize();
-const loadProgram = require('engine').loadProgram;
+const engine = require('../src/engine.js').initialize();
+const loadProgram = require('../src/engine.js').loadProgram;
 const program = '00001111222233334444AAAAFFFF';
 
-const loadedProgram =
-  loadProgram(engine, program).memory
-    .slice(0, 7 * 2 * 8);
-
-[...Array(7)].keys()
-  .map(v => loadedProgram.slice(v, v + 16))
-  .map(v => parseInt(v, 2).toString(16))
-  .forEach(v => console.log(v));
-
+test('program loaded from address 0x200', () => {
+  expect(loadProgram(engine, program)
+    .get('memory')
+    .slice(0x200, 0x200 + program.length / 2)
+    .map(v => v.toString(16).padStart(2, '0'))
+    .join('')).toBe(program);
+});
