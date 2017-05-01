@@ -2,6 +2,8 @@
  * @module engine
  */
 
+const instruction = require('./instruction-set.js').instruction;
+
 /**
  * Generate an empty CHIP-8 engine.
  * @return {Map} Empty engine
@@ -79,9 +81,40 @@ function prepare (engine, program) {
   return loadProgram(loadFont(engine), program).set('pc', 0x200);
 }
 
+/**
+ * Run one cycle of CHIP-8 engine.
+ * @param {Map} engine The engine from which the cycle will be run against.
+ * @return {Map} A new CHIP-8 engine that take into account what happened
+ * during the cycle.
+ */
+function cycle (engine) {
+  // Return right away if we already reached the end of the memory.
+  if (engine.get('pc') > 0xFFF) { return; }
+
+  const currentPC = engine.get('pc');
+  const currentInstruction = engine.get('memory')
+    .slice(currentPC, currentPC + 2)
+    .reduce((a, v) => a + v.toString(16), '');
+
+  const executedInstructionEngine = instruction(currentInstruction)(engine);
+
+  const currentTimer = executedInstructionEngine.get('timer');
+  const DecTimerEngine = executedInstructionEngine.set('timer',
+    currentTimer > 0 ? currentTimer - 1 : currentTimer);
+
+  const currentSound = DecTimerEngine.get('sound');
+  const DecSoundEngine = DecTimerEngine.set('sound',
+    currentSound > 0 ? currentSound - 1 : currentSound);
+
+  const incPCEngine = DecSoundEngine.set('pc', engine.get('pc') + 1);
+
+  return incPCEngine;
+}
+
 module.exports = {
   initialize: initialize,
   loadFont: loadFont,
   loadProgram: loadProgram,
-  prepare: prepare
+  prepare: prepare,
+  cycle: cycle
 };
