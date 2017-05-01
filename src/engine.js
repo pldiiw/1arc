@@ -43,13 +43,32 @@ function loadFont (engine) {
     0xF0, 0x80, 0x80, 0x80, 0xF0, // C
     0xE0, 0x90, 0x90, 0x90, 0xE0, // D
     0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
-    0xF0, 0x80, 0xF0, 0x80, 0x80, // F
+    0xF0, 0x80, 0xF0, 0x80, 0x80  // F
   ]);
+
   return engine.set('memory',
     engine.get('memory').map((v, i) => font[i] ? font[i] : v));
 }
 
+/**
+ * Load a given CHIP-8 program into the engine's memory.
+ * @param {Map} engine The CHIP-8 engine in which we will feed the program
+ * into.
+ * @param {string} program The CHIP-8 program. It is a bare suite of
+ * instructions.
+ * @return {Map} The new engine, with program loaded.
+ */
+function loadProgram (engine, program) {
+  const parsedProgram = program.match(/.{1,2}/g).map(v => parseInt(v, 16));
+
+  return engine.set('memory',
+    engine.get('memory').map((v, i) => {
+      return i >= 512 && i < 512 + parsedProgram.length ? parsedProgram[i] : v;
+    }));
+}
+
 module.exports = {
   initialize: initialize,
-  loadFont: loadFont
+  loadFont: loadFont,
+  loadProgram: loadProgram
 };
