@@ -1,6 +1,6 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const setRegister = require('../src/instruction-set.js').setRegister;
 
-const engine = require('engine').initialize();
-const setRegister = require('instructions').setRegister;
-
-console.log(setRegister(engine, 0xC, 233).data[0xC]);
+test('set register 0xC to 233', () => {
+  expect(setRegister(engine, 0xC, 233).get('data')[0xC]).toBe(233);
+});

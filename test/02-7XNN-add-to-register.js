@@ -1,23 +1,22 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const addToRegister = require('../src/instruction-set.js').addToRegister;
 
-const engine = require('engine').initialize();
-const addToRegister = require('instructions').addToRegister;
+test('add 20 to register 1', () => {
+  const engine_ = addToRegister(engine, 1, 20);
 
-const engine1 = addToRegister(engine, 1, 20);
-const engine2 = addToRegister(engine1, 1, 80);
+  expect(engine_.get('data')[1]).toBe(20);
+  expect(engine_.get('data')[0xF]).toBe(0);
+});
 
-const engine3 = addToRegister(engine, 3, 300);
-const engine4 = addToRegister(engine3, 3, 260);
-const engine5 = addToRegister(engine3, 3, 10);
+test('add huge value to already huge register 3', () => {
+  const engine_ = addToRegister(addToRegister(engine, 3, 80), 3, 300);
 
+  expect(engine_.get('data')[3]).toBe(124);
+  expect(engine_.get('data')[0xF]).toBe(1);
+});
 
-console.log(engine1.data[1]);
-console.log(engine2.data[1]);
-console.log(engine2.data[0xF]);
+test('register 0xF always set flag', () => {
+  const engine_ = addToRegister(addToRegister(engine, 0xA, 300), 0xA, 1);
 
-console.log(engine3.data[3]);
-console.log(engine3.data[0xF]);
-console.log(engine4.data[3]);
-console.log(engine4.data[0xF]);
-console.log(engine5.data[3]);
-console.log(engine5.data[0xF]);
+  expect(engine_.get('data')[0xF]).toBe(0);
+});
