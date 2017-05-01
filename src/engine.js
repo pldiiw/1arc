@@ -4,23 +4,52 @@
 
 /**
  * Generate an empty CHIP-8 engine.
- * @return {Object} Empty engine
+ * @return {Map} Empty engine
  */
-function initialize() {
-  return {
-    data: new Uint8Array(16),
-    I: 0,
-    timer: 0,
-    sound: 0,
-    memory: new Uint8Array(4096),
-    pc: 0,
-    pointer: 0,
-    stack: new Uint16Array(16),
-    display: Array(32).fill(Array(64).fill(false)),
-    keypad: Array(16).fill(false)
-  };
+function initialize () {
+  return new Map([
+    ['data', new Uint8Array(16)],
+    ['I', 0],
+    ['timer', 0],
+    ['sound', 0],
+    ['memory', new Uint8Array(4096)],
+    ['pc', 0],
+    ['pointer', 0],
+    ['stack', new Uint16Array(16)],
+    ['display', Array(32).fill(Array(64).fill(false))],
+    ['keypad', Array(16).fill(false)]
+  ]);
+}
+
+/**
+ * Load the built-in CHIP-8 font into memory.
+ * @param {Map} engine The engine in which the font should be loaded into.
+ * @return {Map} The engine with the font loaded.
+ */
+function loadFont (engine) {
+  const font = Uint8Array.from([
+    0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+    0x20, 0x60, 0x20, 0x20, 0x70, // 1
+    0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+    0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+    0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+    0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+    0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+    0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+    0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+    0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+    0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+    0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+    0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+    0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+    0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+    0xF0, 0x80, 0xF0, 0x80, 0x80, // F
+  ]);
+  return engine.set('memory',
+    engine.get('memory').map((v, i) => font[i] ? font[i] : v));
 }
 
 module.exports = {
-  initialize: initialize
+  initialize: initialize,
+  loadFont: loadFont
 };
