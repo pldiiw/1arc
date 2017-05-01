@@ -1,63 +1,129 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
 
-const log = console.log;
-const hex = n => n.toString(16).toUpperCase();
-const binToDec = s => parseInt(s, 2);
+test('has all components', () => {
+  const expected = [
+    'data', 'I',       'timer', 'sound',   'memory',
+    'pc',   'pointer', 'stack', 'display', 'keypad'
+  ];
 
-const engine = require('engine').initialize();
-
-// Data registers
-const data = engine.data;
-log(`Number of data registers: ${data.length}`);
-data.forEach((reg, i) => {
-  log(`${hex(i)} register bit size: ${reg.length}`);
-});
-log(`Data registers values sum: ${data.reduce((a, reg) => a + binToDec(reg), 0)}`);
-
-// I register
-const I = engine.I;
-log(`I register bit size: ${I.length}`);
-log(`I register value: ${binToDec(I)}`);
-
-// Timer register
-const timer = engine.timer;
-log(`Timer register bit size: ${timer.length}`);
-log(`Timer register value: ${binToDec(timer)}`);
-
-// Sound register
-const sound = engine.sound;
-log(`Sound register bit size: ${sound.length}`);
-log(`Sound register value: ${binToDec(sound)}`);
-
-// Memory
-const mem = engine.memory;
-log(`Memory bit size: ${mem.length}`);
-log(`Memory empty: ${binToDec(mem) === 0}`);
-
-// Program counter
-const pc = engine.pc;
-log(`Program counter bit size: ${pc.length}`);
-log(`Program counter value: ${binToDec(pc)}`);
-
-// Stack pointer
-const p = engine.pointer;
-log(`Stack pointer bit size: ${p.length}`);
-log(`Stack pointer value: ${binToDec(p)}`);
-
-// Stack
-const stack = engine.stack;
-log(`Stack size: ${stack.length}`);
-stack.forEach((v, i) => {
-  log(`Stack value ${hex(i)}: ${binToDec(v)}`);
+  for (const key of engine.keys()) {
+    expect(expected.includes(key)).toBe(true);
+  }
 });
 
-// Display
-const disp = engine.display;
-log(`Display bit height: ${disp.length}`);
-log('Number of 64-pixel long display rows: ' +
-  disp.reduce((a, v) => a + (v.length === 64 ? 1 : 0), 0));
+describe('data registers', () => {
+  const data = engine.get('data');
 
-// Keypad
-const kp = engine.keypad;
-log(`Keypad bit size: ${kp.length}`);
-log(`Keypad values sum: ${kp.split('').reduce((a, v) => a + v, 0)}`);
+  test('is Uint8Array', () => {
+    expect(data.BYTES_PER_ELEMENT).toBe(1);
+    expect(data.map(v => 256)[0]).toBe(1);
+  });
+
+  test('has 16 data registers', () => {
+    expect(data.length).toBe(16);
+  });
+
+  test('all 0', () => {
+    data.forEach(v => expect(v).toBe(0));
+  });
+});
+
+describe('I register', () => {
+  const I = engine.get('I');
+
+  test('is 0', () => {
+    expect(I).toBe(0);
+  });
+});
+
+describe('timer', () => {
+  const timer = engine.get('timer');
+
+  test('is 0', () => {
+    expect(timer).toBe(0);
+  });
+});
+
+describe('sound', () => {
+  const sound = engine.get('sound');
+
+  test('is 0', () => {
+    expect(sound).toBe(0);
+  });
+});
+
+describe('memory', () => {
+  const memory = engine.get('memory');
+
+  test('is Uint8Array', () => {
+    expect(memory.BYTES_PER_ELEMENT).toBe(1);
+    expect(memory.map(v => 256)[0]).toBe(1);
+  });
+
+  test('has 4096 cells', () => {
+    expect(memory.length).toBe(4096);
+  });
+
+  test('all 0', () => {
+    memory.forEach(v => expect(v).toBe(0));
+  });
+});
+
+describe('pc', () => {
+  const pc = engine.get('pc');
+
+  test('is 0', () => {
+    expect(pc).toBe(0);
+  });
+});
+
+describe('pointer', () => {
+  const pointer = engine.get('pointer');
+
+  test('is 0', () => {
+    expect(pointer).toBe(0);
+  });
+});
+
+describe('stack', () => {
+  const stack = engine.get('stack');
+
+  test('is Uint16Array', () => {
+    expect(stack.BYTES_PER_ELEMENT).toBe(2);
+    expect(stack.map(v => 65536)[0]).toBe(1);
+  });
+
+  test('has 16 elements', () => {
+    expect(stack.length).toBe(16);
+  });
+
+  test('all 0', () => {
+    stack.forEach(v => expect(v).toBe(0));
+  });
+});
+
+describe('display', () => {
+  const display = engine.get('display');
+
+  test('is 64*32 array', () => {
+    expect(display.length).toBe(32);
+    expect(display.every(v => v.length === 64)).toBe(true);
+  });
+
+  test('all false', () => {
+    const flattened = display.reduce((a, v) => a.concat(v), []);
+    expect(flattened.every(v => v === false)).toBe(true);
+  });
+});
+
+describe('keypad', () => {
+  const keypad = engine.get('keypad');
+
+  test('has 16 elements', () => {
+    expect(keypad.length).toBe(16);
+  });
+
+  test('all false', () => {
+    expect(keypad.every(v => v === false)).toBe(true);
+  });
+});
