@@ -67,8 +67,21 @@ function loadProgram (engine, program) {
     }));
 }
 
+/**
+ * Fill the CHIP-8 engine with the necessary data in order to get it ready to
+ * run.
+ * @param {Map} engine The CHIP-8 engine from which we set up everything.
+ * @param {string} program The program that will be loadid into the engine's
+ * memory.
+ * @return {Map} The engine ready to cycle.
+ */
+function prepare (engine, program) {
+  return loadProgram(loadFont(engine), program).set('pc', 0x200);
+}
+
 module.exports = {
   initialize: initialize,
   loadFont: loadFont,
-  loadProgram: loadProgram
+  loadProgram: loadProgram,
+  prepare: prepare
 };
