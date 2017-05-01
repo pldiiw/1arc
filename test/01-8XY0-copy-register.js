@@ -1,14 +1,11 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const copyRegister = require('../src/instruction-set.js').copyRegister;
 
-let engine = require('engine').initialize();
-const copyRegister = require('instructions').copyRegister;
+test('copy register 0xD to reg 0x5', () => {
+  let data = engine.get('data');
+  data[5] = 230;
+  data[0xD] = 129;
 
-engine.data[5] = 230;
-engine.data[0xD] = 129;
-
-const engine1 = copyRegister(engine, 5, 0xD);
-
-console.log(engine.data[5]);
-console.log(engine.data[0xD]);
-console.log(engine1.data[5]);
-console.log(engine1.data[0xD]);
+  expect(copyRegister(engine.set('data', data), 5, 0xD).get('data')[5])
+    .toBe(129);
+});
