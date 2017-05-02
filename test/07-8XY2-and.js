@@ -1,4 +1,4 @@
-let engine = require('../src/engine.js').initialize();
+const engine = require('../src/engine.js').initialize();
 const and = require('../src/instruction-set.js').and;
 
 test('reg 0xB (55) AND reg 0xE (120) === 48', () => {

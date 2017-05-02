@@ -1,4 +1,4 @@
-let engine = require('../src/engine.js').initialize();
+const engine = require('../src/engine.js').initialize();
 const or = require('../src/instruction-set.js').or;
 
 test('reg 2 (128) OR reg 8 (54) === 182', () => {

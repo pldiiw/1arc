@@ -1,4 +1,4 @@
-let engine = require('../src/engine.js').initialize();
+const engine = require('../src/engine.js').initialize();
 const addRegisters = require('../src/instruction-set.js').addRegisters;
 
 

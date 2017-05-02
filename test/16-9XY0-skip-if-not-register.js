@@ -1,16 +1,20 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const skipIfNotRegister = require('../src/instruction-set.js').skipIfNotRegister;
 
-let engine = require('engine').initialize();
-const skipIfNotRegister = require('instructions').skipIfNotRegister;
+test('do not skip because reg 7 (143) == reg 0xD (143)', () => {
+  let data = engine.get('data');
+  data[7] = 143;
+  data[0xD] = 143;
+  const engine_ = skipIfNotRegister(engine.set('data', data).set('pc', 3049), 7, 0xD);
 
-engine.data[7] = 143;
-engine.data[0xD] = 143;
-engine.data[0xE] = 56;
-engine.pc = 3049;
+  expect(engine_.get('pc')).toBe(3049);
+});
 
-const engine1 = skipIfNotRegister(engine, 7, 0xD);
-const engine2 = skipIfNotRegister(engine1, 7, 0xE);
+test('skip because reg 7 (143) != reg 0xE (56)', () => {
+  let data = engine.get('data');
+  data[7] = 143;
+  data[0xE] = 56;
+  const engine_ = skipIfNotRegister(engine.set('data', data).set('pc', 3049), 7, 0xE);
 
-console.log(engine.pc);
-console.log(engine1.pc);
-console.log(engine2.pc);
+  expect(engine_.get('pc')).toBe(3051);
+});
