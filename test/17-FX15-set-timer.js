@@ -1,14 +1,10 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const setTimer = require('../src/instruction-set.js').setTimer;
 
-let engine = require('engine').initialize();
-const setTimer = require('instructions').setTimer;
+test('set timer to reg 0xB (147)', () => {
+  let data = engine.get('data');
+  data[0xB] = 147;
+  const engine_ = setTimer(engine.set('data', data), 0xB);
 
-engine.data[0xB] = 147;
-engine.data[0xC] = 32;
-
-const engine1 = setTimer(engine, 0xB);
-const engine2 = setTimer(engine1, 0xC);
-
-console.log(engine.timer);
-console.log(engine1.timer);
-console.log(engine2.timer);
+  expect(engine_.get('timer')).toBe(147);
+});

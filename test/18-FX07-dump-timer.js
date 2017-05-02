@@ -1,14 +1,9 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const dumpTimer = require('../src/instruction-set.js').dumpTimer;
 
-let engine = require('engine').initialize();
-const dumpTimer = require('instructions').dumpTimer;
+test('dump timer to reg 2', () => {
+  const engine_ = dumpTimer(engine.set('timer', 230), 2);
 
-engine.data[2] = 120;
-engine.timer = 230;
-
-const engine1 = dumpTimer(engine, 2);
-
-console.log(engine.data[2]);
-console.log(engine.timer);
-console.log(engine1.data[2]);
-console.log(engine1.timer);
+  expect(engine_.get('data')[2]).toBe(230);
+  expect(engine_.get('timer')).toBe(230);
+});
