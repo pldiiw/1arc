@@ -1,32 +1,24 @@
-'use strict';
-
 let engine = require('engine').initialize();
 const subnRegisters = require('instructions').subnRegisters;
 
-engine.data[9] = 40;
-engine.data[0xA] = 30;
-engine.data[0xB] = 200;
+test('set reg 9 to reg 0xA (30) - reg 9 (40)', () => {
+  let data = engine.get('data');
+  data[9] = 40;
+  data[0xA] = 30;
+  const engine_ = subnRegisters(engine.set('data', data), 9, 0xA);
 
-const engine1 = subnRegisters(engine, 9, 0xA);
-const engine2 = subnRegisters(engine, 9, 0xB);
-const engine3 = subnRegisters(engine2, 9, 0xA);
+  expect(engine_.get('data')[9]).toBe(246);
+  expect(engine_.get('data')[0xA]).toBe(30);
+  expect(engine_.get('data')[0xF]).toBe(0);
+});
 
-console.log(engine.data[9]);
-console.log(engine.data[0xA]);
-console.log(engine.data[0xB]);
-console.log(engine.data[0xF]);
+test('always set carry flag', () => {
+  let data = engine.get('data');
+  data[9] = 10;
+  data[0xB] = 200;
+  const engine_ = subnRegisters(engine.set('data', data), 9, 0xB);
 
-console.log(engine1.data[9]);
-console.log(engine1.data[0xA]);
-console.log(engine1.data[0xB]);
-console.log(engine1.data[0xF]);
-
-console.log(engine2.data[9]);
-console.log(engine2.data[0xA]);
-console.log(engine2.data[0xB]);
-console.log(engine2.data[0xF]);
-
-console.log(engine3.data[9]);
-console.log(engine3.data[0xA]);
-console.log(engine3.data[0xB]);
-console.log(engine3.data[0xF]);
+  expect(engine_.get('data')[9]).toBe(190);
+  expect(engine_.get('data')[0xB]).toBe(200);
+  expect(engine_.get('data')[0xF]).toBe(1);
+});

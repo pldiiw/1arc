@@ -1,26 +1,24 @@
-'use strict';
+let engine = require('../src/engine.js').initialize();
+const addRegisters = require('../src/instruction-set.js').addRegisters;
 
-let engine = require('engine').initialize();
-const addRegisters = require('instructions').addRegisters;
 
-engine.data[0] = 20;
-engine.data[1] = 240;
-engine.data[2] = 30;
+test('add reg 1 (240) to reg 0 (20)', () => {
+  let data = engine.get('data');
+  data[0] = 20;
+  data[1] = 240;
+  const engine_ = addRegisters(engine.set('data', data), 0, 1);
 
-const engine1 = addRegisters(engine, 0, 1);
-const engine2 = addRegisters(engine1, 0, 2);
+  expect(engine_.get('data')[0]).toBe(4);
+  expect(engine_.get('data')[1]).toBe(240);
+  expect(engine_.get('data')[0xF]).toBe(1);
+});
 
-console.log(engine.data[0]);
-console.log(engine.data[1]);
-console.log(engine.data[2]);
-console.log(engine.data[0xF]);
+test('always set carry flag', () => {
+  let data = engine.get('data');
+  data[0] = 20;
+  data[2] = 30;
+  data[0xF] = 1;
+  const engine_ = addRegisters(engine.set('data', data), 0, 2);
 
-console.log(engine1.data[0]);
-console.log(engine1.data[1]);
-console.log(engine1.data[2]);
-console.log(engine1data[0xF]);
-
-console.log(engine2.data[0]);
-console.log(engine2.data[1]);
-console.log(engine2.data[2]);
-console.log(engine2.data[0xF]);
+  expect(engine_.get('data')[0xF]).toBe(0);
+});
