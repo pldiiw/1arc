@@ -1,11 +1,11 @@
-'use strict';
-
 let engine = require('engine').initialize();
 const xor = require('instrutions').xor;
 
-engine.data[4] = 231;
-engine.data[2] = 183;
+test('reg 4 (231) XOR reg 2 (183) === 80', () => {
+  let data = engine.get('data');
+  data[4] = 231;
+  data[2] = 183;
+  const engine_ = xor(engine.set('data', data), 4, 2);
 
-const engine1 = xor(engine, 4, 2);
-
-console.log(engine1.data[4]);
+  expect(engine_.get('data')[4]).toBe(80);
+});
