@@ -1,5 +1,5 @@
-let engine = require('engine').initialize();
-const xor = require('instrutions').xor;
+let engine = require('../src/engine.js').initialize();
+const xor = require('../src/instruction-set.js').xor;
 
 test('reg 4 (231) XOR reg 2 (183) === 80', () => {
   let data = engine.get('data');

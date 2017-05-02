@@ -1,5 +1,5 @@
-let engine = require('engine').initialize();
-const and = require('instrutions').and;
+let engine = require('../src/engine.js').initialize();
+const and = require('../src/instruction-set.js').and;
 
 test('reg 0xB (55) AND reg 0xE (120) === 48', () => {
   let data = engine.get('data');
