@@ -1,23 +1,22 @@
-'use strict';
+let engine = require('../src/engine.js').initialize();
+const leftShift = require('../src/instruction-set.js').leftShift;
 
-let engine = require('engine').initialize();
-const leftShift = require('instructions').leftShift;
+test('left shift a reg on itself (left shift 121)', () => {
+  let data = engine.get('data');
+  data[1] = 121;
+  const engine_ = leftShift(engine.set('data', data), 1, 1);
 
-engine.data[1] = 121;
-engine.data[0xA] = 200;
+  expect(engine_.get('data')[1]).toBe(242);
+  expect(engine_.get('data')[0xF]).toBe(0);
+});
 
-const engine1 = leftShift(engine, 1, 1);
-const engine2 = leftShift(engine1, 1, 0xA);
+test('always put shifted bit in reg 0xF', () => {
+  let data = engine.get('data');
+  data[1] = 121;
+  data[0xA] = 200;
+  const engine_ = leftShift(leftShift(engine.set('data', data), 1, 1), 1, 0xA);
 
-console.log(engine.data[1]);
-console.log(engine.data[0xA]);
-console.log(engine.data[0xF]);
-
-console.log(engine1.data[1]);
-console.log(engine1.data[0xA]);
-console.log(engine1.data[0xF]);
-
-console.log(engine2.data[1]);
-console.log(engine2.data[0xA]);
-console.log(engine2.data[0xF]);
-
+  expect(engine_.get('data')[1]).toBe(144);
+  expect(engine_.get('data')[0xA]).toBe(200);
+  expect(engine_.get('data')[0xF]).toBe(1);
+});
