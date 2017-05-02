@@ -1,14 +1,18 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const skipIfValue = require('../src/instruction-set.js').skipIfValue;
 
-let engine = require('engine').initialize();
-const skipIfValue = require('instructions').skipIfValue;
+test('skip next instruction because 143 == 143', () => {
+  let data = engine.get('data');
+  data[7] = 143;
+  const engine_ = skipIfValue(engine.set('data', data).set('pc', 200), 7, 143);
 
-engine.data[7] = 143;
-engine.pc = 200;
+  expect(engine_.get('pc')).toBe(202);
+});
 
-const engine1 = skipIfValue(engine, 7, 143);
-const engine2 = skipIfValue(engine1, 7, 32);
+test('do not skip next instruction because 143 != 32', () => {
+  let data = engine.get('data');
+  data[7] = 143;
+  const engine_ = skipIfValue(engine.set('data', data).set('pc', 200), 7, 32);
 
-console.log(engine.pc)
-console.log(engine1.pc)
-console.log(engine2.pc)
+  expect(engine_.get('pc')).toBe(200);
+});

@@ -1,4 +1,4 @@
-let engine = require('../src/engine.js').initialize();
+const engine = require('../src/engine.js').initialize();
 const leftShift = require('../src/instruction-set.js').leftShift;
 
 test('left shift a reg on itself (left shift 121)', () => {

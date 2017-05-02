@@ -1,4 +1,4 @@
-let engine = require('../src/engine.js').initialize();
+const engine = require('../src/engine.js').initialize();
 const subnRegisters = require('../src/instruction-set.js').subnRegisters;
 
 test('set reg 9 to reg 0xA (30) - reg 9 (40)', () => {
