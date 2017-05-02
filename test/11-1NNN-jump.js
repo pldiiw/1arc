@@ -1,9 +1,8 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const jump = require('../src/instruction-set.js').jump;
 
-const engine = require('engine').initialize();
-const jump = require('instructions').jump;
+test('jump to address 3659', () => {
+  const engine_ = jump(engine, 3659);
 
-const engine1 = jump(engine, 3659);
-
-console.log(engine.pc);
-console.log(engine1.pc);
+  expect(engine_.get('pc')).toBe(3659);
+});
