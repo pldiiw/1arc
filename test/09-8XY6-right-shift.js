@@ -1,22 +1,24 @@
-'use strict';
+let engine = require('../src/engine.js').initialize();
+const rightShift = require('../src/instruction-set.js').rightShift;
 
-let engine = require('engine').initialize();
-const rightShift = require('instructions').rightShift;
+test('right shift 200', () => {
+  let data = engine.get('data');
+  data[8] = 121;
+  data[9] = 200;
+  const engine_ = rightShift(engine.set('data', data), 8, 9);
 
-engine.data[8] = 121;
-engine.data[9] = 200;
+  expect(engine_.get('data')[8]).toBe(60);
+  expect(engine_.get('data')[9]).toBe(200);
+  expect(engine_.get('data')[0xF]).toBe(1);
+});
 
-const engine1 = rightShift(engine, 8, 8);
-const engine2 = rightShift(engine1, 8, 9);
+test('always put shifted bit in reg 0xF', () => {
+  let data = engine.get('data');
+  data[8] = 121;
+  data[9] = 200;
+  const engine_ = rightShift(rightShift(engine.set('data', data), 8, 9), 8, 9);
 
-console.log(engine.data[8]);
-console.log(engine.data[9]);
-console.log(engine.data[0xF]);
-
-console.log(engine1.data[8]);
-console.log(engine1.data[9]);
-console.log(engine1.data[0xF]);
-
-console.log(engine2.data[8]);
-console.log(engine2.data[9]);
-console.log(engine2.data[0xF]);
+  expect(engine_.get('data')[8]).toBe(100);
+  expect(engine_.get('data')[9]).toBe(200);
+  expect(engine_.get('data')[0xF]).toBe(0);
+});
