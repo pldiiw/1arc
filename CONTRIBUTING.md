@@ -61,3 +61,4 @@ of all of our code, also providing a good overview of what we produce.
 [Chris Beams describes a good commit message]: https://chris.beams.io/posts/git-commit/
 [JSDoc]: http://usejsdoc.org/
 [Jest]: https://facebook.github.io/jest/
+[EditorConfig]: http://editorconfig.org/
