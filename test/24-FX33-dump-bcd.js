@@ -1,21 +1,13 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const dumpBCD = require('../src/instruction-set.js').dumpBCD;
 
-let engine = require('engine').initialize();
-const dumpBCD = require('instructions').dumpBCD;
+test('dump BCD of reg 0xB (14) to memory', () => {
+  let data = engine.get('data');
+  data[0xE] = 14;
+  const engine_ = dumpBCD(engine.set('data', data).set('I', 100), 0xE);
 
-engine.data[0xB] = 237;
-engine.data[0xE] = 14;
-engine.I = 100;
-
-const engine1 = dumpBCD(engine, 0xB);
-const engine2 = dumpBCD(engine1, 0xE);
-
-console.log(engine1.memory[100]);
-console.log(engine1.memory[101]);
-console.log(engine1.memory[102]);
-console.log(engine1.I);
-
-console.log(engine2.memory[100]);
-console.log(engine2.memory[101]);
-console.log(engine2.memory[102]);
-console.log(engine2.I);
+  expect(engine_.get('memory')[100]).toBe(0);
+  expect(engine_.get('memory')[101]).toBe(1);
+  expect(engine_.get('memory')[102]).toBe(4);
+  expect(engine_.get('I')).toBe(100);
+});
