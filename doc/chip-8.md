@@ -221,9 +221,8 @@ Here's a table of the font sprites and their corresponding sprite data:
 ### Subroutines
 
  * `2NNN` - Execute subroutine starting at address `0xNNN`. Before changing the
-   program counter to the new address, it increments the current one (as we
-   don't want to re-execute the "call" instruction when we return from the
-   subroutine), stores it inside the stack and increments the stack pointer.
+   program counter to the new address, the engine stores its current value
+   inside the stack and increments the stack pointer.
  * `00EE` - Return from a subroutine. This means setting the program counter to
    the memory address inside the stack value the stack pointer points to and
    decrementing our stack pointer.
