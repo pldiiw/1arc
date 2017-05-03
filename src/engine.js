@@ -111,7 +111,7 @@ function cycle (engine) {
   const DecSoundEngine = DecTimerEngine.set('sound',
     currentSound > 0 ? currentSound - 1 : currentSound);
 
-  const incPCEngine = DecSoundEngine.set('pc', engine.get('pc') + 1);
+  const incPCEngine = DecSoundEngine.set('pc', engine.get('pc') + 2);
 
   return incPCEngine;
 }
