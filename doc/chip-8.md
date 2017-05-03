@@ -270,7 +270,10 @@ Here's a table of the font sprites and their corresponding sprite data:
 ### Graphics
 
  * `DXYN` - Draw a sprite at position `VX, VY` with `0xN` bytes of sprite data
-   starting at the address stored in `I`.
+   starting at the address stored in `I`. Pixels are XORed when overwritten. If
+   any pixel were erased, set register `VF` to 1, otherwise to 0. Drawing a
+   sprite in a way that makes it go outside of the display will draw the
+   overflowed pixels at the opposite side of the screen.
  * `00E0` - Clear the screen.
  * `FX29` - Set register `I` to the memory address of the sprite data
    corresponding to the hexadecimal digit stored in register `VX`.
