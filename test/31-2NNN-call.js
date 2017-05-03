@@ -1,13 +1,10 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const call = require('../src/instruction-set.js').call;
 
-let engine = require('engine').initialize();
-const call = require('instruction').call;
+test('call subroutine located at address 500', () => {
+  const engine_ = call(engine.set('pointer', 4).set('pc', 100), 500);
 
-engine.pointer = 4;
-engine.pc = 100;
-
-const engine1 = call(engine, 500);
-
-console.log(engine1.pointer);
-console.log(engine1.stack[4]);
-console.log(engine1.pc);
+  expect(engine_.get('pointer')).toBe(5);
+  expect(engine_.get('stack')[4]).toBe(102);
+  expect(engine_.get('pc')).toBe(500);
+});
