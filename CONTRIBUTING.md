@@ -12,20 +12,18 @@ must match what's written the documentation and the behaviour described in the
 tests.
 
 All the documentation is in the `doc/` directory.
+All source code is in the `src/` directory.
 All tests lies in the `test/` directory.
-There's two little scripts to help you create the file for a new test and run
-the tests.
+
+To run the tests:
 
 ```
-./new_test.sh <test-name> <file-ext>
-./run_tests.sh
+npm i # If not done before
+npm test
 ```
 
-When running `XX-<test-name>.<file-ext>`, its output must match what's inside
-`XX-<test-name>.expected`.
-
-For pure JavaScript tests, we use [Jest].
-The `run_tests.sh` script will also run the tests written with Jest.
+This will run the `run_tests.sh` script that will check for code style/syntax
+(semistandard), run JavaScript tests (jest) and bash tests (bats).
 
 ## Git and GitHub
 
@@ -37,17 +35,10 @@ For a short introduction on Git, go to try.github.com.
 We follow the [GitHub Flow] and the way
 [Chris Beams describes a good commit message].
 
-
 ## Coding Style
 
 The project is written in JavaScript. The coding style we follow is
-[Flet' semistandard]. A little cli tool is available to automatically check if
-the code match the style guide:
-
-```
-npm i -g semistandard
-semistandard
-```
+[Flet' semistandard]. Running the tests will also check for the code style.
 
 ## EditorConfig
 
