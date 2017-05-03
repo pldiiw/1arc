@@ -1,16 +1,24 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const skipIfKeyPress = require('../src/instruction-set.js').skipIfKeyPress;
 
-let engine = require('engine').initialize();
-const skipIfKeyPress = require('instructions').skipIfKeyPress;
+test('do not skip because \'4\' key is not pressed', () => {
+  let data = engine.get('data');
+  data[8] = 0xF;
+  let keypad = engine.get('keypad');
+  keypad[4] = 1;
+  const engine_ = skipIfKeyPress(engine.set('data', data).set('keypad', keypad)
+    .set('pc', 128), 8);
 
-engine.data[8] = 0xF;
-engine.data[9] = 4;
-engine.pc = 128;
-engine.keypad[4] = 1;
+  expect(engine_.get('pc')).toBe(128);
+});
 
-const engine1 = skipIfKeyPress(engine, 8);
-const engine2 = skipIfKeyPress(engine1, 9);
+test('skip because \'4\' key is pressed', () => {
+  let data = engine.get('data');
+  data[9] = 4;
+  let keypad = engine.get('keypad');
+  keypad[4] = 1;
+  const engine_ = skipIfKeyPress(engine.set('data', data).set('keypad', keypad)
+    .set('pc', 128), 9);
 
-console.log(engine.pc);
-console.log(engine1.pc);
-console.log(engine2.pc);
+  expect(engine_.get('pc')).toBe(130);
+});

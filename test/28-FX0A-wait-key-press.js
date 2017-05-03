@@ -1,21 +1,23 @@
-'use strict';
+/*
+ * No key pressed? Decrement program counter in order to re-read the
+ * waitKeyPress instruction.
+ * Key pressed? Apply normal behaviour: save key value into register.
+ */
 
-// No key pressed? Decrement program counter in order to re-read the
-// waitKeyPress instruction.
-// Key pressed? Apply normal behaviour: save key value into register.
+const engine = require('../src/engine.js').initialize();
+const waitKeyPress = require('../src/instruction-set.js').waitKeyPress;
 
-let engine = require('engine').initialize();
-const waitKeyPress = require('instructions').waitKeyPress;
+test('try when no key is pressed', () => {
+  const engine_ = waitKeyPress(engine.set('pc', 4000), 0xB);
 
-engine.data[0xB] = 230;
+  expect(engine_.get('pc')).toBe(3098);
+});
 
-engine.pc = 4000;
-const engine1 = waitKeyPress(engine, 0xB);
+test('try when key is pressed', () => {
+  let keypad = engine.get('keypad');
+  keypad[7] = true;
+  const engine_ = waitKeyPress(engine.set('keypad', keypad).set('pc', 4000), 0xB);
 
-engine.keypad[7] = 1;
-const engine2 = waitKeyPress(engine, 0xB);
-
-console.log(engine1.data[0xB]);
-console.log(engine1.pc);
-console.log(engine2.data[0xB]);
-console.log(engine2.pc);
+  expect(engine_.get('data')[0xB]).toBe(7);
+  expect(engine_.get('pc')).toBe(4000);
+});
