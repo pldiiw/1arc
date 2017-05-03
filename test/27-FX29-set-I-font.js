@@ -1,13 +1,18 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const setIFont = require('../src/instruction-set.js').setIFont;
 
-let engine = require('engine').initialize();
-const setIFont = require('instructions').setIFont;
+test('set reg I to the address of character \'E\'', () => {
+  let data = engine.get('data');
+  data[9] = 0xE;
+  const engine_ = setIFont(engine.set('data', data), 9);
 
-engine.data[9] = 0xE;
-engine.data[0xA] = 0x4;
+  expect(engine_.get('I')).toBe(70);
+});
 
-const engine1 = setIFont(engine, 9);
-const engine2 = setIFont(engine, 0xA);
+test('set reg I to the address of character \'4\'', () => {
+  let data = engine.get('data');
+  data[0xA] = 0x4;
+  const engine_ = setIFont(engine.set('data', data), 0xA);
 
-console.log(engine1.I);
-console.log(engine2.I);
+  expect(engine_.get('I')).toBe(20);
+});

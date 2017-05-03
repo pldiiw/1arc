@@ -1,13 +1,10 @@
-'use strict';
+const clearDisplay = require('../src/instruction-set.js').clearDisplay;
 
-let engine = {
-  display: Array(32).fill([]).map(v => new Uint8Array(64).fill(1))
-};
-const clearDisplay = require('instructions').clearDisplay;
+test('clear some messed up display', () => {
+  const engine = new Map([
+    ['display', Array(32).fill(Array(64).fill(true))]
+  ]);
+  const engine_ = clearDisplay(engine);
 
-const engine1 = clearDisplay(engine);
-
-console.log(engine1.display.reduce((a, v) => {
-  const sum = v.reduce((a, v) => a + v, 0);
-  return a + sum;
-}, 0));
+  expect(engine_.get('display').every(v => v.every(vv => !vv))).toBe(true);
+});
