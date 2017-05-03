@@ -1,7 +1,6 @@
 const engine = require('../src/engine.js').initialize();
 const addRegisters = require('../src/instruction-set.js').addRegisters;
 
-
 test('add reg 1 (240) to reg 0 (20)', () => {
   let data = engine.get('data');
   data[0] = 20;

@@ -1,4 +1,4 @@
-const engine = new Map([['I' 0]]);
+const engine = new Map([['I', 0]]);
 const setI = require('../src/instruction-set.js').setI;
 
 test('set reg I to 3020', () => {
