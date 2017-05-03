@@ -1,13 +1,11 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const uncall = require('../src/instruction-set.js').uncall;
 
-let engine = require('engine').initialize();
-const uncall = require('instructions').uncall;
+test('return from subroutine', () => {
+  let stack = engine.get('stack');
+  stack[9] = 300;
+  const engine_ = uncall(engine.set('pointer', 0xA).set('stack', stack));
 
-engine.pointer = 0xA;
-engine.stack[9] = 300;
-engine.pc = 1000;
-
-const engine1 = uncall(engine);
-
-console.log(engine1.pointer);
-console.log(engine1.pc);
+  expect(engine_.get('pointer')).toBe(9);
+  expect(engine_.get('pc')).toBe(300);
+});
