@@ -1,11 +1,6 @@
-'use strict';
+const engine = new Map([['I' 0]]);
+const setI = require('../src/instruction-set.js').setI;
 
-const engine = { I: 0 };
-const setI = require('instructions').setI;
-
-const engine1 = setI(engine, 3020);
-const engine2 = setI(engine1, 20);
-
-console.log(engine.I);
-console.log(engine1.I);
-console.log(engine2.I);
+test('set reg I to 3020', () => {
+  expect(setI(engine, 3020).get('I')).toBe(3020);
+});
