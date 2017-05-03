@@ -1,17 +1,21 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const drawSprite = require('../src/instruction-set.js').drawSprite;
 
-let engine = require('engine').initialize();
-const drawSprite = require('instructions').drawSprite;
+test('draw nice underscore-cross sprite', () => {
+  let data = engine.get('data');
+  data[1] = 10;
+  data[0xA] = 4;
+  let memory = engine.get('memory');
+  memory[500] = 0x04;
+  memory[501] = 0x0E;
+  memory[502] = 0xF4;
+  const engine_ = drawSprite(engine.set('data', data).set('memory', memory)
+    .set('I', 500), 1, 0xA, 3);
 
-engine.data[1] = 10;
-engine.data[0xA] = 4;
-engine.memory[500] = 0x04;
-engine.memory[501] = 0x0E;
-engine.memory[502] = 0xF4;
-engine.I = 500;
-
-const engine1 = drawSprite(engine, 1, 0xA, 3);
-
-console.log(engine1.display[4].slice(10, 19).join(''));
-console.log(engine1.display[5].slice(10, 19).join(''));
-console.log(engine1.display[6].slice(10, 19).join(''));
+  expect(engine_.get('display')[4].slice(10, 19).join(' '))
+    .toBe('false false false false false true false false');
+  expect(engine_.get('display')[5].slice(10, 19).join(' '))
+    .toBe('false false false false true true true false');
+  expect(engine_.get('display')[6].slice(10, 19).join(' '))
+    .toBe('true true true true false true false false');
+});
