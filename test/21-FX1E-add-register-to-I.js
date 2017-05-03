@@ -1,14 +1,10 @@
-'use strict';
+const engine = require('../src/engine.js').initialize();
+const addRegisterToI = require('../src/instruction-set.js').addRegisterToI;
 
-let engine = require('engine').initialize();
-const addRegisterToI = require('instructions').addRegisterToI;
+test('add to reg I (4000) reg 0xA (50)', () => {
+  let data = engine.get('data');
+  data[0xA] = 50;
+  const engine_ = addRegisterToI(engine.set('data', data).set('I', 4000), 0xA);
 
-engine.data[0xA] = 50;
-engine.I = 4000;
-
-const engine1 = addRegisterToI(engine, 0xA);
-const engine2 = addRegisterToI(engine1, 0xA);
-
-console.log(engine.I);
-console.log(engine1.I);
-console.log(engine2.I);
+  expect(engine_.get('I')).toBe(4050);
+});
