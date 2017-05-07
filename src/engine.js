@@ -68,7 +68,7 @@ function loadProgram (engine, program) {
 
   return engine.set('memory',
     engine.get('memory').map((v, i) => {
-      return i >= 512 && i < 512 + parsedProgram.length ? parsedProgram[i] : v;
+      return i >= 512 && i < 512 + parsedProgram.length ? parsedProgram[i-512] : v;
     }));
 }
 

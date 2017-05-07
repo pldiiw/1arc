@@ -16,7 +16,7 @@ describe('data registers', () => {
 
   test('is Uint8Array', () => {
     expect(data.BYTES_PER_ELEMENT).toBe(1);
-    expect(data.map(v => 256)[0]).toBe(1);
+    expect(data.map(v => 257)[0]).toBe(1);
   });
 
   test('has 16 data registers', () => {
@@ -57,7 +57,7 @@ describe('memory', () => {
 
   test('is Uint8Array', () => {
     expect(memory.BYTES_PER_ELEMENT).toBe(1);
-    expect(memory.map(v => 256)[0]).toBe(1);
+    expect(memory.map(v => 257)[0]).toBe(1);
   });
 
   test('has 4096 cells', () => {
@@ -90,7 +90,7 @@ describe('stack', () => {
 
   test('is Uint16Array', () => {
     expect(stack.BYTES_PER_ELEMENT).toBe(2);
-    expect(stack.map(v => 65536)[0]).toBe(1);
+    expect(stack.map(v => 65537)[0]).toBe(1);
   });
 
   test('has 16 elements', () => {
