@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CHIP-8 interpreter</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <div id="menu-section" class="main-component">
+    <label id="load-program">
+      Load program
+      <input type="file">
+    </label>
+    <label id="save-engine">
+      Load engine
+      <input type="file">
+    </label>
+    <label id="load-engine">
+      Save engine
+      <input type="file">
+    </label>
+    <label id="pause">
+      ⏸
+      <input type="radio">
+    </label>
+    <label id="cycle-once">
+      ⏵
+      <input type="radio">
+    </label>
+    <label id="cycle-continuously">
+      ⏩
+      <input type="radio">
+    </label>
+  </div>
+  <div id="data-section" class="main-component">
+    <div class="top-bar">
+      <div class="base-widget"></div>
+    </div>
+    <div class="data-registers-subsection">
+      <ol>
+        <li><p>0:</p><samp id="0"></samp></li>
+        <li><p>1:</p><samp id="1"></samp></li>
+        <li><p>2:</p><samp id="2"></samp></li>
+        <li><p>3:</p><samp id="3"></samp></li>
+        <li><p>4:</p><samp id="4"></samp></li>
+        <li><p>5:</p><samp id="5"></samp></li>
+        <li><p>6:</p><samp id="6"></samp></li>
+        <li><p>7:</p><samp id="7"></samp></li>
+        <li><p>8:</p><samp id="8"></samp></li>
+        <li><p>9:</p><samp id="9"></samp></li>
+        <li><p>A:</p><samp id="A"></samp></li>
+        <li><p>B:</p><samp id="B"></samp></li>
+        <li><p>C:</p><samp id="C"></samp></li>
+        <li><p>D:</p><samp id="D"></samp></li>
+        <li><p>E:</p><samp id="E"></samp></li>
+        <li><p>F:</p><samp id="F"></samp></li>
+      </ol>
+    </div>
+    <div class="other-registers-subsection">
+      <ol>
+        <li><p>Timer:</p><samp id="timer"></samp></li>
+        <li><p>Sound:</p><samp id="sound"></samp></li>
+        <li><p>I:</p><samp id="I"></samp></li>
+        <li><p>PC:</p><samp id="pc"></samp></li>
+        <li><p>Pointer:</p><samp id="pointer"></samp></li>
+        <li><p>Stack 1:</p><samp id="stack-1"></samp></li>
+        <li><p>Stack 2:</p><samp id="stack-2"></samp></li>
+        <li><p>Stack 3:</p><samp id="stack-3"></samp></li>
+        <li><p>Stack 4:</p><samp id="stack-4"></samp></li>
+        <li><p>Stack 5:</p><samp id="stack-5"></samp></li>
+        <li><p>Stack 6:</p><samp id="stack-6"></samp></li>
+        <li><p>Stack 7:</p><samp id="stack-7"></samp></li>
+        <li><p>Stack 8:</p><samp id="stack-8"></samp></li>
+        <li><p>Stack 9:</p><samp id="stack-9"></samp></li>
+        <li><p>Stack A:</p><samp id="stack-A"></samp></li>
+        <li><p>Stack B:</p><samp id="stack-B"></samp></li>
+        <li><p>Stack C:</p><samp id="stack-C"></samp></li>
+        <li><p>Stack D:</p><samp id="stack-D"></samp></li>
+        <li><p>Stack E:</p><samp id="stack-E"></samp></li>
+        <li><p>Stack F:</p><samp id="stack-F"></samp></li>
+      <ol>
+    </div>
+  </div>
+  <div id="display-section" class="main-component">
+    <svg id="display" width="300" height="150" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div id="memory-section" class="main-component">
+    <div class="top-bar">
+      <div class="base-widget"></div>
+    </div>
+  </div>
+  <div id="keypad-section" class="main-component">
+  </div>
+
+  <script src="js/index.js"></script>
+</body>
+</html>
