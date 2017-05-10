@@ -73,16 +73,16 @@ function generateDisplay () {
   const pixelWidth = SVGDisplayWidth / display[0].length;
   const pixelHeight = SVGDisplayHeight / display.length;
 
-  display.forEach((row, row_i) => {
-    row.forEach((col, col_i) => {
+  display.forEach((row, rowIndex) => {
+    row.forEach((col, colIndex) => {
       let pixel = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      pixel.setAttribute('x', pixelWidth * col_i);
-      pixel.setAttribute('y', pixelHeight * row_i);
+      pixel.setAttribute('x', pixelWidth * colIndex);
+      pixel.setAttribute('y', pixelHeight * rowIndex);
       pixel.setAttribute('width', pixelWidth);
       pixel.setAttribute('height', pixelHeight);
-      pixel.setAttribute('fill', display[row_i][col_i] ? '#000' : '#FFF');
+      pixel.setAttribute('fill', display[rowIndex][colIndex] ? '#000' : '#FFF');
       SVGDisplay.appendChild(pixel);
-    })
+    });
   });
 }
 
@@ -116,8 +116,8 @@ function UIOtherRegistersUpdate () {
     '.other-registers-subsection samp');
   Array.prototype.forEach.call(UIOtherRegisters, samp => {
     if (/stack-[0-F]/.test(samp.id)) {
-      samp.innerText = engineState.get('stack')[
-        parseInt(samp.id.split('-')[1], 16)];
+      samp.innerText =
+        engineState.get('stack')[parseInt(samp.id.split('-')[1], 16)];
     } else {
       samp.innerText = engineState.get(samp.id);
     }
