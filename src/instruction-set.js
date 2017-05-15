@@ -1,8 +1,34 @@
 
 function clearDisplay(engine){}
-function uncall(engine){}
+
+/**
+ * Return from a subroutine
+ * @param {Map} engine
+ * @return {Map} engine with the pc set to the stack value and the pointer decrease by one
+ */
+function uncall(engine){
+	let data = engine.get('data');
+	data[pointer] -= 1;
+	data[pc] = data[stack][data[pointer]];
+	return engine.set('data', data);
+}
+
 function jump(engine, instruction_number){}
-function call(engine, jumpto){}
+
+/**
+ * Jump to a subroutine.
+ * @param {Map} engine
+ * @param {number} the address where we want to jump 
+ * @return {Map} Engine with the pointer increase by one,the stack with the current address stored and pc equal as the address we want to jump
+ */
+function call(engine, jumpto){
+	let data = engine.get('data');
+	data[stack][data[pointer]] = data[pc];
+	data[pointer] += 1;
+	data[pc] = jumpto;
+	return engine.set('data', data);
+}
+
 function skipIfValue(engine, register, number){}
 function skipIfNotValue(engine, register, number){}
 function skipIfRegister(engine, register1, register2){}
