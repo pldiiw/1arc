@@ -164,3 +164,14 @@ function UIMemoryUpdate () {
 
   memory.forEach((v, i) => UIMemoryCells[i].children[0].innerText = v);
 }
+
+function UIKeypadUpdate () {
+  let UIKeypadKeys = document.querySelectorAll('#keypad-section .key')
+  const keypad = engineState.get('keypad');
+
+  Array.prototype.forEach.call(UIKeypadKeys, v => {
+    v.querySelector('samp').innerText =
+      keypad[parseInt(v.id.slice('-')[1], 16)] ? 1 : 0;
+  });
+
+}
