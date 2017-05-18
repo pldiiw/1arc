@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>CHIP-8 interpreter</title>
+  <link rel="stylesheet"
+    href="https://rawgit.com/filipelinhares/ress/master/dist/ress.min.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
@@ -21,15 +23,15 @@
     </label>
     <label id="pause">
       ⏸
-      <input type="radio">
+      <input type="radio" name="control">
     </label>
     <label id="cycle-once">
       ⏵
-      <input type="radio">
+      <input type="radio" name="control">
     </label>
     <label id="cycle-continuously">
       ⏩
-      <input type="radio">
+      <input type="radio" name="control">
     </label>
   </div>
   <div id="data-section" class="main-component">
@@ -82,7 +84,8 @@
     </div>
   </div>
   <div id="display-section" class="main-component">
-    <svg id="display" width="300" height="150" xmlns="http://www.w3.org/2000/svg"></svg>
+    <svg id="display" width="300" height="150"
+      xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
   <div id="memory-section" class="main-component">
     <div class="top-bar">
