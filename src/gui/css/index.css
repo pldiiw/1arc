@@ -1,38 +1,38 @@
 /* Keypad section */
 
-#keypad-section{
-	display:block;
-	height:390px;
-	width:390px;
-	border:1px solid black;
-	
+#keypad-section {
+  display:block;
+  height:390px;
+  width:390px;
+  border:1px solid black;
+
 }
 
-.key{
-	margin-left: 10px;
-	margin-top: 10px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	display:inline-block;
-	border:1px black solid;
-	width:85px;
-	height:85px;
-	text-align:center;
+.key {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  display:inline-block;
+  border:1px black solid;
+  width:85px;
+  height:85px;
+  text-align:center;
 }
 
-.key span{
-	display: block;
-	font-size:20px;
-	margin-top:15%;
+.key span {
+  display: block;
+  font-size:20px;
+  margin-top:15%;
 }
 
-.key kbd{
-	display:block;
-	font-size:15px;
+.key kbd {
+  display:block;
+  font-size:15px;
 }
 
-.key samp{
-	display: block;
-	font-size: 12px;
-	margin-top: 2%;
+.key samp {
+  display: block;
+  font-size: 12px;
+  margin-top: 2%;
 }
