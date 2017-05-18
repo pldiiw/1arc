@@ -1,7 +1,30 @@
-const engine = require('engine');
-const utility = require('utility');
+//const engine = require('engine');
+//const utility = require('utility');
 
-let engineState = engine.initialize();
+let engineState = new Map([
+    ['data', new Uint8Array(16)],
+    ['I', 0],
+    ['timer', 0],
+    ['sound', 0],
+    ['memory', new Uint8Array(4096)],
+    ['pc', 0],
+    ['pointer', 0],
+    ['stack', new Uint16Array(16)],
+    ['display', Array(32).fill(Array(64).fill(false))],
+    ['keypad', Array(16).fill(false)]
+  ]);
+
+function UIGenerate () {
+  UIDisplayGenerate();
+  UIMemoryGenerate();
+}
+
+function UIUpdate () {
+  UIDataUpdate();
+  UIDisplayUpdate();
+  UIMemoryUpdate();
+  UIKeypadUpdate();
+}
 
 function UILoadEngine (files) {
   const dumpedEngineState = ''; // TODO
@@ -56,14 +79,7 @@ function UICycleContinuously () {
   tick();
 }
 
-function UIUpdate () {
-  UIDataUpdate();
-  UIDisplayUpdate();
-  UIMemoryUpdate();
-  UIKeypadUpdate();
-}
-
-function generateDisplay () {
+function UIDisplayGenerate () {
   let SVGDisplay = document.querySelector('#display');
   const SVGDisplayWidth = SVGDisplay.width.baseVal.value;
   const SVGDisplayHeight = SVGDisplay.height.baseVal.value;
@@ -80,7 +96,6 @@ function generateDisplay () {
       pixel.setAttribute('y', pixelHeight * rowIndex);
       pixel.setAttribute('width', pixelWidth);
       pixel.setAttribute('height', pixelHeight);
-      pixel.setAttribute('fill', display[rowIndex][colIndex] ? '#000' : '#FFF');
       SVGDisplay.appendChild(pixel);
     });
   });
@@ -90,9 +105,9 @@ function UIDisplayUpdate () {
   let SVGDisplay = document.querySelector('#display');
   const display = engineState.get('display');
 
-  Array.prototype.forEach.call(SVGDisplay, (pixel, i) => {
+  Array.prototype.forEach.call(SVGDisplay.children, (pixel, i) => {
     pixel.setAttribute('fill',
-      display[Math.floor(i / display.length)][i % display[0].length]
+      display[Math.floor(i / display[0].length)][i % display[0].length]
         ? '#000'
         : '#FFF');
   });
@@ -124,4 +139,28 @@ function UIOtherRegistersUpdate () {
   });
 }
 
-generateDisplay();
+function UIMemoryGenerate () {
+  let UIMemoryCellSection = document.querySelector('#cells');
+  const memory = engineState.get('memory');
+
+  memory.forEach((v, i) => {
+    let cell = document.createElement('div');
+    let value = document.createElement('samp');
+    let cellNumber = document.createElement('samp');
+
+    value.innerText = v;
+    cellNumber.innerText = i;
+
+    cell.appendChild(value);
+    cell.appendChild(cellNumber);
+
+    UIMemoryCellSection.appendChild(cell);
+  });
+}
+
+function UIMemoryUpdate () {
+  let UIMemoryCells = document.querySelectorAll('#cells div');
+  const memory = engineState.get('memory');
+
+  memory.forEach((v, i) => UIMemoryCells[i].children[0].innerText = v);
+}
