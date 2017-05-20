@@ -44,10 +44,11 @@ function parseArgument(querry, args){
 				actual_command = args[i];
 				args.splice(i,1);
 				i = args.length;
-			} else{
-				console.error('Error : '+args[i]+' is not a function')
 			};
 		};
+	};
+	if (actual_command == '') {
+		console.error('No command found')
 	};
 	for (var i = 0; i < args.length; i++) {
 		switch(args[i]){
