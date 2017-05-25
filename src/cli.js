@@ -87,18 +87,92 @@ function load (query) {
   }
 }
 
-function help (query){
-	const cliSource = require('fs').readFileSync(process.argv[1], "UTF-8");
-	const commentedHelp = cliSource
-		.match(new RegExp('\\/\\*\\*(.|\\n)*?\\*\\/', 'g'));
-	const cleanedHelp = commentedHelp.map(helpSection => {
-		return helpSection
-			.split('\n')
-			.slice(1, -1)
-			.map(line => line.replace(/^\s*?\*\, ''))
-			.join('\n');
-	});
-	cleanedHelp.forEach(v => console.log(v, '\n'));
+function inspect (query) {
+  const engineState = utility.loadEngine(query.state);
+
+  const inspecters = {
+    'data': (engineState) => {
+      engineState.get('data').forEach((v, i) => {
+        console.log(i.toString(16), v.toString(query.format));
+      });
+    },
+    'data.X': (engineState) => {
+      const regIndex = parseInt(query.subcommand.split('.')[1], 16);
+      console.log(regIndex.toString(16),
+        engineState.get('data')[regIndex].toString(query.format));
+    },
+    'I': (engineState) => {
+      console.log('I', engineState.get('I').toString(query.format));
+    },
+    'timer': (engineState) => {
+      console.log('timer', engineState.get('timer').toString(query.format));
+    },
+    'sound': (engineState) => {
+      console.log('sound', engineState.get('sound').toString(query.format));
+    },
+    'memory': (engineState) => {
+      const start = query.range[0];
+      const end = query.range[1] === -1 ? 4097 : query.range[1];
+      const result = engineState.get('memory')
+        .map((v, i) => {
+          const base = query.format === 16 ? '0x' : '';
+          const pos = i.toString(query.format);
+          const value = v.toString(query.format);
+          return `${base}${pos} ${value}`;
+        })
+        .slice(start, end)
+        .join('\n');
+
+        console.log(result);
+    },
+    'pc': (engineState) => {
+      console.log('pc', engineState.get('pc').toString(query.format));
+    },
+    'pointer': (engineState) => {
+      console.log('pointer', engineState.get('pointer').toString(query.format));
+    },
+    'stack': (engineState) => {
+      engineState.get('stack').forEach((v, i) => {
+        console.log(i.toString(16), v.toString(query.format));
+      });
+    },
+    'display': (engineState) => {
+      const start = query.range[0];
+      const end = query.range[1] === -1 ? 65 : query.range[1];
+      return engineState.get('display')
+        .map((row, row_index) => {
+          return row
+            .map((pixel, col_index) => `${col_index},${row_index} ${pixel}`)
+        })
+        .reduce((a, v) => a.concat(v))
+        .slice(start, end);
+    },
+    'keypad': (engineState) => {
+      engineState.get('keypad').forEach((v, i) => {
+        console.log(i.toString(16));
+      });
+    }
+  };
+
+  if (query.subparameter === 'all') {
+    Object.keys(inspecters).forEach(k => inspecters[k](engineState));
+  } else if (/data.[0-F]/i.test(query.subparameter)) {
+    inspecters['data.X'](engineState);
+  } else {
+    inspecters[query.subparameter](engineState);
+  }
 }
 
-
+function help (query) {
+  const cliSource = require('fs').readFileSync(process.argv[1], "UTF-8");
+  const commentedHelp = cliSource
+    .match(new RegExp('\\/\\*\\*(.|\\n)*?\\*\\/', 'g'));
+  const cleanedHelp = commentedHelp.map(helpSection => {
+    return helpSection
+      .split('\n')
+      .slice(1, -1)
+      .map(line => line.replace(/^\s*?\*\, ''))
+      .join('\n');
+  });
+  cleanedHelp.forEach(v => console.log(v, '\n'));
+}
