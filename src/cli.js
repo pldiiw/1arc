@@ -15,69 +15,57 @@ let query = {
 
 var args = process.argv.slice(2);
 
-function parseArgument(querry, args){
+function parseArgument(query, args){
 	var actual_command = '';
 	for (var i = 0; i < args.length; i ++) {
 		if (args[i].charAt(0) != '-') {
-			if (Object.keys(querry.subcommand).indexOf(args[i]) != -1) {
-				querry.subcommand[args[i]]['command']=true;
+			if (Object.keys(query.subcommand).indexOf(args[i]) != -1) {
+				query.command = true;
 				actual_command = args[i];
 				args.splice(i,1);
 				i = args.length;
-			};
-		};
-	};
+			}
+		}
+	}
 	if (actual_command == '') {
-		console.error('No command found')
-	};
+		console.error('No command found');
+	}
 	for (var i = 0; i < args.length; i++) {
 		switch(args[i]){
 			case '-s' || '--state':
-				querry.options['state']=args[i+1];
+				query.state = args[i+1];
 				i++;
 				break;
 			case '-d' || '--dry-run' :
-				if(actual_command == 'load' || actual_command == 'cycle'){
-					querry.subcommand[actual_command].dryrun = true;
-				};
+				query.dryrun = true;
 				break;
 			case '-1' || '--pixel-on':
-				if (actual_command == 'display') {
-					querry.subcommand[actual_command].pixelon = args[i+1];
-					i++;
-				};
+				query.pixelon = args[i+1];
+				i++;
 				break;
 			case '-0' || '--pixel-off':
-				if (actual_command == 'display') {
-					querry.subcommand[actual_command].pixeloff = args[i+1];
-					i++;
-				};
+				query.pixeloff = args[i+1];
+				i++;
 				break;
 			case '-n' || '--no':
-				if (actual_command == 'input') {
-					querry.subcommand[actual_command].no = true;
-				};
+				query.no = true;
 				break;
 			case '-f' || '--format':
-				if (actual_command == 'inspect') {
-					querry.subcommand[actual_command].format = args[i+1];
-					i++;
-				};
+				query.format = parseInt(args[i+1]);
+				i++;
 				break;
 			case '-r' || '--range':
-				if (actual_command == 'inspect') {
-					querry.subcommand[actual_command].range = args[i+1];
-					i++;
-				};
+				query.range = args[i+1].split('-');
+				i++;
 				break;
 			default:
-				console.log(args[i]+' is not an option');
-		};
-	};
-	return querry;
-};
+				throw Error(args[i]+' is not an option');
+		}
+	}
+	return query;
+}
 
-console.log(parseArgument(querry, args));
+console.log(parseArgument(query, args));
 
 function load (query) {
   const program = utility.purifyFile(query.subparameter);
