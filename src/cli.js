@@ -13,7 +13,7 @@ function init () {
     'format': 2,
     'range': [0, -1]
   };
-  var args = process.argv;
+  let args = process.argv;
   let subcommands = {
     'load': load,
     'cycle': cycle,
@@ -23,7 +23,7 @@ function init () {
     'help': help
   };
 
-  return [query, args, instructions];
+  return [query, args, subcommands];
 }
 
 function parseArgument (query, args) {
@@ -33,8 +33,9 @@ function parseArgument (query, args) {
     args.splice(0, 2);
   }
 
-  var actualCommand = '';
-  for (var i = 0; i < args.length; i++) {
+  let actualCommand = '';
+  let i;
+  for (i = 0; i < args.length; i++) {
     if (args[i].charAt(0) !== '-') {
       query.subcommand = args[i];
       if (args[i + 1].charAt(0) !== '-') {
@@ -50,7 +51,7 @@ function parseArgument (query, args) {
   if (actualCommand === '') {
     throw Error('No command found');
   } else {
-    for (var i = 0; i < args.length; i++) {
+    for (i = 0; i < args.length; i++) {
       console.log(args[i], args[i] === '--range');
       switch (args[i]) {
         case '-d':
@@ -101,7 +102,7 @@ function cycle (query) {
   const engineState = utility.loadEngine(query.state);
   const amount = query.subparameter === '' ? 1 : query.subparameter;
   let cycledEngineState;
-  for (let i = 0 ; i <= amount ; i++) {
+  for (let i = 0; i <= amount; i++) {
     cycledEngineState = engine.cycle(engineState);
   }
   if (query.dryrun) {
@@ -160,7 +161,7 @@ function inspect (query) {
         .slice(start, end)
         .join('\n');
 
-        console.log(result);
+      console.log(result);
     },
     'pc': (engineState) => {
       console.log('pc', engineState.get('pc').toString(query.format));
@@ -177,9 +178,9 @@ function inspect (query) {
       const start = query.range[0];
       const end = query.range[1] === -1 ? 65 : query.range[1];
       return engineState.get('display')
-        .map((row, row_index) => {
+        .map((row, rowIndex) => {
           return row
-            .map((pixel, col_index) => `${col_index},${row_index} ${pixel}`)
+            .map((pixel, colIndex) => `${colIndex},${rowIndex} ${pixel}`);
         })
         .reduce((a, v) => a.concat(v))
         .slice(start, end);
@@ -201,14 +202,14 @@ function inspect (query) {
 }
 
 function help (query) {
-  const cliSource = require('fs').readFileSync(process.argv[1], "UTF-8");
+  const cliSource = require('fs').readFileSync(process.argv[1], 'UTF-8');
   const commentedHelp = cliSource
     .match(new RegExp('\\/\\*\\*(.|\\n)*?\\*\\/', 'g'));
   const cleanedHelp = commentedHelp.map(helpSection => {
     return helpSection
       .split('\n')
       .slice(1, -1)
-      .map(line => line.replace(/^\s*?\*\, ''))
+      .map(line => line.replace(/^\s*?\*/, ''))
       .join('\n');
   });
   cleanedHelp.forEach(v => console.log(v, '\n'));
