@@ -81,9 +81,9 @@ console.log(parseArgument(querry, args));
 
 function load (query) {
   const program = utility.purifyFile(query.subparameter);
-  const EngineState = engine.initialize().prepare(newEngineState, program);
+  const engineState = engine.prepare(engine.initialize(), program);
   if (!query.dryrun) {
-    utility.dumpEngine(preparedEngineState, query.state);
+    utility.dumpEngine(engineState, query.state);
   }
 }
 
