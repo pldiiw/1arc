@@ -1,85 +1,93 @@
 const engine = require('./engine.js');
 const utility = require('./utility.js');
 
-let query = {
-  'state': '.engine_state.chip8.txt',
-  'subcommand': 'none',
-  'subparameter': '',
-  'dryrun': false,
-  'pixelon': 'x',
-  'pixeloff': 'o',
-  'no': false,
-  'format': 2,
-  'range': [0,-1]
-};
+function init () {
+  let query = {
+    'state': '.engine_state.chip8.txt',
+    'subcommand': 'none',
+    'subparameter': '',
+    'dryrun': false,
+    'pixelon': 'x',
+    'pixeloff': 'o',
+    'no': false,
+    'format': 2,
+    'range': [0, -1]
+  }
+  var args = process.argv;
+  let subcommands = {
+    'load': load,
+    'cycle': cycle,
+    'display': display,
+    'input': input,
+    'inspect': inspect,
+    'help': help
+  }
 
-var args = process.argv;
-
-function parseArgument(query, args){
-	if(args[0] == '-s' || args[0] == '--state'){
-		query.state = args[1];
-		args.splice(0,2);
-	}
-
-	var actual_command = '';
-	for (var i = 0; i < args.length; i ++) {
-		if (args[i].charAt(0) != '-') {
-			query.subcommand = args[i]
-			if(args[i+1].charAt(0) != '-'){
-				query.subparameter = args[i+1];
-				args.splice(i,1);
-			}
-				actual_command = args[i];
-				args.splice(i,1);
-				i = args.length;
-			}
-		}
-
-	if (actual_command == '') {
-		throw Error('No command found');
-	}
-	else {
-		console.log(args);
-		for (var i = 0; i < args.length; i++) {
-			console.log(args[i],args[i]=='--range');
-			switch(args[i]){
-				case '-d':
-				case '--dry-run' :
-					query.dryrun = true;
-					break;
-				case '-1':
-				case '--pixel-on':
-					query.pixelon = args[i+1];
-					i++;
-					break;
-				case '-0':
-				case '--pixel-off':
-					query.pixeloff = args[i+1];
-					i++;
-					break;
-				case '-n':
-				case '--no':
-					query.no = true;
-					break;
-				case '-f':
-				case '--format':
-					query.format = parseInt(args[i+1]);
-					i++;
-					break;
-				case '-r':
-				case '--range':
-					query.range = args[i+1].split('-');
-					i++;
-					break;
-				default:
-					throw Error(args[i]+' is not an option');
-			}
-		}
-	}
-	return query;
+  return [query, args, instructions];
 }
 
-console.log(parseArgument(query, args));
+function parseArgument (query, args) {
+  args = args.slice(2);
+  if (args[0] === '-s' || args[0] === '--state') {
+    query.state = args[1];
+    args.splice(0, 2);
+  }
+
+  var actualCommand = '';
+  for (var i = 0; i < args.length; i++) {
+    if (args[i].charAt(0) !== '-') {
+      query.subcommand = args[i];
+      if (args[i + 1].charAt(0) !== '-') {
+        query.subparameter = args[i + 1];
+        args.splice(i, 1);
+      }
+      actualCommand = args[i];
+      args.splice(i, 1);
+      i = args.length;
+    }
+  }
+
+  if (actualCommand === '') {
+    throw Error('No command found');
+  } else {
+    for (var i = 0; i < args.length; i++) {
+      console.log(args[i], args[i] === '--range');
+      switch (args[i]) {
+        case '-d':
+        case '--dry-run' :
+          query.dryrun = true;
+          break;
+        case '-1':
+        case '--pixel-on':
+          query.pixelon = args[i + 1];
+          i++;
+          break;
+        case '-0':
+        case '--pixel-off':
+          query.pixeloff = args[i + 1];
+          i++;
+          break;
+        case '-n':
+        case '--no':
+          query.no = true;
+          break;
+        case '-f':
+        case '--format':
+          query.format = parseInt(args[i + 1]);
+          i++;
+          break;
+        case '-r':
+        case '--range':
+          query.range = args[i + 1].split('-');
+          i++;
+          break;
+        default:
+          throw Error(args[i] + ' is not an option');
+      }
+    }
+  }
+  return query;
+}
 
 function load (query) {
   const program = utility.purifyFile(query.subparameter);
@@ -205,3 +213,11 @@ function help (query) {
   });
   cleanedHelp.forEach(v => console.log(v, '\n'));
 }
+
+function main () {
+  [query, args, subcommands] = init();
+  query = parseArgument(query);
+  subcommands[query.subcommand](query)
+}
+
+main();
