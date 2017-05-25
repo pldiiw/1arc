@@ -87,6 +87,11 @@ function load (query) {
   }
 }
 
+function input (query){
+  const engineState = utility.loadEngine(query.state)
+  engineState.keypad[parseInt(query.subcommand, 16)] = !query.no
+}
+
 function inspect (query) {
   const engineState = utility.loadEngine(query.state);
 
