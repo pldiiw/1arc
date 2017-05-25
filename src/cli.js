@@ -89,7 +89,11 @@ function load (query) {
 
 function cycle (query) {
   const engineState = utility.loadEngine(query.state);
-  const cycledEngineState = engine.cycle(engineState);
+  const amount = query.subparameter === '' ? 1 : query.subparameter;
+  let cycledEngineState;
+  for (let i = 0 ; i <= amount ; i++) {
+    cycledEngineState = engine.cycle(engineState);
+  }
   if (query.dryrun) {
     console.log(utility.compareEngines(engineState, cycledEngineState));
   } else {
