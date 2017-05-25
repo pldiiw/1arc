@@ -1,3 +1,6 @@
+const engine = require('./engine.js');
+const utility = require('./utility.js');
+
 let query = {
   'state': '.engine_state.chip8.txt',
   'subcommand': 'none',
@@ -76,3 +79,10 @@ function parseArgument(querry, args){
 
 console.log(parseArgument(querry, args));
 
+function load (query) {
+  const program = utility.purifyFile(query.subparameter);
+  const EngineState = engine.initialize().prepare(newEngineState, program);
+  if (!query.dryrun) {
+    utility.dumpEngine(preparedEngineState, query.state);
+  }
+}
