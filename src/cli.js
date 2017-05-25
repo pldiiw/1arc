@@ -86,3 +86,19 @@ function load (query) {
     utility.dumpEngine(preparedEngineState, query.state);
   }
 }
+
+function help (query){
+	const cliSource = require('fs').readFileSync(process.argv[1], "UTF-8");
+	const commentedHelp = cliSource
+		.match(new RegExp('\\/\\*\\*(.|\\n)*?\\*\\/', 'g'));
+	const cleanedHelp = commentedHelp.map(helpSection => {
+		return helpSection
+			.split('\n')
+			.slice(1, -1)
+			.map(line => line.replace(/^\s*?\*\, ''))
+			.join('\n');
+	});
+	cleanedHelp.forEach(v => console.log(v, '\n'));
+}
+
+
