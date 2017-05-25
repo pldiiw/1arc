@@ -1,36 +1,13 @@
-var querry = {
-	//Options :
-	options:{
-		state: '.engine_state.chip8.txt',
-	},
-	//subcommand :
-	subcommand:{
-		load: {
-			command: false,
-			dryrun: false,
-		},
-		cycle: {
-			command: false,
-			dryrun: false,
-		},
-		display: {
-			command: false,
-			pixelon: false,
-			pixeloff: false,
-		},
-		input: {
-			command: false,
-			no: false,
-		},
-		inspect: {
-			command:false,
-			format: false,
-			range: false,
-		},
-		help: {
-			command: false,
-		},
-	},
+let query = {
+  'state': '.engine_state.chip8.txt',
+  'subcommand': 'none',
+  'subparameter': '',
+  'dryrun': false,
+  'pixelon': 'x',
+  'pixeloff': 'o',
+  'no': false,
+  'format': 2,
+  'range': []
 };
 
 var args = process.argv.slice(2);
