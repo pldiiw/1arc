@@ -12,7 +12,7 @@ function init () {
     'no': false,
     'format': 2,
     'range': [0, -1]
-  }
+  };
   var args = process.argv;
   let subcommands = {
     'load': load,
@@ -21,7 +21,7 @@ function init () {
     'input': input,
     'inspect': inspect,
     'help': help
-  }
+  };
 
   return [query, args, instructions];
 }
@@ -216,8 +216,8 @@ function help (query) {
 
 function main () {
   [query, args, subcommands] = init();
-  query = parseArgument(query);
-  subcommands[query.subcommand](query)
+  query = parseArgument(query, args);
+  subcommands[query.subcommand](query);
 }
 
 main();
