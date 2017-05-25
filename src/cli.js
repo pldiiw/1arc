@@ -10,56 +10,70 @@ let query = {
   'pixeloff': 'o',
   'no': false,
   'format': 2,
-  'range': []
+  'range': [0,-1]
 };
 
-var args = process.argv.slice(2);
+var args = process.argv;
 
 function parseArgument(query, args){
+	if(args[0] == '-s' || args[0] == '--state'){
+		query.state = args[1];
+		args.splice(0,2);
+	}
+
 	var actual_command = '';
 	for (var i = 0; i < args.length; i ++) {
 		if (args[i].charAt(0) != '-') {
-			if (Object.keys(query.subcommand).indexOf(args[i]) != -1) {
-				query.command = true;
+			query.subcommand = args[i]
+			if(args[i+1].charAt(0) != '-'){
+				query.subparameter = args[i+1];
+				args.splice(i,1);
+			}
 				actual_command = args[i];
 				args.splice(i,1);
 				i = args.length;
 			}
 		}
-	}
+
 	if (actual_command == '') {
-		console.error('No command found');
+		throw Error('No command found');
 	}
-	for (var i = 0; i < args.length; i++) {
-		switch(args[i]){
-			case '-s' || '--state':
-				query.state = args[i+1];
-				i++;
-				break;
-			case '-d' || '--dry-run' :
-				query.dryrun = true;
-				break;
-			case '-1' || '--pixel-on':
-				query.pixelon = args[i+1];
-				i++;
-				break;
-			case '-0' || '--pixel-off':
-				query.pixeloff = args[i+1];
-				i++;
-				break;
-			case '-n' || '--no':
-				query.no = true;
-				break;
-			case '-f' || '--format':
-				query.format = parseInt(args[i+1]);
-				i++;
-				break;
-			case '-r' || '--range':
-				query.range = args[i+1].split('-');
-				i++;
-				break;
-			default:
-				throw Error(args[i]+' is not an option');
+	else {
+		console.log(args);
+		for (var i = 0; i < args.length; i++) {
+			console.log(args[i],args[i]=='--range');
+			switch(args[i]){
+				case '-d':
+				case '--dry-run' :
+					query.dryrun = true;
+					break;
+				case '-1':
+				case '--pixel-on':
+					query.pixelon = args[i+1];
+					i++;
+					break;
+				case '-0':
+				case '--pixel-off':
+					query.pixeloff = args[i+1];
+					i++;
+					break;
+				case '-n':
+				case '--no':
+					query.no = true;
+					break;
+				case '-f':
+				case '--format':
+					query.format = parseInt(args[i+1]);
+					i++;
+					break;
+				case '-r':
+				case '--range':
+					query.range = args[i+1].split('-');
+					i++;
+					break;
+				default:
+					throw Error(args[i]+' is not an option');
+			}
 		}
 	}
 	return query;
