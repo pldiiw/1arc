@@ -87,6 +87,16 @@ function load (query) {
   }
 }
 
+function cycle (query) {
+  const engineState = utility.loadEngine(query.state);
+  const cycledEngineState = engine.cycle(engineState);
+  if (query.dryrun) {
+    console.log(utility.compareEngines(engineState, cycledEngineState));
+  } else {
+    utility.dumpEngine(cycledEngineState, query.state);
+  }
+}
+
 function display (query) {
   const engineState = utility.loadEngine(query.state);
   const engineDisplay = engineState.get('display');
