@@ -87,9 +87,17 @@ function load (query) {
   }
 }
 
-function input (query){
-  const engineState = utility.loadEngine(query.state)
-  engineState.keypad[parseInt(query.subcommand, 16)] = !query.no
+function display (query) {
+  const engineState = utility.loadEngine(query.state);
+  const engineDisplay = engineState.get('display');
+  engineDisplay.forEach(row => {
+    console.log(row.map(v => v ? query.pixelon : query.pixeloff).join(''));
+  });
+}
+
+function input (query) {
+  const engineState = utility.loadEngine(query.state);
+  engineState.keypad[parseInt(query.subcommand, 16)] = !query.no;
 }
 
 function inspect (query) {
