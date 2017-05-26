@@ -90,6 +90,24 @@ function parseArgument (query, args) {
   return query;
 }
 
+/**
+ * Load subcommand - Create a new CHIP-8 engine with the given source code fed
+ * into its memory and ready to be executed.
+ *
+ * Usage: ./cli.js [options] load [subptions] <source-file>
+ *
+ * source-file: Path to the file containing the CHIP-8 code you want to load
+ *              into the new engine.
+ *
+ * Options:
+ *   -s, --state <file>  Save new engine to file, instead of default
+ *                       (.engine_state.chip8.txt).
+ *
+ * Suboptions:
+ *   -d, --dry-run       Do not save the new engine to the state file. Can help
+ *                       to verify that a given CHIP-8 program is free of any
+ *                       syntax error.
+ */
 function load (query) {
   const program = utility.purifyFile(query.subparameter);
   const engineState = engine.prepare(engine.initialize(), program);
