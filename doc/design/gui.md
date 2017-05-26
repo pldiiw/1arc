@@ -45,6 +45,7 @@ the menu and engine control section. Just below it we can see the data section.
 Aside these two you can find the display. The last two components are located
 are the bottom of the screen, from left to right: the memory section and the
 keypad section.
+We will end the description of our GUI with how sound and shortcuts are managed.
 
 Let's examine each of these components.
 
@@ -141,11 +142,28 @@ The last way the user can press a keypad's key is by looking at the character
 at the center of the key's cell. If the user presses the same character on its
 keyboard, it will also press this keypad's key. If the user clicks with his
 mouse on this character, he will be able to edit it and remap it to another
-character.  
+character.
 The default layout should be the one shown in the wireframe, based on an AZERTY
 keyboard.
 
-### Bonus
+### Sound
 
-When the user presses his `CTRL` key, the same outline as in the second
-wireframe should be shown. It disappears when the user releases the key.
+The CHIP-8 engine has a sound register, that when not 0, should emit a
+particular sound until it reaches 0 again.
+The GUI takes care of emitting this sound. Ideally, the sound is only a 400Hz
+sinewave. It should only be emitted when the "Cycle Continuously" mode is
+active.
+
+### Shortcuts
+
+A handful of key bindings is available to the user.
+
+ * `&, é, ", ', a, z, e, r, q, s, d, f, w, x, c and v` - Default bindings for
+   the keypad (see Keypad section)
+ * `Spacebar` - Equivalent to clicking on the "Cycle Once" button.
+ * `Shift + Spacebar` - Equivalent to clicking on the "Cycle Continuously"
+   button.
+ * `Tab` - Change the base selection of all the base widgets, to the next one
+   according the Data section's widget.
+ * `Ctrl` - While holding this key, the same outline as in the second wireframe
+   should be shown.
