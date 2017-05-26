@@ -215,6 +215,52 @@ function help (query) {
   cleanedHelp.forEach(v => console.log(v, '\n'));
 }
 
+/**
+ * Edit subcommand - Open the state file in the default editor.
+ *
+ * Usage: ./cli.js [options] edit
+ *
+ * Options:
+ *   -s, --state <file>  File path to the original engine you want to edit
+ *                       (default: .engine_state.chip8.txt).
+ */
+function edit (query) {
+  const fs = require('fs');
+  const childProcess = require('child_process').spawn;
+
+  const tmp = query.state + '-tmp';
+
+  fs.createReadStream(query.state).pipe(fs.createWriteStream(tmp));
+
+  let editorProcess;
+  if (process.platform === 'darwin') {
+    editor = spawn('open', ['-W', tmp]);
+  } else if (process.platform === 'win32') {
+    editor = spawn('start', [tmp]);
+  } else {
+    editor = spawn('xdg-open', [tmp]);
+  }
+
+  editorProcess.on('exit', () => {
+    // We import and then dump it in order to test that the modifications have
+    // been done correctly.
+    const prompt = rl.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+    prompt.question('Commit your changes? (y/n)', (answer) => {
+      if (answer === 'y') {
+        utlity.dumpEngine(utility.loadEngine(tmp), query.state);
+        fs.unlinkSync(tmp);
+        console.log('Committed!');
+      } else {
+        console.log('Not committing, your modifications are still accessible',
+          'in', tmp);
+      }
+    });
+  });
+}
+
 function main () {
   [query, args, subcommands] = init();
   query = parseArgument(query, args);
