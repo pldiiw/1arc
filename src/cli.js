@@ -1,3 +1,17 @@
+/**
+ * CHIP-8 interpreter CLI tool.
+ *
+ * General usage:
+ *   ./cli.js [options] <subcommand> [suboptions] [subparameter]
+ *
+ * Options:
+ *   -s, --state <file>  Save new engine to file, instead of default
+ *                       (.engine_state.chip8.txt).
+ *
+ * Subcommands:
+ *   load [-d,--dry-run] <source-file>  Load program into a new CHIP-8 engine.
+ */
+
 const engine = require('./engine.js');
 const utility = require('./utility.js');
 
