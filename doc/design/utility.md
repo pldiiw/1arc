@@ -6,14 +6,14 @@ Here we will explain what is the purpose of the utility module.
 
 ## Abstract
 
-If we enable people to write CHIP-8 source code based on the syntax defined in
-[syntax.md](./syntax.md), we need a tool to convert these texts files into a
-format that we can hand out to the engine.
-Also, having debugging tools is a big plus when having to write and understand
-CHIP-8 code.
+The utility module is group of functions that have no place in the other
+modules, or that are used in higher modules.
 
-We answer these problems by providing tools that are accessible through this
-module.
+For example, we have enabled people to write CHIP-8 source code based on the
+syntax defined in [syntax.md](./syntax.md), thus we need a tool to convert
+these texts files into a format that we can hand out to the engine.
+
+The following sections dissect every tool that this module provides.
 
 ## Artefact removing
 
@@ -63,7 +63,7 @@ precisely at this state: a suite of hexadecimal digits.
 
 A linter is a tool that checks for inconsistencies in source code. What it does
 in our case is checking that a suite of instructions (see previous section)
-contains only instructions that actually exists, anything else.
+contains only instructions that actually exists, rejecting anything else.
 
 Here's how it achieves this:
 
@@ -79,6 +79,91 @@ digits against the provided Map. If the linter can found a key inside the
 instruction Map that match this set of four digits, then this is a correct
 instruction.
 
+It should also detect sprites.
+
 Any error is reported, but the linting should continue. Any incorrect
-instruction will make the linter return a null value after having check all the
-suite.
+instruction will make the linter return a null value after having checked all
+the suite.
+
+## Purify file
+
+`PurifyFile()` is a function that the combination of the ones described in the
+previous sections. It should take as a parameter the path to a CHIP-8 source
+code file on the file system, read it, remove the artefacts, lint it and
+finally return the program, ready to be loaded into the engine.
+
+## Dump engine
+
+The utility module should also provide a `dumpEngine()` function. Given a
+CHIP-8 engine data structure instance and a path to a file, it should translate
+the CHIP-8 engine to a readable JSON file, with every value the engine is
+containing written in it.
+
+The JSON file should look like this (here, all values are set to 0):
+
+```
+{
+  data: [
+    0,
+    0,
+    ...
+  ],
+  I: 0,
+  timer: 0,
+  sound: 0,
+  memory: [
+    0,
+    0,
+    ...
+  ],
+  pc: 0,
+  pointer: 0,
+  stack: [
+    0,
+    0,
+    ...
+  ],
+  display: [
+    [false, false, ...],
+    [false, false, ...],
+    ...
+  ],
+  keypad: [
+    false,
+    false,
+    ...
+  ]
+}
+```
+
+## Load engine
+
+If we dump engines to files, we need a way to reverse the process, restoring
+engines from files. This what the `loadEngine()` function does. It takes as a
+parameter the path to the file we want to retrieve the engine from, reads this
+file, does some processing and returns a new engine that is the exact same as
+the one we dumped earlier.
+
+## Compare engines
+
+The last tool the utility module implements is the `compareEngines()` function.
+
+Its role is to return a string that contain all the differences between two
+given engines (not dumps, data structures).
+
+The format of the returned diff should be:
+
+```
+<component>: <engineA value> -> <engineB value>
+```
+
+Here's an example:
+
+```
+data.2: 23 -> 243
+data.3: 255 -> 4
+data.F: 1 -> 0
+pc: 512 -> 514
+memory[200]: 3 -> 120
+display[4][60]: false -> true
+```
