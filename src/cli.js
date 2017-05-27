@@ -210,10 +210,15 @@ function help (query) {
     return helpSection
       .split('\n')
       .slice(1, -1)
-      .map(line => line.replace(/^\s*?\*/, ''))
+      .map(line => line.replace(/^\s*?\* /, ''))
       .join('\n');
   });
-  cleanedHelp.forEach(v => console.log(v, '\n'));
+
+  const requestedHelp = query.subparameter === 'short'
+    ? cleanedHelp[0]
+    : cleanedHelp
+        .filter(v => v.split(' ')[0].toLowerCase() === query.subparameter)[0];
+  console.log(requestedHelp);
 }
 
 /**
