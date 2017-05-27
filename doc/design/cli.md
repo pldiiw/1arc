@@ -189,7 +189,7 @@ can be more readable to use long suboptions in some cases.
  * `-f <base>` or `--format <base>` - Let you choose in what base the value of
    the inspected is displayed. For example, if you want to get the value in
    hexadecimal instead of binary, you would use `-f hex` or even `-f 16`. It
-   defaults to the binary format. Here are the possible bases:
+   defaults to the decimal format. Here are the possible bases:
    ```
    16 hex
     8 oct
