@@ -10,6 +10,18 @@
  *
  * Subcommands:
  *   load [-d,--dry-run] <source-file>  Load program into a new CHIP-8 engine.
+ *
+ *	 cycle [-d,--dry-run] [amount]		Run a specified amount of cycles.
+ *
+ *	 display [[-1,--pixel-on][-0,--pixel-off] <character>]  Print the engine 
+ *	 display.
+ *
+ *	 input [-n,--no] <key> Simulate a key press.
+ *
+ *	 inspect [[-f,--format] <base>][[-r,--range] [start]-[end]] [component]  
+ *	 Show the bare date of the vatious components of the engine.
+ *
+ *	 help  Show the help.
  */
 
 const engine = require('./engine.js');
@@ -130,6 +142,22 @@ function load (query) {
   }
 }
 
+/**
+ * Cycle subcommand - Retrieves the current state of the engine, execute the 
+ * next instructions and save new engine in a new file.
+ *
+ * Usage: ./cli.js [options] cycle [suboptions] [amount]
+ *
+ * amount: Change the number of cycles to be executed before register engine
+ * 
+ * Options:
+ *	  -s, --state <file>  Save new engine to file, instead of default 
+ *						  (.engine_state.chip8.txt).
+ *
+ * Suboptions:
+ *	  -d, --dry-run		  Do not save the new engine to the state file.but 
+ *						  instead it display the new engine .
+  */
 function cycle (query) {
   const engineState = utility.loadEngine(query.state);
   const amount = query.subparameter === '' ? 1 : query.subparameter;
@@ -144,6 +172,24 @@ function cycle (query) {
   }
 }
 
+/**
+ * Display subcommand - Print the engine display.
+ *
+ * Usage: ./cli.js [options] display [suboptions]
+ *
+ * Options:
+ *	  -s, --state <file>  Read engine to file, instead of default
+ *						  (.engine_state.chip8.txt).
+ *
+ * Suboptions:
+ *	  -1, --pixel-on <character>  When displaying the screen, use the given
+ *								  character for representing the 
+ *								  non-transparent pixels.
+	  
+	  -0, --pixel-off <character> When displaying the screen, use the given 
+								  character for representing the transparent
+								  pixels.
+ */
 function display (query) {
   const engineState = utility.loadEngine(query.state);
   const engineDisplay = engineState.get('display');
@@ -152,11 +198,39 @@ function display (query) {
   });
 }
 
+/**
+ * Input subcommand - Simulate the input of a keypad's key.
+ * 
+ * Usage: ./cli.js [options] input [suboptions] <key>
+ * 
+ * Options:
+ *    -s, --state <file>  Read engine and save new engine to file instead of
+ *						  default (.engine_state.chip8.txt)
+ *
+ * Suboptions:
+ *	  -n, --no			  Istead of setting the key to the pressed state,
+ *						  explicitely set it to the not pressed state.
+ */
 function input (query) {
   const engineState = utility.loadEngine(query.state);
   engineState.keypad[parseInt(query.subcommand, 16)] = !query.no;
 }
 
+/**
+ * Inspect subcommand - Show the bare data of the various components ot the 
+ * engine.
+ *
+ * Usage: ./cli.js [options] inspect [suboptions] [component]
+ *
+ * Options:
+ *	  -s, --state <file>  Read engine from file instead of default
+ *						  (.engine_state.chip8.txt)
+ *
+ * Suboptions:
+ *	  -f, --format <base>  Choose the base to dispaly the engine.
+ * 
+ *	  -r, --range [start]-[end]  Choose the range of bytes you want to load.
+ */
 function inspect (query) {
   const engineState = utility.loadEngine(query.state);
 
@@ -233,6 +307,11 @@ function inspect (query) {
   }
 }
 
+/**
+ * Help subcommand - Show the help.
+ *
+ * Usage: ./cli.js help [subcommand]
+ */
 function help (query) {
   const cliSource = require('fs').readFileSync(process.argv[1], 'UTF-8');
   const commentedHelp = cliSource
