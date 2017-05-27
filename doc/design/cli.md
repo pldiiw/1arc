@@ -86,11 +86,15 @@ Here's the list of all the possible subcommands:
  * `input` - Simulate the input of a keypad's key. For example, running
    `./cli.js input a` would retrieve the current engine state and set the `A`
    key as pressed, concluding the call by saving the engine state back.
- * `inspect` - This a low-level command. It simply show the bare data of the
+ * `inspect` - This a low-level command. It simply shows the bare data of the
    various components of the engine. Like the other commands, it retrieves the
    current state of the engine and prints out the data contained in the
    requested components. For example, you would do `./cli.js inspect memory` to
    get the bare binary data of the engine's memory.
+ * `edit` - This command copies the engine state file to a temporary new file,
+   that is then opened in the user's default editor to let him modify by hand
+   the values of the saved engine. When the user closes his editor, the tmp
+   file is copied back to the state file, overwriting the latter.
  * `help` - Show the help.
 
 ### Subparameters
@@ -105,7 +109,7 @@ The subparameters are given with their associated subcommand prefixed.
    dumping the engine state. If an amount of `-1` is given, it will run until
    it reaches the end of the engine's memory. If no value are passed, it
    defaults to 1.
- * `display` does not have any subparameter.
+ * `display` does not have any subparameters.
  * `input <key>` - Along with `input`, we have to give the key we want to
    simulate the pressure. It can be given in lowercase or uppercase. The
    possible values are: `0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f`. This is
@@ -113,7 +117,7 @@ The subparameters are given with their associated subcommand prefixed.
  * `inspect [component]` - As seen earlier in the document, the `inspect`
    subcommand takes an optional subparameter that indicates what part of the
    engine we want to examine. If no component is given, it is a if we passed
-   `all`.  
+   `all`.
    The possible values are:
    ```
    data
@@ -132,6 +136,7 @@ The subparameters are given with their associated subcommand prefixed.
    keypad
    all
    ```
+ * `edit` does not have any subparameters.
  * `help [subcommand]` - Calling `help` with no subparameter displays the CLI
    syntax and the possible options and the subcommands along with their
    subparameter with a short description of what they does. When passing a
@@ -207,6 +212,10 @@ can be more readable to use long suboptions in some cases.
                                              # hexadecimal, but it must be
                                              # prefixed with '0x'
    ```
+
+#### Edit suboptions
+
+Edit doesn't have any suboptions.
 
 #### Help suboptions
 
