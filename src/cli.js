@@ -10,7 +10,7 @@ function init () {
     'pixelon': 'x',
     'pixeloff': 'o',
     'no': false,
-    'format': 2,
+    'format': 10,
     'range': [0, -1]
   };
   let args = process.argv;
@@ -20,6 +20,7 @@ function init () {
     'display': display,
     'input': input,
     'inspect': inspect,
+    'edit': edit,
     'help': help
   };
 
@@ -221,12 +222,13 @@ function help (query) {
  * Usage: ./cli.js [options] edit
  *
  * Options:
- *   -s, --state <file>  File path to the original engine you want to edit
- *                       (default: .engine_state.chip8.txt).
+ *   -s, --state <file>  File path to the original engine you want to edit.
+ *                       (default: .engine_state.chip8.txt)
  */
 function edit (query) {
   const fs = require('fs');
-  const childProcess = require('child_process').spawn;
+  const spawn = require('child_process').spawn;
+  const createInterface = require('readline').createInterface;
 
   const tmp = query.state + '-tmp';
 
@@ -234,22 +236,22 @@ function edit (query) {
 
   let editorProcess;
   if (process.platform === 'darwin') {
-    editor = spawn('open', ['-W', tmp]);
+    editorProcess = spawn('open', ['-W', tmp]);
   } else if (process.platform === 'win32') {
-    editor = spawn('start', [tmp]);
+    editorProcess = spawn('start', [tmp]);
   } else {
-    editor = spawn('xdg-open', [tmp]);
+    editorProcess = spawn('xdg-open', [tmp]);
   }
 
   editorProcess.on('exit', () => {
     // We import and then dump it in order to test that the modifications have
     // been done correctly.
-    const prompt = rl.createInterface({
+    const prompt = createInterface({
       input: process.stdin,
       output: process.stdout
     });
     prompt.question('Commit your changes? (y/n)', (answer) => {
-      if (answer === 'y') {
+      if (answer.toLowerCase() === 'y') {
         utlity.dumpEngine(utility.loadEngine(tmp), query.state);
         fs.unlinkSync(tmp);
         console.log('Committed!');
