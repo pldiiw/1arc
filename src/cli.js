@@ -68,8 +68,11 @@ function parseArgument (query, args) {
         if (not_argument === 0) {
           query.subcommand = argument_to_parse[i];
           not_argument++;
+		  } else if (not_argument === 1){
+			query.subparameter = argument_to_parse[i];
+			not_argument++;
 		  } else {
-          throw Error(args[i] + ' is not an option');
+            throw Error(args[i] + ' is not an option');
         }
     }
   }
