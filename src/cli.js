@@ -28,64 +28,50 @@ function init () {
 }
 
 function parseArgument (query, args) {
-  args = args.slice(2);
-  if (args[0] === '-s' || args[0] === '--state') {
-    query.state = args[1];
-    args.splice(0, 2);
-  }
-
-  let actualCommand = '';
-  let i;
-  for (i = 0; i < args.length; i++) {
-    if (args[i].charAt(0) !== '-') {
-      query.subcommand = args[i];
-      if (args[i + 1].charAt(0) !== '-') {
-        query.subparameter = args[i + 1];
-        args.splice(i, 1);
-      }
-      actualCommand = args[i];
-      args.splice(i, 1);
-      i = args.length;
-    }
-  }
-
-  if (actualCommand === '') {
-    throw Error('No command found');
-  } else {
-    for (i = 0; i < args.length; i++) {
-      console.log(args[i], args[i] === '--range');
-      switch (args[i]) {
-        case '-d':
-        case '--dry-run' :
-          query.dryrun = true;
-          break;
-        case '-1':
-        case '--pixel-on':
-          query.pixelon = args[i + 1];
-          i++;
-          break;
-        case '-0':
-        case '--pixel-off':
-          query.pixeloff = args[i + 1];
-          i++;
-          break;
-        case '-n':
-        case '--no':
-          query.no = true;
-          break;
-        case '-f':
-        case '--format':
-          query.format = parseInt(args[i + 1]);
-          i++;
-          break;
-        case '-r':
-        case '--range':
-          query.range = args[i + 1].split('-');
-          i++;
-          break;
-        default:
+  let argument_to_parse = args.slice(2);
+  let not_argument = 0;
+  for (let i = 0; i < argument_to_parse.length; i++) {
+    switch (argument_to_parse[i]) {
+      case '-s':
+      case '--state':
+        query.state = argument_to_parse[i + 1];
+        i++;
+        break;
+      case '-d':
+      case '--dry-run' :
+        query.dryrun = true;
+        break;
+      case '-1':
+      case '--pixel-on':
+        query.pixelon = argument_to_parse[i + 1];
+        i++;
+        break;
+      case '-0':
+      case '--pixel-off':
+        query.pixeloff = argument_to_parse[i + 1];
+        i++;
+        break;
+      case '-n':
+      case '--no':
+        query.no = true;
+        break;
+      case '-f':
+      case '--format':
+        query.format = parseInt(argument_to_parse[i + 1]);
+        i++;
+        break;
+      case '-r':
+      case '--range':
+        query.range = argument_to_parse[i + 1].split('-');
+        i++;
+        break;
+      default:
+        if (not_argument === 0) {
+          query.subcommand = argument_to_parse[i];
+          not_argument++;
+		  } else {
           throw Error(args[i] + ' is not an option');
-      }
+        }
     }
   }
   return query;
