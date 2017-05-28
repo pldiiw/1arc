@@ -28,13 +28,13 @@ function init () {
 }
 
 function parseArgument (query, args) {
-  let argument_to_parse = args.slice(2);
-  let not_argument = 0;
-  for (let i = 0; i < argument_to_parse.length; i++) {
-    switch (argument_to_parse[i]) {
+  let argumentToParse = args.slice(2);
+  let notArgument = 0;
+  for (let i = 0; i < argumentToParse.length; i++) {
+    switch (argumentToParse[i]) {
       case '-s':
       case '--state':
-        query.state = argument_to_parse[i + 1];
+        query.state = argumentToParse[i + 1];
         i++;
         break;
       case '-d':
@@ -43,12 +43,12 @@ function parseArgument (query, args) {
         break;
       case '-1':
       case '--pixel-on':
-        query.pixelon = argument_to_parse[i + 1];
+        query.pixelon = argumentToParse[i + 1];
         i++;
         break;
       case '-0':
       case '--pixel-off':
-        query.pixeloff = argument_to_parse[i + 1];
+        query.pixeloff = argumentToParse[i + 1];
         i++;
         break;
       case '-n':
@@ -57,23 +57,23 @@ function parseArgument (query, args) {
         break;
       case '-f':
       case '--format':
-        query.format = parseInt(argument_to_parse[i + 1]);
+        query.format = parseInt(argumentToParse[i + 1]);
         i++;
         break;
       case '-r':
       case '--range':
-        query.range = argument_to_parse[i + 1].split('-');
+        query.range = argumentToParse[i + 1].split('-');
         i++;
         break;
       default:
-        if (not_argument === 0) {
-          query.subcommand = argument_to_parse[i];
-          not_argument++;
-		  } else if (not_argument === 1){
-			query.subparameter = argument_to_parse[i];
-			not_argument++;
-		  } else {
-            throw Error(args[i] + ' is not an option');
+        if (notArgument === 0) {
+          query.subcommand = argumentToParse[i];
+          notArgument++;
+        } else if (notArgument === 1) {
+          query.subparameter = argumentToParse[i];
+          notArgument++;
+        } else {
+          throw Error('Parsing failed:', args[i]);
         }
     }
   }
