@@ -19,6 +19,8 @@
  *     Press or not a key of the engine's keypad.
  *   inspect [-f,--format <base>] [-r,--range [start]-[end]] [component]
  *     Show engine's components bare data.
+ *   edit
+ *     Open the state file in your favorite editor to edit it safely.
  *   help [subcommand]
  *     Show the help.
  */
