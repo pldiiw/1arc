@@ -10,28 +10,40 @@
 <body>
   <div id="menu-section" class="main-component">
     <label id="load-program">
-      Load program
-      <input type="file">
+      <input type="file" style="display: none">
+      <span class="label_text">
+        Load program
+      </span>
     </label>
     <label id="load-engine">
-      Load engine
-      <input type="file">
+      <input type="file" style="display: none">
+      <span class="label_text">
+        Load engine
+      </span>
     </label>
     <label id="save-engine">
-      Save engine
-      <input type="button">
+      <input type="file" style="display: none">
+      <span class="label_text">
+        Save engine
+      </span>
     </label>
-    <label id="pause">
-      ⏸
-      <input type="radio" name="control">
+    <label id="pause" for="cycle_buttons_4">
+      <input type="radio" name="control" class="cycle_buttons" id="cycle_buttons_4">
+      <span class="label_text">
+      ⏸ OLO
+      </span>
     </label>
-    <label id="cycle-once">
-      ⏵
-      <input type="radio" name="control">
+    <label id="cycle-once" for="cycle_buttons_5">
+      <input type="radio" name="control" class="cycle_buttons" id="cycle_buttons_5">
+      <span class="label_text">
+      ⏵ LOL
+      </span>
     </label>
-    <label id="cycle-continuously">
-      ⏩
-      <input type="radio" name="control">
+    <label id="cycle-continuously" for="cycle_buttons_6">
+      <input type="radio" name="control" class="cycle_buttons" id="cycle_buttons_6">
+      <span class="label_text">
+        ⏩O J O
+      </span>
     </label>
   </div>
   <div id="data-section" class="main-component">
@@ -97,7 +109,7 @@
   <div id="memory-section" class="main-component">
     <div class="top-bar">
       <div class="base-widget">
-          
+
           <input type="radio" name="base-memory" id="binary-memory" value="2"><!--
         --><label for="binary-memory" class="widget-label-box">2</label><!--
         --><input type="radio" name="base-memory" id="decimal-memory" value="10" checked="checked"><!--

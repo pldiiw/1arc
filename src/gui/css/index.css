@@ -1,3 +1,66 @@
+/* Begin menu section */
+
+#menu-section
+{
+	display: inline-block;
+	border: 1px solid black;
+	width: 590px;
+	height: 70px;
+	margin: 2px;
+	padding: 2px;
+	position: relative;
+	vertical-align: middle;
+}
+
+#load-program, #save-engine, #load-engine, #pause, #cycle-once, #cycle-continuously {
+	float: left;
+	border: 1px solid black;
+	margin: 5px;
+	background-color: white;
+}
+
+#load-program
+{
+	width: 100px;
+}
+
+#save-engine, #load-engine
+{
+	width: 120px;
+}
+
+#pause, #cycle-once, #cycle-continuously
+{
+	width: 59px;
+}
+
+.label_text
+{
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	background-color: white;
+	text-align: center;
+	height: 40px;
+	line-height: 20px;
+	text-align: center;
+	height: 55px;
+	width: 100%;
+	padding: 0px;
+}
+
+.cycle_buttons
+{
+	display: none;
+}
+
+#menu-section label input[type="radio"]:checked+span
+{
+	background-color: black;
+	color: white;
+}
+
+/* End menu section */
 /* Begin data section */
 
 #data-section {
