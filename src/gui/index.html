@@ -36,7 +36,14 @@
   </div>
   <div id="data-section" class="main-component">
     <div class="top-bar">
-      <div class="base-widget"></div>
+      <div class="base-widget">
+        <input type="radio" name="base-data" id="bynary" value="2"><!--
+        --><label for="bynary" class="widget-label-box">2</label><!--
+        --><input type="radio" name="base-data" id="decimal" value="10" checked="checked"><!--
+        --><label for="decimal" class="widget-label-box">10</label><!--
+        --><input type="radio" name="base-data" id="hexadecimal" value="16"><!--
+        --><label for="hexadecimal" class="widget-label-box">16</label>
+      </div>
     </div>
     <div class="data-registers-subsection">
       <ol>
@@ -89,7 +96,15 @@
   </div>
   <div id="memory-section" class="main-component">
     <div class="top-bar">
-      <div class="base-widget"></div>
+      <div class="base-widget">
+          
+          <input type="radio" name="base-memory" id="binary-memory" value="2"><!--
+        --><label for="binary-memory" class="widget-label-box">2</label><!--
+        --><input type="radio" name="base-memory" id="decimal-memory" value="10" checked="checked"><!--
+        --><label for="decimal-memory" class="widget-label-box">10</label><!--
+        --><input type="radio" name="base-memory" id="hexadecimal-memory" value="16"><!--
+        --><label for="hexadecimal-memory" class="widget-label-box">16</label>
+      </div>
     </div>
     <div id="cells"></div>
   </div>

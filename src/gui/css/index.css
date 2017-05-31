@@ -152,3 +152,38 @@
 }
 
 /* End keypad section */
+/* Begin widget section */
+
+.top-bar{
+  width: 100%;
+  height: 10%;
+}
+
+.base-widget{
+  border: 1px solid black;
+  width: 110px;
+  height: 40px;
+  padding-top: 0.25%;
+  padding-bottom: 0.25%;
+}
+
+.base-widget input{
+  display: none;
+}
+
+.widget-label-box{
+  border: 1px solid black;
+  text-align: center;
+  display: inline-block;
+  width: 27.27%;
+  height: 100%;
+  margin-left: 5%;
+  padding-top: 5px;
+}
+
+.base-widget input:checked+label {
+  background-color: black;
+  color: white;
+}
+
+/* End widget section */
