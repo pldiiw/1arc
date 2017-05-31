@@ -1,3 +1,71 @@
+/* Begin data section */
+
+#data-section {
+  width: 590px;
+  height: 560px;
+}
+
+#data-section .data-registers-subsection {
+  width: 100%;
+  height: 46.43%;
+}
+
+#data-section .data-registers-subsection ol {
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+#data-section .data-registers-subsection li {
+  width: 50%;
+  height: 12.25%;
+}
+
+#data-section .data-registers-subsection li p {
+  display: inline-block;
+  width: 10%;
+  height: 100%;
+}
+
+#data-section .data-registers-subsection li samp {
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+}
+
+#data-section .other-registers-subsection {
+  width: 100%;
+  height: 53.57%;
+}
+
+#data-section .other-registers-subsection ol {
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  overflow: scroll;
+}
+
+#data-section .other-registers-subsection li {
+  width: 100%;
+  height: 12.25%;
+}
+
+#data-section .other-registers-subsection li p {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+}
+
+#data-section .other-registers-subsection li samp {
+  display: inline-block;
+  width: 75%;
+  height: 100%;
+}
+
+/* End data section */
 /* Begin memory section */
 
 #memory-section {
