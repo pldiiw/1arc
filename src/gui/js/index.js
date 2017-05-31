@@ -14,6 +14,16 @@ let engineState = new Map([
     ['keypad', Array(16).fill(false)]
   ]);
 
+function UIInit () {
+  document.querySelector('#load-engine input').onchange(UILoadEngine);
+  document.querySelector('#load-program input').onchange(UILoadProgram);
+  document.querySelector('#save-engine input').onclick(UISaveEngine);
+  document.querySelector('#pause input').onchange(UIPause);
+  document.querySelector('#cycle-once input').onchange(UICycleOnce);
+  document.querySelector('#cycle-continuously input').onchange(UICycleContinuously);
+  UIGenerate();
+}
+
 function UIGenerate () {
   UIDisplayGenerate();
   UIMemoryGenerate();
@@ -26,30 +36,49 @@ function UIUpdate () {
   UIKeypadUpdate();
 }
 
-function UILoadEngine (files) {
-  const dumpedEngineState = ''; // TODO
-  engineState = utility.loadEngine(dumpedEngineState);
-  UIUpdate(engineState);
+function UILoadEngine () {
+  let file = document.querySelector('#load-engine').files[0];
+  let reader = FileReader();
+  reader.onload = (event) => {
+    const dumpedEngineState = event.target.result;
+    engineState = utility.loadEngine(dumpedEngineState);
+    UIUpdate();
+  }
+  reader.readAsText(file);
 }
 
-function UILoadProgram (files) {
-  const program = ''; // TODO
-  engineState = engine.loadProgram(engineState, program);
-  UIUpdate(engineState);
+function UILoadProgram () {
+  let file = document.querySelector('#load-engine').files[0];
+  let reader = FileReader();
+  reader.onload = (event) => {
+    const program = utility.removeArtefacts(event.target.result);
+    engineState = engine.loadProgram(engineState, program);
+    UIUpdate();
+  }
+  reader.readAsText(file);
 }
 
 function UISaveEngine () {
   const dumpedEngineState = utility.dumpEngine(engineState);
-  // TODO: save it to file
+  const engineDataURI =
+    'data:text/plain;charset=utf-8,' + encodeURIComponent(dumpedEngineState);
+  let download = document.createElement('a');
+  download.setAttribute('href', engineDataURI);
+  download.setAttribute('download', 'engine_state.chip8.txt');
+  download.style.display = 'none';
+
+  document.body.appendChild(download);
+  download.click();
+  document.body.removeChild(download);
 }
 
 function UIPause () {
 
 }
 
-function UICycle (engineState) {
+function UICycle () {
   engineState = engine.cycle(engineState);
-  UIUpdate(engineState);
+  UIUpdate();
 }
 
 function UICycleOnce () {
