@@ -1,63 +1,50 @@
 /* Begin menu section */
 
-#menu-section
-{
-	display: inline-block;
-	border: 1px solid black;
-	width: 590px;
-	height: 70px;
-	margin: 2px;
-	padding: 2px;
-	position: relative;
-	vertical-align: middle;
+#menu-section {
+  border: solid 1px black;
+  width: 590px;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-#load-program, #save-engine, #load-engine, #pause, #cycle-once, #cycle-continuously {
-	float: left;
-	border: 1px solid black;
-	margin: 5px;
-	background-color: white;
+#menu-section label {
+  border: solid 1px black;
+  margin: 4% 0.5%;
+  text-align: center;
+  line-height: 60px;
+  vertical-align: middle;
 }
 
-#load-program
-{
-	width: 100px;
+#load-program, #load-engine, #save-engine {
+  flex: 2;
 }
 
-#save-engine, #load-engine
-{
-	width: 120px;
+#pause, #cycle-once, #cycle-continuously {
+  flex: 1;
 }
 
-#pause, #cycle-once, #cycle-continuously
-{
-	width: 59px;
+#menu-section input {
+  display: none;
 }
 
-.label_text
-{
-	display: inline-block;
-	vertical-align: middle;
-	line-height: normal;
-	background-color: white;
-	text-align: center;
-	height: 40px;
-	line-height: 20px;
-	text-align: center;
-	height: 55px;
-	width: 100%;
-	padding: 0px;
+#menu-section input[type="radio"]:not(:checked):hover+span {
+  display: block;
+  color: white;
+  background-color: black;
+  animation: menu-control-over 0.5s;
 }
 
-.cycle_buttons
-{
-	display: none;
+#menu-section input[type="radio"]:checked+span {
+  display: block;
+  color: white;
+  background-color: black;
 }
 
-#menu-section label input[type="radio"]:checked+span
-{
-	background-color: black;
-	color: white;
+@keyframes menu-control-over {
+  0% { background-color: rgba(0, 0, 0, 0); }
+  100% { background-color: rgba(0, 0, 0, 1); }
 }
 
 /* End menu section */
