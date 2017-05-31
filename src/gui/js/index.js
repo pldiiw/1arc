@@ -21,7 +21,9 @@ function UIInit () {
   document.querySelector('#pause input').onchange(UIPause);
   document.querySelector('#cycle-once input').onchange(UICycleOnce);
   document.querySelector('#cycle-continuously input').onchange(UICycleContinuously);
+  defineInputs();
   UIGenerate();
+
 }
 
 function UIGenerate () {
@@ -219,4 +221,19 @@ function UIKeypadUpdate () {
       keypad[parseInt(v.id.slice('-')[1], 16)] ? 1 : 0;
   });
 
+}
+
+function defineInputs () {
+  document.addEventListener('keydown', event => {
+    switch (event.keyCode) {
+      case 32:
+        if(event.target == document.body) {
+          event.preventDefault();
+          document.querySelector("#cycle-once input").checked = true;
+        }
+        break;
+      default:
+        console.log(event.keyCode);
+    }
+  });
 }
