@@ -26,6 +26,7 @@ function UIInit () {
 
 }
 
+
 function UIGenerate () {
   UIDisplayGenerate();
   UIMemoryGenerate();
@@ -223,17 +224,139 @@ function UIKeypadUpdate () {
 
 }
 
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 function defineInputs () {
+  down = false;
   document.addEventListener('keydown', event => {
+    if(down) return;
+    down = true;
+    doInputsSwitch(event, 'keydown');
+  }, false);
+
+
+  document.addEventListener('keyup', event =>{
+    down = false;
+    doInputsSwitch(event, 'keyup');    
+  });
+}
+
+function doInputsSwitch(event, state) {
+  var button = "";
     switch (event.keyCode) {
       case 32:
-        if(event.target == document.body) {
+        if(event.target == document.body && state == 'keydown') {
           event.preventDefault();
           document.querySelector("#cycle-once input").checked = true;
+        }
+        break;
+      
+      case 49: //&
+        button = "key-1";
+        break;
+
+      case 50: //é
+        button = "key-2";
+        break;
+
+      case 51: //"
+        button = "key-3";
+        break;
+
+      case 52: //'
+        button = "key-C";
+        break;
+
+      case 65: //a
+        button = "key-4";
+        break;
+
+      case 90: //z
+        button = "key-5";
+        break;
+
+      case 69: //e
+        button = "key-6";
+        break;
+
+      case 82: //r
+        button = "key-D";
+        break;
+
+      case 81: //q
+        button = "key-7";
+        break;
+
+      case 83: //s
+        button = "key-8";
+        break;
+
+      case 68: //d
+        button = "key-9";
+        break;
+
+      case 70: //f
+        button = "key-E";
+        break;
+
+      case 87: //w
+        button = "key-A";
+        break;
+
+      case 88: //x
+        button = "key-0";
+        break;
+
+      case 67: //c
+        button = "key-B";
+        break;
+
+      case 86: //v
+        button = "key-F";
+        break;
+
+      case 9: //tab
+        if(event.target == document.body&& state == 'keydown') {
+          event.preventDefault();
+          nextWidgetSelection();
         }
         break;
       default:
         console.log(event.keyCode);
     }
-  });
+    if(button!="" && state=='keydown'){
+      console.log("J'appui sur le bouton : "+button);
+    } else if(button!="" && state=='keyup') {
+      console.log("je relache le bouton : "+button);
+    }
 }
+
+function nextWidgetSelection(){
+  let widgets = document.getElementsByClassName("base-widget");
+  for(let i=0;i<Object.keys(widgets).length;i++) {
+    let child = widgets[i].childNodes;
+
+    for(let j=1; j<((Object.keys(child).length)-1);j = j+4) {
+      
+      if(child[j].checked == true){
+          child[j].checked = false;
+          if(Object.keys(child).length-1-j>4){
+            child[j+4].checked = true;
+          } else {
+            child[1].checked = true;
+          }
+          j = Object.keys(child).length;
+      }
+    }
+  }
+}
+  //if(document.querySelector("#cycle-once input").checked = true)
+
+defineInputs();
