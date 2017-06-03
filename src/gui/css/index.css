@@ -9,21 +9,21 @@
 
 #menu-section {
   border: solid 1px black;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 590px;
-  height: 70px;
   display: flex;
   flex-direction: row;
+  height: 70px;
   justify-content: space-around;
+  left: 5px;
+  position: absolute;
+  top: 5px;
+  width: 590px;
 }
 
 #menu-section label {
   border: solid 1px black;
+  line-height: 60px;
   margin: 4% 0.5%;
   text-align: center;
-  line-height: 60px;
   vertical-align: middle;
 }
 
@@ -40,16 +40,16 @@
 }
 
 #menu-section input:not(:checked):hover+span {
-  display: block;
-  color: white;
-  background-color: black;
   animation: menu-control-over 0.5s;
+  background-color: black;
+  color: white;
+  display: block;
 }
 
 #menu-section input[type="radio"]:checked+span {
-  display: block;
-  color: white;
   background-color: black;
+  color: white;
+  display: block;
 }
 
 @keyframes menu-control-over {
@@ -61,104 +61,104 @@
 /* Begin data section */
 
 #data-section {
-  width: 590px;
   height: 485px;
+  left: 5px;
   position: absolute;
   top: 80px;
-  left: 5px;
+  width: 590px;
 }
 
 #data-section .data-registers-subsection {
-  width: 100%;
   height: 41.43%;
+  width: 100%;
 }
 
 #data-section .data-registers-subsection ol {
-  width: 100%;
-  height: 100%;
-  list-style: none;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  height: 100%;
+  list-style: none;
+  width: 100%;
 }
 
 #data-section .data-registers-subsection li {
-  width: 50%;
   height: 12.25%;
+  width: 50%;
 }
 
 #data-section .data-registers-subsection li p {
   display: inline-block;
-  width: 10%;
   height: 100%;
+  width: 10%;
 }
 
 #data-section .data-registers-subsection li samp {
   display: inline-block;
-  width: 40%;
   height: 100%;
+  width: 40%;
 }
 
 #data-section .other-registers-subsection {
-  width: 100%;
   height: 49.57%;
+  width: 100%;
 }
 
 #data-section .other-registers-subsection ol {
-  width: 100%;
   height: 100%;
   list-style: none;
   overflow: scroll;
+  width: 100%;
 }
 
 #data-section .other-registers-subsection li {
-  width: 100%;
   height: 12.25%;
+  width: 100%;
 }
 
 #data-section .other-registers-subsection li p {
   display: inline-block;
-  width: 25%;
   height: 100%;
+  width: 25%;
 }
 
 #data-section .other-registers-subsection li samp {
   display: inline-block;
-  width: 75%;
   height: 100%;
+  width: 75%;
 }
 
 /* End data section */
 /* Begin memory section */
 
 #memory-section {
-  width: 1510px;
   height: 390px;
+  left: 5px;
   position: absolute;
   top: 570px;
-  left: 5px;
+  width: 1510px;
 }
 
 #memory-section #cells {
-  width: 100%;
-  height: 89%;
+  align-items: stretch;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: stretch;
+  height: 89%;
   overflow: scroll;
+  width: 100%;
 }
 
 #memory-section #cells div {
+  align-items: stretch;
   border: solid 1px black;
-  width: 9%;
+  display: flex;
+  flex-basis: 9%;
+  flex-direction: column;
   height: 18%;
   margin: 1% 0.5%;
   text-align: center;
-  flex-basis: 9%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  width: 9%;
 }
 
 #memory-section #cells div samp {
@@ -166,40 +166,40 @@
 }
 
 #memory-section #cells div samp:first-child {
-  padding: 5%;
-  font-size: 1.25em;
   flex: 2;
+  font-size: 1.25em;
+  padding: 5%;
 }
 
 #memory-section #cells div samp:last-child {
-  font-size: 0.75em;
   color: #666;
   flex: 1;
+  font-size: 0.75em;
 }
 
 /* End memory section */
 /* Begin keypad section */
 
 #keypad-section {
+  border:1px solid black;
   display:block;
   height:390px;
-  width:390px;
-  border:1px solid black;
+  left: 1520px;
   position: absolute;
   top: 570px;
-  left: 1520px;
+  width:390px;
 }
 
 .key {
-  margin-left: 10px;
-  margin-top: 10px;
-  margin-right: 0px;
-  margin-bottom: 0px;
-  display:inline-block;
   border:1px black solid;
-  width:85px;
+  display:inline-block;
   height:85px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 0px;
+  margin-top: 10px;
   text-align:center;
+  width:85px;
 }
 
 .key span {
@@ -223,17 +223,17 @@
 /* Begin widget section */
 
 .top-bar {
-  width: 100%;
   height: 45px;
+  width: 100%;
 }
 
 .base-widget {
   border: 1px solid black;
-  width: 110px;
-  height: 40px;
-  padding: 2.5px;
   display: flex;
   flex-direction: row;
+  height: 40px;
+  padding: 2.5px;
+  width: 110px;
 }
 
 .base-widget input {
@@ -241,11 +241,11 @@
 }
 
 .widget-label-box {
-  width: 30px;
   border: 1px solid black;
-  text-align: center;
-  padding-top: 3.5px;
   margin: 2.5px;
+  padding-top: 3.5px;
+  text-align: center;
+  width: 30px;
 }
 
 .base-widget input:checked+label {
@@ -257,11 +257,11 @@
 /* Begin display section */
 
 #display-section {
+  height: 560px;
+  left: 600px;
   position: absolute;
   top: 5px;
-  left: 600px;
   width: 1310px;
-  height: 560px;
 }
 
 /* End display section */
