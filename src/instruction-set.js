@@ -348,21 +348,27 @@ function uncall (engine) {
   const newPointer = engine.get('pointer') - 1;
   const newPc = engine.get('stack')[newPointer];
 
-  return engine.set('pointer', newPointer).set('pc', newPc);
+  return engine
+    .set('pointer', newPointer)
+    .set('pc', newPc);
 }
 
 /**
  * Jump to a subroutine.
  * @param {Map} engine
- * @param {number} the address where we want to jump
- * @return {Map} Engine with the pointer increase by one,the stack with the current address stored and pc equal as the address we want to jump
+ * @param {number} address Where the start of the subroutine is located.
+ * @return {Map} A new engine ready to execute the subroutine.
  */
-function call (engine, jumpto) {
-  let data = engine.get('data');
-  data[stack][data[pointer]] = data[pc];
-  data[pointer] += 1;
-  data[pc] = jumpto;
-  return engine.set('data', data);
+function call (engine, address) {
+  const pointer = engine.get('pointer');
+  const pc = engine.get('pc');
+  let stack = engine.get('stack');
+  stack[pointer] = pc;
+
+  return engine
+    .set('pointer', pointer + 1)
+    .set('pc', address)
+    .set('stack', stack);
 }
 
 /**
