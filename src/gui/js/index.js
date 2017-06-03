@@ -229,7 +229,7 @@ function UIKeypadUpdate () {
   const keypad = engineState.get('keypad');
 
   Array.prototype.forEach.call(UIKeypadKeys, v => {
-    const keyIndex = parseInt(v.id.slice('-')[1], 16);
+    const keyIndex = parseInt(v.id.split('-')[1], 16);
 
     v.querySelector('samp').innerText = keypad[keyIndex] ? 1 : 0;
 
