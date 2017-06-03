@@ -227,7 +227,7 @@ function addRegisterToI (engine, register) {
 }
 
 /**
- * Skip the following instruction if the register is equals to a given value.
+ * Skip the following instruction if the register is equal to a given value.
  * @param {Map} engine
  * @param {number} register The register to compare against.
  * @param {number} value The value to compare against the register.
@@ -241,19 +241,18 @@ function skipIfValue (engine, register, value) {
 }
 
 /**
- * Skip the following instruction if register's value equals
- * to another register's value.
+ * Skip the following instruction if the register is equal to the other
+ * register.
  * @param {Map} engine
- * @param {number} register1 Gives the comparative.
- * @param {number} register2 Gives the comparing.
- * @return {Map} Engine with pc value increase by 2 if equal or not otherwise.
+ * @param {number} registerA The first register to compare.
+ * @param {number} registerB The second register to compare against the first.
+ * @return {Map} A new engine with a pc increased by 2 if the two registers
+ * hold the same value.
  */
-function skipIfRegister (engine, register1, register2) {
-  let data = engine.get('data');
-
-  if (data[register1] === data[register2]) {
-    return engine.set('pc', engine.get('pc') + 2);
-  } else { return engine.get('pc'); }
+function skipIfRegister (engine, registerA, registerB) {
+  return engine.get('data')[registerA] === engine.get('data')[registerB]
+    ? engine.set('pc', engine.get('pc') + 2)
+    : engine;
 }
 
 /**
@@ -272,19 +271,18 @@ function skipIfNotValue (engine, register, value) {
 }
 
 /**
- * Skip the following instruction if register's value is different
- * to another register's value.
+ * Skip the following instruction if the register is not equal to the other
+ * register.
  * @param {Map} engine
- * @param {number} register1 Gives the comparative.
- * @param {number} register2 Gives the comparing.
- * @return {Map} Engine with pc value increase by 2 if different or not otherwise.
+ * @param {number} registerA The first register to compare.
+ * @param {number} registerB The second register to compare against the first.
+ * @return {Map} A new engine with a pc increased by 2 if the two registers
+ * didn't hold the same value.
  */
-function skipIfNotRegister (engine, register1, register2) {
-  let data = engine.get('data');
-
-  if (data[register1] !== data[register2]) {
-    return engine.set('pc', engine.get('pc') + 2);
-  } else { return engine.get('pc'); }
+function skipIfNotRegister (engine, registerA, registerB) {
+  return engine.get('data')[registerA] !== engine.get('data')[registerB]
+    ? engine.set('pc', engine.get('pc') + 2)
+    : engine;
 }
 
 /**
