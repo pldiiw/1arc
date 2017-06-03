@@ -204,24 +204,24 @@
 /* End keypad section */
 /* Begin widget section */
 
-.top-bar{
+.top-bar {
   width: 100%;
   height: 10%;
 }
 
-.base-widget{
+.base-widget {
   border: 1px solid black;
   width: 110px;
   height: 40px;
-  padding-top: 0.25%;
-  padding-bottom: 0.25%;
+  padding-top: 3.7px;
+  padding-bottom: 3.7px;
 }
 
-.base-widget input{
+.base-widget input {
   display: none;
 }
 
-.widget-label-box{
+.widget-label-box {
   border: 1px solid black;
   text-align: center;
   display: inline-block;
