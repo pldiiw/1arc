@@ -62,20 +62,16 @@ function copyRegister (engine, register1, register2) {
 }
 
 /**
- * Add a number to a register.
+ * Add a value to a register.
  * @param {Map} engine
- * @param {number} register The register to which the value will be add.
+ * @param {number} register The register to which the value will be added.
  * @param {number} value The value added to a register.
- * @return {Map} Engine with number added to a register.
+ * @return {Map} A new engine.
  */
 function addToRegister (engine, register, value) {
   let data = engine.get('data');
-
-  if (data[register] + value > 255) {
-    data[0xF] = 0x01;
-  } else { data[0xF] = 0x00; }
-
-  data[register] = +value;
+  data[0xF] = data[register] + value > 255 ? 1 : 0;
+  data[register] += value;
 
   return engine.set('data', data);
 }
