@@ -203,7 +203,7 @@ function display (query) {
  *   -n, --no            Release the pressure on a key.
  */
 function input (query) {
-  const engineState = .loadEngineFromFile(query.state);
+  const engineState = loadEngineFromFile(query.state);
   engineState.keypad[parseInt(query.subcommand, 16)] = !query.no;
 }
 
@@ -231,7 +231,7 @@ function input (query) {
  *                              the end.
  */
 function inspect (query) {
-  const engineState = .loadEngineFromFile(query.state);
+  const engineState = loadEngineFromFile(query.state);
 
   const inspecters = {
     'data': (engineState) => {
