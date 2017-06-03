@@ -50,9 +50,9 @@ function setRegister (engine, register, value) {
 /**
  * Store the value in one register to another register
  * @param {Map} engine
- * @param {number} registerA The reigster which imports the value.
- * @param {number} registerB The register which exports the value.
- * @return {Map} Engine with the same value stored in both register.
+ * @param {number} registerA The register to copy the value into.
+ * @param {number} registerB The register from which the value will be copied.
+ * @return {Map} A new engine.
  */
 function copyRegister (engine, registerA, registerB) {
   let data = engine.get('data');
@@ -70,8 +70,9 @@ function copyRegister (engine, registerA, registerB) {
  */
 function addToRegister (engine, register, value) {
   let data = engine.get('data');
-  data[0xF] = data[register] + value > 255 ? 1 : 0;
-  data[register] += value;
+  let result = data[register] + value;
+  data[0xF] = result > 255 ? 1 : 0;
+  data[register] = result;
 
   return engine.set('data', data);
 }
@@ -86,49 +87,44 @@ function addToRegister (engine, register, value) {
  */
 function addRegisters (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[0xF] = data[registerA] + data[registerB] > 255 ? 1 : 0;
-  data[registerA] += data[registerB];
+  let result = data[registerA] + data[registerB];
+  data[0xF] = result > 255 ? 1 : 0;
+  data[registerA] = result;
 
   return engine.set('data', data);
 }
 
 /**
- * Subtract value in one register to another one and
- * set VF register to 0 or 1 if borrow occurs or not.
+ * Subtract the value of registerB from registerA.
  * @param {Map} engine
- * @param {number} registerA The register which gives the minuend
- * @param {number} registerB The register which gives the subtrahend
- * @return {Map} Engine with the result in the first register.
+ * @param {number} registerA The register that the will hold the result of the
+ * operation.
+ * @param {number} registerB The register holding the value that registerA will
+ * be subtracted from.
+ * @return {Map} A new engine.
  */
-
 function subRegisters (engine, registerA, registerB) {
   let data = engine.get('data');
-
-  if (data[registerA] < data[registerB]) {
-    data[0xF] = 0x00;
-  } else { data[0xF] = 0x01; }
-
-  data[registerA] = -data[registerB];
+  let result = data[registerA] - data[registerB];
+  data[0xF] = result < 0 ? 0 : 1;
+  data[registerA] = result;
 
   return engine.set('data', data);
 }
 
 /**
- * Set in one register the result of its value
- * reduced by another one.
+ * Store the result of registerB - registerA into registerA.
  * @param {Map} engine
  * @param {number} registerA The register where result will be stored.
- * @param {number} registerB The register which gives the minuend.
- * @return {Map} Engine with result in the first register.
+ * @param {number} registerB The register that will be subtracted against
+ * registerA.
+ * @return {Map} A new engine.
  */
-function subnRegisters (engine, minRegister, subsRegister) {
+function subnRegisters (engine, registerA, registerB) {
   let data = engine.get('data');
-
-  if (data[minRegister] < data[subsRegister]) {
-    data[0xF] = 0x00;
-  } else { data[0xF] = 0x01; }
-
-  data[minRegister] = data[minRegister] - data[subsRegister];
+  let result = data[registerB] - data[registerA];
+  data[0xF] = result < 0 ? 0 : 1;
+  data[registerA] = result;
 
   return engine.set('data', data);
 }
