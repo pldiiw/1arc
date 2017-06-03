@@ -257,18 +257,18 @@ function skipIfRegister (engine, register1, register2) {
 }
 
 /**
- * Skip the following instruction if a register value isn't equal to another value.
+ * Skip the following instruction if the register isn't equal to the given
+ * value.
  * @param {Map} engine
- * @param {number} register Gives The comparative.
- * @param {number} number Is the comparing.
- * @return {Map} Engine with pc value increase by 2 if different or not otherwise.
+ * @param {number} register The register to compare against.
+ * @param {number} value The value to compare against the register.
+ * @return {Map} A new engine with a pc increased by 2 if register and value
+ * aren't equal.
 */
-function skipIfNotValue (engine, register, number) {
-  let data = engine.get('data');
-
-  if (data[register] !== number) {
-    return engine.set('pc', engine.get('pc') + 2);
-  } else { return engine.get('pc'); }
+function skipIfNotValue (engine, register, value) {
+  return engine.get('data')[register] !== value
+    ? engine.set('pc', engine.get('pc') + 2)
+    : engine;
 }
 
 /**
