@@ -196,18 +196,18 @@ function jump0 (engine, address) {
 /**
  * Store a memory address in register I.
  * @param {Map} engine
- * @param {number} newValue Memory address to assign to I.
- * @return {Map} Engine with new value for I register.
+ * @param {number} address Memory address to assign to I.
+ * @return {Map} A new engine.
  */
-function setI (engine, newValue) {
-  return engine.set('I', newValue);
+function setI (engine, address) {
+  return engine.set('I', address);
 }
 
 /**
- * Add register's value to register I.
+ * Add given register to register I.
  * @param {Map} engine
- * @param {number} register The register where came from added value
- * @preturn {Map} Engine with new value for I register.
+ * @param {number} register The register that we want add to add to I.
+ * @preturn {Map} A new engine.
  */
 function addRegisterToI (engine, register) {
   return engine.set('I', engine.get('I') + engine.get('data')[register]);
