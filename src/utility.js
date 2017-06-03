@@ -69,7 +69,7 @@ function compareEngines (engineA, engineB) {
 
       return dataA.map((a, i) => {
         const b = dataB[i];
-        return a !== b ? `data[0x${i.toString(16)}]: ${a} -> ${b}\n` : '';
+        return a !== b ? `data[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
     },
     'I': (engineA, engineB) => {
@@ -96,7 +96,7 @@ function compareEngines (engineA, engineB) {
 
       return memoryA.map((a, i) => {
         const b = memoryB[i];
-        return a !== b ? `memory[0x${i.toString(16)}]: ${a} -> ${b}\n` : '';
+        return a !== b ? `memory[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
     },
     'pc': (engineA, engineB) => {
@@ -117,7 +117,7 @@ function compareEngines (engineA, engineB) {
 
       return stackA.map((a, i) => {
         const b = stackB[i];
-        return a !== b ? `stack[0x${i.toString(16)}]: ${a} -> ${b}\n` : '';
+        return a !== b ? `stack[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
     },
     'display': (engineA, engineB) => {
@@ -138,7 +138,7 @@ function compareEngines (engineA, engineB) {
 
       return keypadA.map((a, i) => {
         const b = keypadB[i];
-        return a !== b ? `keypad[0x${i.toString(16)}]: ${a} -> ${b}\n` : '';
+        return a !== b ? `keypad[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
     }
   }

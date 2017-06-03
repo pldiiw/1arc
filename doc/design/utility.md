@@ -85,19 +85,11 @@ Any error is reported, but the linting should continue. Any incorrect
 instruction will make the linter return a null value after having checked all
 the suite.
 
-## Purify file
-
-`PurifyFile()` is a function that the combination of the ones described in the
-previous sections. It should take as a parameter the path to a CHIP-8 source
-code file on the file system, read it, remove the artefacts, lint it and
-finally return the program, ready to be loaded into the engine.
-
 ## Dump engine
 
 The utility module should also provide a `dumpEngine()` function. Given a
-CHIP-8 engine data structure instance and a path to a file, it should translate
-the CHIP-8 engine to a readable JSON file, with every value the engine is
-containing written in it.
+CHIP-8 engine data structure instance, it should translate it to a readable
+JSON string, with every value the engine is containing written in it.
 
 The JSON file should look like this (here, all values are set to 0):
 
@@ -138,11 +130,11 @@ The JSON file should look like this (here, all values are set to 0):
 
 ## Load engine
 
-If we dump engines to files, we need a way to reverse the process, restoring
-engines from files. This what the `loadEngine()` function does. It takes as a
-parameter the path to the file we want to retrieve the engine from, reads this
-file, does some processing and returns a new engine that is the exact same as
-the one we dumped earlier.
+If we dump engines, we need a way to reverse the process, restoring
+engines from previous dumps. This what the `loadEngine()` function does. It
+takes as a parameter a string containing a dumped engine, and manages to
+restore our previously dumped engine to an engine instance that is ready to be
+used.
 
 ## Compare engines
 
@@ -160,10 +152,11 @@ The format of the returned diff should be:
 Here's an example:
 
 ```
-data.2: 23 -> 243
-data.3: 255 -> 4
-data.F: 1 -> 0
+data[2]: 23 -> 243
+data[3]: 255 -> 4
+data[16]: 1 -> 0
 pc: 512 -> 514
 memory[200]: 3 -> 120
-display[4][60]: false -> true
+display[4]: 0000000011110000000000000000000010010000000000000000000000000000
+         -> 0000000000001111000000000000000011110000000000000000000111111111
 ```
