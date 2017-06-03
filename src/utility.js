@@ -1,3 +1,14 @@
+/**
+ * @module utility
+ */
+
+/**
+ * Remove comments, whitespaces and change case to upper of the given source
+ * code.
+ * @param {string} program The CHIP-8 source code to purge.
+ * @return {string} A suite of instructions ready to be loaded into a CHIP-8
+ * engine.
+ */
 function removeArtefacts (program) {
   return program
     .replace(/#\|(.|\n)*?\|#/g, '')
@@ -7,6 +18,12 @@ function removeArtefacts (program) {
     .toUpperCase();
 }
 
+/**
+ * Convert a CHIP-8 engine to a string. Useful to share an engine, or to store
+ * it on the disk.
+ * @param {Map} engine The CHIP-8 engine to dump.
+ * @return {string} Our previous engine converted as a string.
+ */
 function dumpEngine (engine) {
   let dump = {};
   const keys = Array.from(engine.keys());
@@ -14,6 +31,11 @@ function dumpEngine (engine) {
   return JSON.stringify(dump, true, 2);
 }
 
+/**
+ * Restore a previously dumped engine.
+ * @param {string} dumpedEngine The dump to restore.
+ * @param {Map} The restored CHIP-8 engine, ready to rock.
+ */
 function loadEngine (dumpedEngine) {
   const dump = JSON.parse(dumpedEngine);
   const keys = Object.keys(dump);
@@ -33,6 +55,12 @@ function loadEngine (dumpedEngine) {
   return engine;
 }
 
+/**
+ * Produce a report that shows the differences between two engines.
+ * @param {Map} engineA The first engine to be involved into the comparison.
+ * @param {Map} engineB The second engine to compare against.
+ * @return {string} The report.
+ */
 function compareEngines (engineA, engineB) {
   const comparators = {
     'data': (engineA, engineB) => {
