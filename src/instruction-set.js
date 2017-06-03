@@ -77,21 +77,17 @@ function addToRegister (engine, register, value) {
 }
 
 /**
- * Add value in one register to another one and
- * set VF register to 1 or 0 if carry occurs or not.
+ * Add the value of one register onto another one.
  * @param {Map} engine
- * @param {number} register1 The register to which the value will be add.
- * @param {number} register2 The register of which the value added came from.
- * @return {Map} Engine with one register's value added to another one.
+ * @param {number} registerA The register that will receive the result of the
+ * addition.
+ * @param {number} registerB The second register to add.
+ * @return {Map} A new engine.
  */
-function addRegisters (engine, register1, register2) {
+function addRegisters (engine, registerA, registerB) {
   let data = engine.get('data');
-
-  if ((data[register1] + data[register2]) > 255) {
-    data[0xF] = 0x01;
-  } else { data[0xF] = 0x00; }
-
-  data[register1] = +data[register2];
+  data[0xF] = data[registerA] + data[registerB] > 255 ? 1 : 0;
+  data[registerA] += data[registerB];
 
   return engine.set('data', data);
 }
