@@ -273,38 +273,45 @@ function skipIfNotRegister (engine, registerA, registerB) {
 }
 
 /**
- * Store the values of registers V0 though lastRegister in memory starting
- * at address stored in register I
+ * Store the values of registers V0 through lastRegister into the memory
+ * starting at address stored in register I.
  * @param {Map} engine
- * @param {number} lastRegister Is the last register, inclusive
- * @return {Map} Engine with
+ * @param {number} lastRegister The end of the range of dumped registers,
+ * inclusive.
+ * @return {Map} A new engine.
  */
 function dumpRegisters (engine, lastRegister) {
-  let memory = engine.get('memory');
   const data = engine.get('data');
+  let memory = engine.get('memory');
 
   for (let i = 0; i <= lastRegister; i++) {
     memory[engine.get('I') + i] = data[i];
   }
 
-  return engine.set('memory', memory).set('I', engine.get('I') + lastRegister + 1);
+  return engine
+    .set('memory', memory)
+    .set('I', engine.get('I') + lastRegister + 1);
 }
 
 /**
- * Fill register V0 through VX with values stored in  memory starting
- * at address I.
+ * Fill register 0 through lastRegister with the values stored in the memory
+ * starting at address I.
  * @param {Map} engine
- * @param {number} lastMemory Is the last register, inclusive
+ * @param {number} lastRegister The end of the range of the registers we want
+ * to fill, inclusive.
+ * @return {Map} A new engine.
  */
-function fillRegisters (engine, number) {
-  const memory = engine.get('memory');
+function fillRegisters (engine, lastRegister) {
   let data = engine.get('data');
+  const memory = engine.get('memory');
 
-  for (let i = 0; i <= number; i++) {
+  for (let i = 0; i <= lastRegister; i++) {
     data[i] = memory[engine.get('I') + i];
   }
 
-  return engine.set('data', data).set('I', engine.get('I') + number + 1);
+  return engine
+    .set('data', data)
+    .set('I', engine.get('I') + lastRegister + 1);
 }
 
 /**
