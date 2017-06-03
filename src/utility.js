@@ -1,3 +1,12 @@
+function removeArtefacts (program) {
+  return program
+    .replace(/#\|(.|\n)*?\|#/g, '')
+    .replace(/\|#/g, '')
+    .replace(/;.*/g, '')
+    .replace(/(\t| |\n)/g, '')
+    .toUpperCase();
+}
+
 function dumpEngine (engine) {
   let dump = {};
   const keys = Array.from(engine.keys());
