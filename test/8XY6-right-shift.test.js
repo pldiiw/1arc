@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const rightShift = require('../src/instruction-set.js').rightShift;
+const rightShift = require('../src/instruction-set.js').fn.rightShift;
 
 test('right shift 200', () => {
   let data = engine.get('data');

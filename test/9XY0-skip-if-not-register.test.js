@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const skipIfNotRegister = require('../src/instruction-set.js').skipIfNotRegister;
+const skipIfNotRegister = require('../src/instruction-set.js').fn.skipIfNotRegister;
 
 test('do not skip because reg 7 (143) == reg 0xD (143)', () => {
   let data = engine.get('data');

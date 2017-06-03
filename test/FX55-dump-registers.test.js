@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const dumpRegisters = require('../src/instruction-set.js').dumpRegisters;
+const dumpRegisters = require('../src/instruction-set.js').fn.dumpRegisters;
 
 test('dump reg 0 through reg 4 to memory', () => {
   let data = engine.get('data');

@@ -5,7 +5,7 @@
  */
 
 const engine = require('../src/engine.js').initialize();
-const waitKeyPress = require('../src/instruction-set.js').waitKeyPress;
+const waitKeyPress = require('../src/instruction-set.js').fn.waitKeyPress;
 
 test('try when no key is pressed', () => {
   const engine_ = waitKeyPress(engine.set('pc', 4000), 0xB);

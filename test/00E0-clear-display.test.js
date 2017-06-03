@@ -1,4 +1,4 @@
-const clearDisplay = require('../src/instruction-set.js').clearDisplay;
+const clearDisplay = require('../src/instruction-set.js').fn.clearDisplay;
 
 test('clear some messed up display', () => {
   const engine = new Map([

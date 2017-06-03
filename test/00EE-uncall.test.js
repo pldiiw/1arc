@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const uncall = require('../src/instruction-set.js').uncall;
+const uncall = require('../src/instruction-set.js').fn.uncall;
 
 test('return from subroutine', () => {
   let stack = engine.get('stack');

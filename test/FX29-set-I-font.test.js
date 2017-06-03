@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const setIFont = require('../src/instruction-set.js').setIFont;
+const setIFont = require('../src/instruction-set.js').fn.setIFont;
 
 test('set reg I to the address of character \'E\'', () => {
   let data = engine.get('data');

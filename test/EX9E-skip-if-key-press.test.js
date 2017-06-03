@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const skipIfKeyPress = require('../src/instruction-set.js').skipIfKeyPress;
+const skipIfKeyPress = require('../src/instruction-set.js').fn.skipIfKeyPress;
 
 test('do not skip because \'4\' key is not pressed', () => {
   let data = engine.get('data');

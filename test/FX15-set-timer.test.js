@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const setTimer = require('../src/instruction-set.js').setTimer;
+const setTimer = require('../src/instruction-set.js').fn.setTimer;
 
 test('set timer to reg 0xB (147)', () => {
   let data = engine.get('data');

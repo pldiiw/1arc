@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const copyRegister = require('../src/instruction-set.js').copyRegister;
+const copyRegister = require('../src/instruction-set.js').fn.copyRegister;
 
 test('copy register 0xD to reg 0x5', () => {
   let data = engine.get('data');

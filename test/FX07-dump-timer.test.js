@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const dumpTimer = require('../src/instruction-set.js').dumpTimer;
+const dumpTimer = require('../src/instruction-set.js').fn.dumpTimer;
 
 test('dump timer to reg 2', () => {
   const engine_ = dumpTimer(engine.set('timer', 230), 2);

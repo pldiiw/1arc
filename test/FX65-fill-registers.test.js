@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const fillRegisters = require('../src/instruction-set.js').fillRegisters;
+const fillRegisters = require('../src/instruction-set.js').fn.fillRegisters;
 
 test('fill reg 0 through 2 from memory', () => {
   let memory = engine.get('memory');

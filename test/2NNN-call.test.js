@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const call = require('../src/instruction-set.js').call;
+const call = require('../src/instruction-set.js').fn.call;
 
 test('call subroutine located at address 500', () => {
   const engine_ = call(engine.set('pointer', 4).set('pc', 100), 500);

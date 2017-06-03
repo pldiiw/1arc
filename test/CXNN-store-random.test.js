@@ -2,7 +2,7 @@
 // provididing the possibility to seed its RNG, these tests are quite barbaric.
 
 const engine = require('../src/engine.js').initialize();
-const storeRandom = require('../src/instruction-set.js').storeRandom;
+const storeRandom = require('../src/instruction-set.js').fn.storeRandom;
 
 test('random number with mask 0 is 0', () => {
   const engine_ = storeRandom(engine, 0xB, 0x00);

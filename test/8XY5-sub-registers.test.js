@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const subRegisters = require('../src/instruction-set.js').subRegisters;
+const subRegisters = require('../src/instruction-set.js').fn.subRegisters;
 
 test('sub reg 0xA (30) from reg 9 (40)', () => {
   let data = engine.get('data');

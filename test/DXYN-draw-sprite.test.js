@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const drawSprite = require('../src/instruction-set.js').drawSprite;
+const drawSprite = require('../src/instruction-set.js').fn.drawSprite;
 
 test('draw nice underscore-cross sprite', () => {
   let data = engine.get('data');

@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const skipIfValue = require('../src/instruction-set.js').skipIfValue;
+const skipIfValue = require('../src/instruction-set.js').fn.skipIfValue;
 
 test('skip next instruction because 143 == 143', () => {
   let data = engine.get('data');

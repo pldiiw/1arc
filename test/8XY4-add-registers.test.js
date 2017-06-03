@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const addRegisters = require('../src/instruction-set.js').addRegisters;
+const addRegisters = require('../src/instruction-set.js').fn.addRegisters;
 
 test('add reg 1 (240) to reg 0 (20)', () => {
   let data = engine.get('data');

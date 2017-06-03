@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const addRegisterToI = require('../src/instruction-set.js').addRegisterToI;
+const addRegisterToI = require('../src/instruction-set.js').fn.addRegisterToI;
 
 test('add to reg I (4000) reg 0xA (50)', () => {
   let data = engine.get('data');

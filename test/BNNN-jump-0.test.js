@@ -1,5 +1,5 @@
 let engine = require('../src/engine.js').initialize();
-const jump0 = require('../src/instruction-set.js').jump0;
+const jump0 = require('../src/instruction-set.js').fn.jump0;
 
 test('jump to address reg 0 (132) + 1840', () => {
   let data = engine.get('data');

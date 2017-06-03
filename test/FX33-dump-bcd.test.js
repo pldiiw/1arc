@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const dumpBCD = require('../src/instruction-set.js').dumpBCD;
+const dumpBCD = require('../src/instruction-set.js').fn.dumpBCD;
 
 test('dump BCD of reg 0xB (14) to memory', () => {
   let data = engine.get('data');

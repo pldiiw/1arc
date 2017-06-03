@@ -1,5 +1,5 @@
 const engine = require('../src/engine.js').initialize();
-const setSound = require('../src/instruction-set.js').setSound;
+const setSound = require('../src/instruction-set.js').fn.setSound;
 
 test('set sound to reg 5 (42)', () => {
   let data = engine.get('data');
