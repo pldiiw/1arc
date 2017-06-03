@@ -130,43 +130,43 @@ function subnRegisters (engine, registerA, registerB) {
 }
 
 /**
- * Set one register to (its value OR value of another).
+ * Store into registerA the result of registerA OR registerB.
  * @param {Map} engine
- * @param {number} registerA The register where result will be stored.
- * @param {number} registerB Second register.
- * @return {Map} Engine with stored in registerA, (registerA OR registerB).
+ * @param {number} registerA The register where the result will be stored.
+ * @param {number} registerB The register that will be ORed with registerA.
+ * @return {Map} A new engine.
  */
 function or (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[registerA] = data[registerA] | data[registerB];
+  data[registerA] |= data[registerB];
 
   return engine.set('data', data);
 }
 
 /**
- * Set one register to (its value AND another's value).
+ * Store into registerA the result of registerA AND registerB.
  * @param {Map} engine
- * @param {number} registerA The register where result will be stored.
- * @param {number} registerB Second register.
- * @return {Map} Engine with stored in registerA, (registerA AND registerB).
+ * @param {number} registerA The register where the result will be stored.
+ * @param {number} registerB The register that will be ANDed with registerA.
+ * @return {Map} A new engine.
  */
 function and (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[registerA] = data[registerA] & data[registerB];
+  data[registerA] &= data[registerB];
 
   return engine.set('data', data);
 }
 
 /**
- * Set one register to (its value XOR another's value).
+ * Store into registerA the result of registerA XOR registerB.
  * @param {Map} engine
- * @param {number} registerA The register where result will be stored.
- * @param {number} registerB Second register.
- * @return {Map} Engine withe stored un registerA, (registerA XOR registerB).
+ * @param {number} registerA The register where the result will be stored.
+ * @param {number} registerB The register that will be XORed with registerA.
+ * @return {Map} A new engine.
  */
 function xor (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[registerA] = data[registerA] ^ data[registerB];
+  data[registerA] ^= data[registerB];
 
   return engine.set('data', data);
 }
