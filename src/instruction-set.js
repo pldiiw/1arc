@@ -315,19 +315,24 @@ function fillRegisters (engine, lastRegister) {
 }
 
 /**
+ * Dump into the memory a BCD representation of the value stored inside a given
+ * register, with each decimal digit inside one memory cell.
+ * @param {Map} engine
+ * @param {number} register The register to dump into the memory as a BCD.
+ * @return {Map} A new engine.
  */
 function dumpBCD (engine, register) {
   let memory = engine.get('memory');
-  let value = String(engine.get('data')[register]);
-  while (value.length < 3) {
-    value = '0'.concat(value);
-  }
-  for (var a = 0; a < 3; a++) {
-    memory[engine.get('I') + a] = parseInt(value[a]);
-  }
-  engine.set('memory', memory);
 
-  return engine;
+  engine.get('data')[register]
+    .toString()
+    .padStart(3, '0')
+    .split('')
+    .forEach((v, i) => {
+      memory[engine.get('I') + i] = parseInt(v);
+    });
+
+  return engine.set('memory', memory);
 }
 
 /**
@@ -372,6 +377,7 @@ function call (engine, address) {
 function storeRandom (engine, register, mask) {
   let data = engine.get('data');
   data[register] = Math.floor(Math.random() * 256) & mask;
+
   return engine.set('data', data);
 }
 
