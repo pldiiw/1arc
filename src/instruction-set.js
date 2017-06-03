@@ -176,22 +176,21 @@ function xor (engine, registerA, registerB) {
 /**
  * Jump to a memory address.
  * @param {Map} engine
- * @param {number} instructionNumber Memory's value that it will jump to.
- * @return {Map} Engine with new value for program counter.
+ * @param {number} address The address to which the PC will be set.
+ * @return {Map} A new engine.
  */
-function jump (engine, instructionNumber) {
-  return engine.set('pc', instructionNumber);
+function jump (engine, address) {
+  return engine.set('pc', address);
 }
 
 /**
- * Jump to location nnn + VO.
+ * Jump to a given address + the value that register 0 holds.
  * @param {Map} engine
- * @param {number} numberToAdd Value to add to V0 to constitute.
- * program counter new value.
- * @preturn {Map} Engine with new value for program counter.
+ * @param {number} address The address minus register 0 we want to reach.
+ * @preturn {Map} A new engine.
  */
-function jump0 (engine, numberToAdd) {
-  return engine.set('pc', engine.get('data')[0] + numberToAdd);
+function jump0 (engine, address) {
+  return engine.set('pc', engine.get('data')[0] + address);
 }
 
 /**
