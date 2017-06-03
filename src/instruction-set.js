@@ -50,13 +50,13 @@ function setRegister (engine, register, value) {
 /**
  * Store the value in one register to another register
  * @param {Map} engine
- * @param {number} register1 The reigster which imports the value.
- * @param {number} register2 The register which exports the value.
+ * @param {number} registerA The reigster which imports the value.
+ * @param {number} registerB The register which exports the value.
  * @return {Map} Engine with the same value stored in both register.
  */
-function copyRegister (engine, register1, register2) {
+function copyRegister (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[register1] = data[register2];
+  data[registerA] = data[registerB];
 
   return engine.set('data', data);
 }
@@ -96,19 +96,19 @@ function addRegisters (engine, registerA, registerB) {
  * Subtract value in one register to another one and
  * set VF register to 0 or 1 if borrow occurs or not.
  * @param {Map} engine
- * @param {number} register1 The register which gives the minuend
- * @param {number} register2 The register which gives the subtrahend
+ * @param {number} registerA The register which gives the minuend
+ * @param {number} registerB The register which gives the subtrahend
  * @return {Map} Engine with the result in the first register.
  */
 
-function subRegisters (engine, register1, register2) {
+function subRegisters (engine, registerA, registerB) {
   let data = engine.get('data');
 
-  if (data[register1] < data[register2]) {
+  if (data[registerA] < data[registerB]) {
     data[0xF] = 0x00;
   } else { data[0xF] = 0x01; }
 
-  data[register1] = -data[register2];
+  data[registerA] = -data[registerB];
 
   return engine.set('data', data);
 }
@@ -117,8 +117,8 @@ function subRegisters (engine, register1, register2) {
  * Set in one register the result of its value
  * reduced by another one.
  * @param {Map} engine
- * @param {number} register1 The register where result will be stored.
- * @param {number} register2 The register which gives the minuend.
+ * @param {number} registerA The register where result will be stored.
+ * @param {number} registerB The register which gives the minuend.
  * @return {Map} Engine with result in the first register.
  */
 function subnRegisters (engine, minRegister, subsRegister) {
@@ -136,13 +136,13 @@ function subnRegisters (engine, minRegister, subsRegister) {
 /**
  * Set one register to (its value OR value of another).
  * @param {Map} engine
- * @param {number} register1 The register where result will be stored.
- * @param {number} register2 Second register.
- * @return {Map} Engine with stored in register1, (register1 OR register2).
+ * @param {number} registerA The register where result will be stored.
+ * @param {number} registerB Second register.
+ * @return {Map} Engine with stored in registerA, (registerA OR registerB).
  */
-function or (engine, register1, register2) {
+function or (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[register1] = data[register1] | data[register2];
+  data[registerA] = data[registerA] | data[registerB];
 
   return engine.set('data', data);
 }
@@ -150,13 +150,13 @@ function or (engine, register1, register2) {
 /**
  * Set one register to (its value AND another's value).
  * @param {Map} engine
- * @param {number} register1 The register where result will be stored.
- * @param {number} register2 Second register.
- * @return {Map} Engine with stored in register1, (register1 AND register2).
+ * @param {number} registerA The register where result will be stored.
+ * @param {number} registerB Second register.
+ * @return {Map} Engine with stored in registerA, (registerA AND registerB).
  */
-function and (engine, register1, register2) {
+function and (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[register1] = data[register1] & data[register2];
+  data[registerA] = data[registerA] & data[registerB];
 
   return engine.set('data', data);
 }
@@ -164,13 +164,13 @@ function and (engine, register1, register2) {
 /**
  * Set one register to (its value XOR another's value).
  * @param {Map} engine
- * @param {number} register1 The register where result will be stored.
- * @param {number} register2 Second register.
- * @return {Map} Engine withe stored un register1, (register1 XOR register2).
+ * @param {number} registerA The register where result will be stored.
+ * @param {number} registerB Second register.
+ * @return {Map} Engine withe stored un registerA, (registerA XOR registerB).
  */
-function xor (engine, register1, register2) {
+function xor (engine, registerA, registerB) {
   let data = engine.get('data');
-  data[register1] = data[register1] ^ data[register2];
+  data[registerA] = data[registerA] ^ data[registerB];
 
   return engine.set('data', data);
 }
