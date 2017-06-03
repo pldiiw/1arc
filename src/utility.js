@@ -27,7 +27,7 @@ function removeArtefacts (program) {
 function dumpEngine (engine) {
   let dump = {};
   const keys = Array.from(engine.keys());
-  keys.forEach(k => dump[k] = engine.get(k));
+  keys.forEach(k => { dump[k] = engine.get(k); });
   return JSON.stringify(dump, true, 2);
 }
 
@@ -41,9 +41,9 @@ function loadEngine (dumpedEngine) {
   const keys = Object.keys(dump);
   const engine = new Map(keys.map(k => {
     let value;
-    if (k == 'data' || k == 'memory') {
+    if (k === 'data' || k === 'memory') {
       value = Uint8Array.from(dump[k]);
-    } else if (k == 'stack') {
+    } else if (k === 'stack') {
       value = Uint16Array.from(dump[k]);
     } else {
       value = dump[k];
@@ -110,6 +110,7 @@ function compareEngines (engineA, engineB) {
       const pointerB = engineB.get('pointer');
 
       return pointerA !== pointerB ? `pointer: ${pointerA} -> ${pointerB}\n`
+                                   : '';
     },
     'stack': (engineA, engineB) => {
       const stackA = engineA.get('stack');
@@ -127,8 +128,8 @@ function compareEngines (engineA, engineB) {
       return displayA.map((a, i) => {
         const b = displayB[i];
         return a.reduce((acc, v, i) => acc && v === b[i])
-          ? `display[${i}]: ${a.map(v => 0 + v)}\n`
-            + `           ${i.toString().length}-> ${b.map(v => 0 + v)}\n`
+          ? `display[${i}]: ${a.map(v => 0 + v)}\n` +
+            `           ${i.toString().length}-> ${b.map(v => 0 + v)}\n`
           : '';
       }).join('');
     },
@@ -141,8 +142,15 @@ function compareEngines (engineA, engineB) {
         return a !== b ? `keypad[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
     }
-  }
+  };
 
   return Object.keys(comparators)
     .reduce((a, k) => a + comparators[k](engineA, engineB), '');
 }
+
+module.exports = {
+  'removeArtefacts': removeArtefacts,
+  'dumpEngine': dumpEngine,
+  'loadEngine': loadEngine,
+  'compareEngines': compareEngines
+};
