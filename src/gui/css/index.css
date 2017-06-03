@@ -1,7 +1,17 @@
+/* Begin main components */
+
+.main-component {
+  border: solid 1px black;
+}
+
+/* End main components */
 /* Begin menu section */
 
 #menu-section {
   border: solid 1px black;
+  position: absolute;
+  top: 5px;
+  left: 5px;
   width: 590px;
   height: 70px;
   display: flex;
@@ -52,12 +62,15 @@
 
 #data-section {
   width: 590px;
-  height: 560px;
+  height: 485px;
+  position: absolute;
+  top: 80px;
+  left: 5px;
 }
 
 #data-section .data-registers-subsection {
   width: 100%;
-  height: 46.43%;
+  height: 41.43%;
 }
 
 #data-section .data-registers-subsection ol {
@@ -88,7 +101,7 @@
 
 #data-section .other-registers-subsection {
   width: 100%;
-  height: 53.57%;
+  height: 49.57%;
 }
 
 #data-section .other-registers-subsection ol {
@@ -119,13 +132,16 @@
 /* Begin memory section */
 
 #memory-section {
-  width: 1480px;
+  width: 1510px;
   height: 390px;
+  position: absolute;
+  top: 570px;
+  left: 5px;
 }
 
 #memory-section #cells {
   width: 100%;
-  height: 90%;
+  height: 89%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -169,7 +185,9 @@
   height:390px;
   width:390px;
   border:1px solid black;
-
+  position: absolute;
+  top: 570px;
+  left: 1520px;
 }
 
 .key {
@@ -206,15 +224,16 @@
 
 .top-bar {
   width: 100%;
-  height: 10%;
+  height: 45px;
 }
 
 .base-widget {
   border: 1px solid black;
   width: 110px;
   height: 40px;
-  padding-top: 3.7px;
-  padding-bottom: 3.7px;
+  padding: 2.5px;
+  display: flex;
+  flex-direction: row;
 }
 
 .base-widget input {
@@ -222,13 +241,11 @@
 }
 
 .widget-label-box {
+  width: 30px;
   border: 1px solid black;
   text-align: center;
-  display: inline-block;
-  width: 27.27%;
-  height: 100%;
-  margin-left: 5%;
-  padding-top: 5px;
+  padding-top: 3.5px;
+  margin: 2.5px;
 }
 
 .base-widget input:checked+label {
@@ -237,6 +254,17 @@
 }
 
 /* End widget section */
+/* Begin display section */
+
+#display-section {
+  position: absolute;
+  top: 5px;
+  left: 600px;
+  width: 1310px;
+  height: 560px;
+}
+
+/* End display section */
 
 .highlight {
   background-color: black;
