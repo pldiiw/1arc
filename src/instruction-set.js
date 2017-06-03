@@ -227,18 +227,17 @@ function addRegisterToI (engine, register) {
 }
 
 /**
- * Skip the following instruction if a register value equals to another value.
+ * Skip the following instruction if the register is equals to a given value.
  * @param {Map} engine
- * @param {number} register Gives The comparative.
- * @param {number} number Is the comparing.
- * @return {Map} Engine with pc value increase by 2 if equal or not otherwise.
+ * @param {number} register The register to compare against.
+ * @param {number} value The value to compare against the register.
+ * @return {Map} A new engine with a pc increased by 2 if register and value
+ * were the same, skipping the instruction that was following.
  */
-function skipIfValue (engine, register, number) {
-  let data = engine.get('data');
-
-  if (data[register] === number) {
-    return engine.set('pc', engine.get('pc') + 2);
-  } else { return engine.get('pc'); }
+function skipIfValue (engine, register, value) {
+  return engine.get('data')[register] === value
+    ? engine.set('pc', engine.get('pc') + 2)
+    : engine;
 }
 
 /**
