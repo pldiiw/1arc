@@ -186,6 +186,12 @@ function UIMemoryGenerate () {
     let value = document.createElement('samp');
     let cellNumber = document.createElement('samp');
 
+    if (i === engineState.get('pc')) {
+      cell.classList.add('highlight');
+    } else {
+      cell.classList.remove('highlight');
+    }
+
     value.innerText = v;
     cellNumber.innerText = i;
 
@@ -203,10 +209,18 @@ function UIMemoryUpdate () {
 
   memory.forEach((v, i) => {
     let value = v.toString(base);
+
     if (base === 2) {
       value = value.padStart(8, '0');
     }
+
     UIMemoryCells[i].children[0].innerText = value;
+
+    if (i === engineState.get('pc')) {
+      UIMemoryCells[i].classList.add('highlight');
+    } else {
+      UIMemoryCells[i].classList.remove('highlight');
+    }
   });
 }
 
@@ -215,8 +229,15 @@ function UIKeypadUpdate () {
   const keypad = engineState.get('keypad');
 
   Array.prototype.forEach.call(UIKeypadKeys, v => {
-    v.querySelector('samp').innerText =
-      keypad[parseInt(v.id.slice('-')[1], 16)] ? 1 : 0;
+    const keyIndex = parseInt(v.id.slice('-')[1], 16);
+
+    v.querySelector('samp').innerText = keypad[keyIndex] ? 1 : 0;
+
+    if (keypad[keyIndex]) {
+      v.classList.add('highlight');
+    } else {
+      v.classList.remove('highlight');
+    }
   });
 
 }

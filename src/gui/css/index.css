@@ -29,7 +29,7 @@
   display: none;
 }
 
-#menu-section input[type="radio"]:not(:checked):hover+span {
+#menu-section input:not(:checked):hover+span {
   display: block;
   color: white;
   background-color: black;
@@ -237,3 +237,8 @@
 }
 
 /* End widget section */
+
+.highlight {
+  background-color: black;
+  color: white;
+}
