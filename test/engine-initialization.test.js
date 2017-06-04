@@ -2,8 +2,8 @@ const engine = require('../src/engine.js').initialize();
 
 test('has all components', () => {
   const expected = [
-    'data', 'I',       'timer', 'sound',   'memory',
-    'pc',   'pointer', 'stack', 'display', 'keypad'
+    'data', 'I', 'timer', 'sound', 'memory',
+    'pc', 'pointer', 'stack', 'display', 'keypad'
   ];
 
   for (const key of engine.keys()) {
