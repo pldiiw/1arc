@@ -18,7 +18,7 @@ function initialize () {
     ['pc', 0],
     ['pointer', 0],
     ['stack', new Uint16Array(16)],
-    ['display', Array(32).fill(Array(64).fill(false))],
+    ['display', Array.from({ length: 32 }).map(_ => Array(64).fill(false))],
     ['keypad', Array(16).fill(false)]
   ]);
 }

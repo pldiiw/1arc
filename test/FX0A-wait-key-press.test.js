@@ -10,7 +10,7 @@ const waitKeyPress = require('../src/instruction-set.js').fn.waitKeyPress;
 test('try when no key is pressed', () => {
   const engine_ = waitKeyPress(engine.set('pc', 4000), 0xB);
 
-  expect(engine_.get('pc')).toBe(3098);
+  expect(engine_.get('pc')).toBe(3998);
 });
 
 test('try when key is pressed', () => {

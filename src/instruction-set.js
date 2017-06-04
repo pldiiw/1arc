@@ -34,6 +34,16 @@ function instruction (inst) {
 }
 
 /**
+ * Does nothing, just return the engine. Used when reading a '0000'
+ * instruction.
+ * @param {Map} engine
+ * @return {Map} The same engine.
+ */
+function idle (engine) {
+  return engine;
+}
+
+/**
  * Store a number in a register.
  * @param {Map} engine
  * @param {number} register The register where the number will be stored.
@@ -381,18 +391,179 @@ function storeRandom (engine, register, mask) {
   return engine.set('data', data);
 }
 
-function idle              (engine) { return engine; }
-function clearDisplay      (engine) { return engine; }
+/**
+ * Halts program execution until a key is pressed and store the pressed key in
+ * the given register. It waits for the input by decrementing the PC by 2 when
+ * no ky is pressed, making the next cycle read this same instruction again.
+ * @param {Map} engine
+ * @param {number} register The register where the key code will be stored.
+ * @return {Map} A new engine.
+ */
+function waitKeyPress (engine, register) {
+  let data = engine.get('data');
+  let pc = engine.get('pc');
+  const keypad = engine.get('keypad');
+  const keyPressed = keypad.indexOf(true);
+
+  if (keyPressed >= 0) {
+    data[register] = keyPressed;
+  } else {
+    pc -= 2;
+  }
+
+  return engine.set('data', data).set('pc', pc);
+}
+
+/**
+ * Skip next instruction if the key value stored inside the given register
+ * corresponds to a key that is currently pressed.
+ * @param {Map} engine
+ * @param {number} register The register where the key value to match is
+ * stored.
+ * @return {Map} A new engine.
+ */
+function skipIfKeyPress (engine, register) {
+  const key = engine.get('data')[register];
+  const keypad = engine.get('keypad');
+  let pc = engine.get('pc');
+
+  if (keypad[key]) {
+    pc += 2;
+  }
+
+  return engine.set('pc', pc);
+}
+
+/**
+ * Skip next instruction if the key value stored inside the given register
+ * corresponds to a key that is not currently pressed.
+ * @param {Map} engine
+ * @param {number} register The register where the key value to match is
+ * stored.
+ * @return {Map} A new engine.
+ */
+function skipIfNotKeyPress (engine, register) {
+  const key = engine.get('data')[register];
+  const keypad = engine.get('keypad');
+  let pc = engine.get('pc');
+
+  if (!keypad[key]) {
+    pc += 2;
+  }
+
+  return engine.set('pc', pc);
+}
+
+/**
+ * Set the timer to the value stored inside the given register.
+ * @param {Map} engine
+ * @param {number} register The register that holds the value we want to set
+ * the timer to.
+ * @return {Map} A new engine.
+ */
+function setTimer (engine, register) {
+  return engine.set('timer', engine.get('data')[register]);
+}
+
+/**
+ * Store the value of the timer in the given register.
+ * @param {Map} engine
+ * @param {number} register Where timer's value will be stored.
+ * @return {Map} A new engine.
+ */
+function dumpTimer (engine, register) {
+  let data = engine.get('data');
+  data[register] = engine.get('timer');
+
+  return engine.set('data', data);
+}
+
+/**
+ * Set the sound register to the value stored inside the given register.
+ * @param {Map} engine
+ * @param {number} register The register that holds the value we want to set
+ * the sound register to.
+ * @return {Map} A new engine.
+ */
+function setSound (engine, register) {
+  return engine.set('sound', engine.get('data')[register]);
+}
+
+/**
+ * Draw a sprite onto the engine's display. The sprite read is stored inside
+ * the memory, starting at the value of register I up to the given sprite
+ * length (bytes). This sprite is drawn on the display from the X coordinate
+ * stored inside registerA and the Y coordinate stored inside registerB.
+ * @param {Map} engine
+ * @param {number} registerA Where to draw on the X axis.
+ * @param {number} registerB Where to draw on the Y axis.
+ * @param {number} spriteLength Sprite's length in bytes, each byte being a
+ * row that will be drawn.
+ * @return {Map} A new engine.
+ */
+function drawSprite (engine, registerA, registerB, spriteLength) {
+  let display = engine.get('display');
+  let data = engine.get('data');
+  const memory = engine.get('memory');
+  const I = engine.get('I');
+  const x = data[registerA];
+  const y = data[registerB];
+  const sprites = Array.from(memory)
+    .slice(I, I + spriteLength)
+    .map(v => {
+      return v
+        .toString(2)
+        .padStart(8, '0')
+        .split('')
+        .map(v => v === '1');
+    });
+  let xored = false;
+
+  sprites.forEach((sprite, j) => {
+    sprite.forEach((pixel, i) => {
+      const summedX = x + i;
+      const summedY = y + j;
+      const wrappedX = summedX % 64;
+      const wrappedY = summedY % 32;
+
+      xored = pixel && display[wrappedY][wrappedX] === pixel
+        ? true
+        : xored;
+
+      display[wrappedY][wrappedX] = (display[wrappedY][wrappedX] ^ pixel) === 1;
+    });
+  });
+
+  data[0xF] = xored ? 1 : 0;
+
+  return engine.set('data', data).set('display', display);
+}
+
+/**
+ * Set all display's pixels to false (off).
+ * @param {Map} engine
+ * @return {Map} A new engine.
+ */
+function clearDisplay (engine) {
+  return engine.set('display',
+    Array.from({ length: 32 }).map( _ => Array(64).fill(false)));
+}
+
+/**
+ * Set I register to the memory address of the CHIP-8 built-in font holding the
+ * hexadecimal digit stored inside the given register. To cope with every
+ * value that register can hand out, its value is moduled by 16.
+ * @param {Map} engine
+ * @param {number} register The register that contains the hexadecimal digit we
+ * want register I to point to.
+ * @return {Map} A new engine.
+ */
+function setIFont (engine, register) {
+  return engine.set('I', engine.get('data')[register] % 16 * 5);
+}
+
 function rightShift        (engine) { return engine; }
 function leftShift         (engine) { return engine; }
-function drawSprite        (engine) { return engine; }
-function skipIfKeyPress    (engine) { return engine; }
-function skipIfNotKeyPress (engine) { return engine; }
-function waitKeyPress      (engine) { return engine; }
-function dumpTimer         (engine) { return engine; }
-function setTimer          (engine) { return engine; }
-function setSound          (engine) { return engine; }
-function setIFont          (engine) { return engine; }
 
 const instructions = {
   '0000': idle,
