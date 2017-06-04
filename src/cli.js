@@ -25,6 +25,9 @@
  *     Show the help.
  */
 
+const fs = require('fs');
+const spawn = require('child_process').spawn;
+const createInterface = require('readline').createInterface;
 const engine = require('./engine.js');
 const utility = require('./utility.js');
 
@@ -126,10 +129,11 @@ function parseArgument (query, args) {
  *                       syntax error.
  */
 function load (query) {
-  const program = utility.purifyFile(query.subparameter);
+  const sourceCode = fs.readFileSync(query.subparameter, 'utf8');
+  const program = utility.removeArtefacts(sourceCode);
   const engineState = engine.prepare(engine.initialize(), program);
   if (!query.dryrun) {
-    utility.dumpEngine(engineState, query.state);
+    dumpEngineToFile(engineState, query.state);
   }
 }
 
@@ -149,7 +153,7 @@ function load (query) {
  *                       between them.
  */
 function cycle (query) {
-  const engineState = utility.loadEngine(query.state);
+  const engineState = loadEngineFromFile(query.state);
   const amount = query.subparameter === '' ? 1 : query.subparameter;
   let cycledEngineState;
   for (let i = 0; i <= amount; i++) {
@@ -158,7 +162,7 @@ function cycle (query) {
   if (query.dryrun) {
     console.log(utility.compareEngines(engineState, cycledEngineState));
   } else {
-    utility.dumpEngine(cycledEngineState, query.state);
+    dumpEngineToFile(cycledEngineState, query.state);
   }
 }
 
@@ -177,7 +181,7 @@ function cycle (query) {
  *   -0, --pixel-off <character>  Use given character for transparent pixels.
  */
 function display (query) {
-  const engineState = utility.loadEngine(query.state);
+  const engineState = loadEngineFromFile(query.state);
   const engineDisplay = engineState.get('display');
   engineDisplay.forEach(row => {
     console.log(row.map(v => v ? query.pixelon : query.pixeloff).join(''));
@@ -199,7 +203,7 @@ function display (query) {
  *   -n, --no            Release the pressure on a key.
  */
 function input (query) {
-  const engineState = utility.loadEngine(query.state);
+  const engineState = loadEngineFromFile(query.state);
   engineState.keypad[parseInt(query.subcommand, 16)] = !query.no;
 }
 
@@ -227,7 +231,7 @@ function input (query) {
  *                              the end.
  */
 function inspect (query) {
-  const engineState = utility.loadEngine(query.state);
+  const engineState = loadEngineFromFile(query.state);
 
   const inspecters = {
     'data': (engineState) => {
@@ -312,7 +316,7 @@ function inspect (query) {
  *             Possible values: short, load, cycle, display, input, inspect
  */
 function help (query) {
-  const cliSource = require('fs').readFileSync(process.argv[1], 'UTF-8');
+  const cliSource = require('fs').readFileSync(process.argv[1], 'utf8');
   const commentedHelp = cliSource
     .match(new RegExp('\\/\\*\\*(.|\\n)*?\\*\\/', 'g'));
   const cleanedHelp = commentedHelp.map(helpSection => {
@@ -340,10 +344,6 @@ function help (query) {
  *                       (default: .engine_state.chip8.txt)
  */
 function edit (query) {
-  const fs = require('fs');
-  const spawn = require('child_process').spawn;
-  const createInterface = require('readline').createInterface;
-
   const tmp = query.state + '-tmp';
 
   fs.createReadStream(query.state).pipe(fs.createWriteStream(tmp));
@@ -366,7 +366,7 @@ function edit (query) {
     });
     prompt.question('Commit your changes? (y/n)', (answer) => {
       if (answer.toLowerCase() === 'y') {
-        utlity.dumpEngine(utility.loadEngine(tmp), query.state);
+        dumpEngineToFile(loadEngineFromFile(tmp), query.state);
         fs.unlinkSync(tmp);
         console.log('Committed!');
       } else {
@@ -375,6 +375,16 @@ function edit (query) {
       }
     });
   });
+}
+
+function dumpEngineToFile (engineState, file) {
+  const dump = utility.dumpEngine(engineState);
+  fs.writeFileSync(file, dump, 'utf8');
+}
+
+function loadEngineFromFile (file) {
+  const dump = fs.readFileSync(file, 'utf8');
+  return utility.loadEngine(dump);
 }
 
 function main () {
