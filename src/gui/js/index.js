@@ -19,12 +19,12 @@ let engineState = new Map([
  * needs to be and finally update the UI, making it ready to roll.
  */
 function UIInit () {
-  document.querySelector('#load-engine input').onchange(UILoadEngine);
-  document.querySelector('#load-program input').onchange(UILoadProgram);
-  document.querySelector('#save-engine input').onclick(UISaveEngine);
-  document.querySelector('#pause input').onchange(UIPause);
-  document.querySelector('#cycle-once input').onchange(UICycleOnce);
-  document.querySelector('#cycle-continuously input').onchange(UICycleContinuously);
+  document.querySelector('#load-engine input').onchange = UILoadEngine;
+  document.querySelector('#load-program input').onchange = UILoadProgram;
+  document.querySelector('#save-engine input').onclick = UISaveEngine;
+  document.querySelector('#pause').onclick = UIPause;
+  document.querySelector('#cycle-once input').onchange = UICycleOnce;
+  document.querySelector('#cycle-continuously input').onchange = UICycleContinuously;
   UIGenerate();
 }
 
