@@ -1,5 +1,5 @@
-const instruction = require('../src/instruction-set.js').fn.instruction;
-const instructions = require('../src/instruction-set.js').fn.instructions;
+const instruction = require('../src/instruction-set.js').instruction;
+const instructions = require('../src/instruction-set.js').instructions;
 const engine = require('../src/engine.js').initialize();
 
 test('determining instruction B5FE (BNNN)', () => {
