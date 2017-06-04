@@ -99,7 +99,7 @@ function cycle (engine) {
   const currentPC = engine.get('pc');
   const currentInstruction = engine.get('memory')
     .slice(currentPC, currentPC + 2)
-    .reduce((a, v) => a + v.toString(16), '');
+    .reduce((a, v, i) => a + (i === 0 ? v * 0x100 : v), 0);
 
   const executedInstructionEngine = instruction(currentInstruction)(engine);
 

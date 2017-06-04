@@ -4,17 +4,17 @@ const cycle = require('../src/engine.js').cycle;
 const program = '6014710AF1157203F218';
 
 describe('engine set up', () => {
-  engine = prepare(engine, program);
-
   test('program counter is set to 0x200', () => {
+    engine = prepare(engine, program);
+
     expect(engine.get('pc')).toBe(0x200);
   });
 });
 
 describe('cycle 1', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x202', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x202);
   });
 
@@ -24,9 +24,9 @@ describe('cycle 1', () => {
 });
 
 describe('cycle 2', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x204', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x204);
   });
 
@@ -40,9 +40,9 @@ describe('cycle 2', () => {
 });
 
 describe('cycle 3', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x206', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x206);
   });
 
@@ -52,9 +52,9 @@ describe('cycle 3', () => {
 });
 
 describe('cycle 4', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x208', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x208);
   });
 
@@ -66,8 +66,8 @@ describe('cycle 4', () => {
     expect(engine.get('data')[1]).toBe(10);
   });
 
-  test('register 2 is set to 5', () => {
-    expect(engine.get('data')[2]).toBe(5);
+  test('register 2 is set to 3', () => {
+    expect(engine.get('data')[2]).toBe(3);
   });
 
   test('timer is set to 9', () => {
@@ -76,9 +76,9 @@ describe('cycle 4', () => {
 });
 
 describe('cycle 5', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x20A', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x20A);
   });
 
@@ -92,9 +92,9 @@ describe('cycle 5', () => {
 });
 
 describe('cycle 6', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x20C', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x20C);
   });
 
@@ -108,9 +108,10 @@ describe('cycle 6', () => {
 });
 
 describe('cycle 7', () => {
-  engine = cycle(engine);
 
   test('program counter is set to 0x20E', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x20E);
   });
 
@@ -124,9 +125,9 @@ describe('cycle 7', () => {
 });
 
 describe('cycle 8', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x210', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x210);
   });
 
@@ -140,9 +141,9 @@ describe('cycle 8', () => {
 });
 
 describe('cycle 9', () => {
-  engine = cycle(engine);
-
   test('program counter is set to 0x212', () => {
+    engine = cycle(engine);
+
     expect(engine.get('pc')).toBe(0x212);
   });
 
@@ -154,8 +155,8 @@ describe('cycle 9', () => {
     expect(engine.get('data')[1]).toBe(10);
   });
 
-  test('register 2 is set to 5', () => {
-    expect(engine.get('data')[2]).toBe(5);
+  test('register 2 is set to 3', () => {
+    expect(engine.get('data')[2]).toBe(3);
   });
 
   test('timer is set to 4', () => {

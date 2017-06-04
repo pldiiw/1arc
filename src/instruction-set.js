@@ -19,6 +19,8 @@ function instruction (inst) {
   const instructionScheme = allInstructionSchemes
     .filter((v, i) => allInstructionRegexes[i].test(stringInstruction))[0];
 
+  console.log(inst, stringInstruction, instructionScheme);
+
   // Determining the arguments
   const X = instructionScheme.indexOf('X');
   const Y = instructionScheme.indexOf('Y');
@@ -28,7 +30,7 @@ function instruction (inst) {
     stringInstruction[X],
     stringInstruction[Y],
     stringInstruction.slice(firstN, lastN + 1)
-  ].filter(v => v !== undefined && v !== '');
+  ].filter(v => v !== undefined && v !== '').map(v => parseInt(v, 16));
 
   return (engine) => instructions[instructionScheme](engine, ...args);
 }
@@ -381,8 +383,22 @@ function storeRandom (engine, register, mask) {
   return engine.set('data', data);
 }
 
+function idle              (engine) { return engine; }
+function clearDisplay      (engine) { return engine; }
+function rightShift        (engine) { return engine; }
+function leftShift         (engine) { return engine; }
+function drawSprite        (engine) { return engine; }
+function skipIfKeyPress    (engine) { return engine; }
+function skipIfNotKeyPress (engine) { return engine; }
+function waitKeyPress      (engine) { return engine; }
+function dumpTimer         (engine) { return engine; }
+function setTimer          (engine) { return engine; }
+function setSound          (engine) { return engine; }
+function setIFont          (engine) { return engine; }
+
 const instructions = {
-  //  '00E0': clearDisplay,
+  '0000': idle,
+  '00E0': clearDisplay,
   '00EE': uncall,
   '1NNN': jump,
   '2NNN': call,
@@ -397,22 +413,22 @@ const instructions = {
   '8XY3': xor,
   '8XY4': addRegisters,
   '8XY5': subRegisters,
-  //  '8XY6': rightShift,
+  '8XY6': rightShift,
   '8XY7': subnRegisters,
-  //  '8XYE': leftShift,
+  '8XYE': leftShift,
   '9XY0': skipIfNotRegister,
   'ANNN': setI,
   'BNNN': jump0,
   'CXNN': storeRandom,
-  //  'DXYN': drawSprite,
-  //  'EX9E': skipIfKeyPress,
-  //  'EXA1': skipIfNotKeyPress,
-  //  'FX07': dumpTimer,
-  //  'FX0A': waitKeyPress,
-  //  'FX15': setTimer,
-  //  'FX18': setSound,
+  'DXYN': drawSprite,
+  'EX9E': skipIfKeyPress,
+  'EXA1': skipIfNotKeyPress,
+  'FX07': dumpTimer,
+  'FX0A': waitKeyPress,
+  'FX15': setTimer,
+  'FX18': setSound,
   'FX1E': addRegisterToI,
-  //  'FX29': setIFont,
+  'FX29': setIFont,
   'FX33': dumpBCD,
   'FX55': dumpRegisters,
   'FX65': fillRegisters
