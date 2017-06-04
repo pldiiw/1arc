@@ -24,8 +24,14 @@ function UIInit () {
   document.querySelector('#save-engine input').onclick = UISaveEngine;
   document.querySelector('#pause').onclick = UIPause;
   document.querySelector('#cycle-once input').onchange = UICycleOnce;
-  document.querySelector('#cycle-continuously input').onchange = UICycleContinuously;
+  document.querySelector('#cycle-continuously input')
+    .onchange = UICycleContinuously;
+  document.querySelector('#data-section .base-widget')
+    .onclick = UIDataUpdate;
+  document.querySelector('#memory-section .base-widget')
+    .onclick = UIMemoryUpdate;
   UIGenerate();
+  UIUpdate();
 }
 
 /**
@@ -203,9 +209,11 @@ function UIDataUpdate () {
 function UIDataRegistersUpdate () {
   let UIDataRegisters = document.querySelectorAll(
     '.data-registers-subsection samp');
-  const base = parseInt(document.querySelector('input[name="base-data"]:checked').value);
+  const base = parseInt(
+    document.querySelector('input[name="base-data"]:checked').value);
   Array.prototype.forEach.call(UIDataRegisters, samp => {
-    samp.innerText = engineState.get('data')[parseInt(samp.id, 16)].toString(base);
+    samp.innerText = engineState.get('data')[parseInt(samp.id, 16)]
+      .toString(base);
     if (base === 2) {
       samp.innerText = samp.innerText.padStart(8, '0');
     }
@@ -218,17 +226,19 @@ function UIDataRegistersUpdate () {
 function UIOtherRegistersUpdate () {
   let UIOtherRegisters = document.querySelectorAll(
     '.other-registers-subsection samp');
-  const base = parseInt(document.querySelector('input[name="base-data"]:checked').value);
+  const base = parseInt(
+    document.querySelector('input[name="base-data"]:checked').value);
   Array.prototype.forEach.call(UIOtherRegisters, samp => {
     if (/stack-[0-F]/.test(samp.id)) {
-      samp.innerText =
-        engineState.get('stack')[parseInt(samp.id.split('-')[1], 16)].toString(base);
+      samp.innerText = engineState
+        .get('stack')[parseInt(samp.id.split('-')[1], 16)].toString(base);
     } else {
       samp.innerText = engineState.get(samp.id).toString(base);
     }
 
     if (base === 2) {
-      samp.innerText = samp.innerText.padStart(/(pc|I|stack)/.test(samp.id) ? 16 : 8, '0');
+      samp.innerText = samp.innerText
+        .padStart(/(pc|I|stack)/.test(samp.id) ? 16 : 8, '0');
     }
   });
 }
