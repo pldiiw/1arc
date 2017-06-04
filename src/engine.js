@@ -9,7 +9,6 @@ const instruction = require('./instruction-set.js').instruction;
  * @return {Map} Empty engine
  */
 function initialize () {
-
   return new Map([
     ['data', new Uint8Array(16)],
     ['I', 0],
@@ -30,7 +29,6 @@ function initialize () {
  * @return {Map} The engine with the font loaded.
  */
 function loadFont (engine) {
-
   const font = Uint8Array.from([
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -63,12 +61,13 @@ function loadFont (engine) {
  * @return {Map} The new engine, with program loaded.
  */
 function loadProgram (engine, program) {
-
   const parsedProgram = program.match(/.{1,2}/g).map(v => parseInt(v, 16));
 
   return engine.set('memory',
     engine.get('memory').map((v, i) => {
-      return i >= 512 && i < 512 + parsedProgram.length ? parsedProgram[i-512] : v;
+      return i >= 512 && i < 512 + parsedProgram.length
+        ? parsedProgram[i - 512]
+        : v;
     }));
 }
 
@@ -81,7 +80,6 @@ function loadProgram (engine, program) {
  * @return {Map} The engine ready to cycle.
  */
 function prepare (engine, program) {
-
   return loadProgram(loadFont(engine), program).set('pc', 0x200);
 }
 
@@ -92,7 +90,6 @@ function prepare (engine, program) {
  * during the cycle.
  */
 function cycle (engine) {
-
   // Return right away if we already reached the end of the memory.
   if (engine.get('pc') > 0xFFF) { return; }
 

@@ -19,8 +19,6 @@ function instruction (inst) {
   const instructionScheme = allInstructionSchemes
     .filter((v, i) => allInstructionRegexes[i].test(stringInstruction))[0];
 
-  console.log(inst, stringInstruction, instructionScheme);
-
   // Determining the arguments
   const X = instructionScheme.indexOf('X');
   const Y = instructionScheme.indexOf('Y');

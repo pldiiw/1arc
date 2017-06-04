@@ -121,10 +121,6 @@ The subparameters are given with their associated subcommand prefixed.
    The possible values are:
    ```
    data
-   data.0 data.1 data.2 data.3 data.4
-   data.5 data.6 data.7 data.8 data.9
-   data.A data.B data.C data.D data.E
-   data.F
    I
    timer
    sound
@@ -192,13 +188,14 @@ can be more readable to use long suboptions in some cases.
    defaults to the decimal format. Here are the possible bases:
    ```
    16 hex
+   10 dec
     8 oct
     2 bin
    ```
- * `-r [start]-[end]` or `--range [start]-[end]` - For some components of the
-   engine, you may not want the entire value of it. A such case is when
-   inspecting the memory, all of it may not be portion you're looking for.
-   Here's how to use it:
+ * `-r [start]-[end]` or `--range [start]-[end]` - When inspecting the memory
+   or the display of the engine, you may not want the entire value of it. A
+   such case is when inspecting the memory, all of it may not be portion you're
+   looking for. Here's how to use it:
    ```
    $ ./cli.js inspect memory --range 98-100  # Log the 98th and 99th bytes of
                                              # memory

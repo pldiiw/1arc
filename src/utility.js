@@ -38,6 +38,9 @@ function dumpEngine (engine) {
  */
 function loadEngine (dumpedEngine) {
   const dump = JSON.parse(dumpedEngine);
+  dump['data']['length'] = 16;
+  dump['memory']['length'] = 4096;
+  dump['stack']['length'] = 16;
   const keys = Object.keys(dump);
   const engine = new Map(keys.map(k => {
     let value;
@@ -66,8 +69,7 @@ function compareEngines (engineA, engineB) {
     'data': (engineA, engineB) => {
       const dataA = engineA.get('data');
       const dataB = engineB.get('data');
-
-      return dataA.map((a, i) => {
+      return Array.from(dataA).map((a, i) => {
         const b = dataB[i];
         return a !== b ? `data[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
@@ -94,7 +96,7 @@ function compareEngines (engineA, engineB) {
       const memoryA = engineA.get('memory');
       const memoryB = engineB.get('memory');
 
-      return memoryA.map((a, i) => {
+      return Array.from(memoryA).map((a, i) => {
         const b = memoryB[i];
         return a !== b ? `memory[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
@@ -116,7 +118,7 @@ function compareEngines (engineA, engineB) {
       const stackA = engineA.get('stack');
       const stackB = engineB.get('stack');
 
-      return stackA.map((a, i) => {
+      return Array.from(stackA).map((a, i) => {
         const b = stackB[i];
         return a !== b ? `stack[${i}]: ${a} -> ${b}\n` : '';
       }).join('');
@@ -127,9 +129,10 @@ function compareEngines (engineA, engineB) {
 
       return displayA.map((a, i) => {
         const b = displayB[i];
-        return a.reduce((acc, v, i) => acc && v === b[i])
-          ? `display[${i}]: ${a.map(v => 0 + v)}\n` +
-            `           ${i.toString().length}-> ${b.map(v => 0 + v)}\n`
+        return a.some((v, i) => v !== b[i])
+          ? `display[${i}]: ${a.map(v => 0 + v).join('')}\n` +
+            `        ${' '.repeat(i.toString().length)}-> ` +
+            `${b.map(v => 0 + v).join('')}\n`
           : '';
       }).join('');
     },

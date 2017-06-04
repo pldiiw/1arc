@@ -87,12 +87,27 @@ function parseArgument (query, args) {
         break;
       case '-f':
       case '--format':
-        query.format = parseInt(argumentToParse[i + 1]);
+        const requestedFormat = argumentToParse[i + 1];
+        if (requestedFormat === 'hex') {
+          query.format = 16;
+        } else if (requestedFormat === 'dec') {
+          query.format = 10;
+        } else if (requestedFormat === 'oct') {
+          query.format = 8;
+        } else if (requestedFormat === 'bin') {
+          query.format = 2;
+        } else {
+          query.format = parseInt(argumentToParse[i + 1]);
+        }
         i++;
         break;
       case '-r':
       case '--range':
-        query.range = argumentToParse[i + 1].split('-');
+        const [start, end] = argumentToParse[i + 1]
+          .split('-')
+          .map(v => parseInt(v));
+        query.range[0] = Number.isNaN(start) ? query.range[0] : start;
+        query.range[1] = Number.isNaN(end) ? query.range[1] : end;
         i++;
         break;
       default:
@@ -154,13 +169,14 @@ function load (query) {
  */
 function cycle (query) {
   const engineState = loadEngineFromFile(query.state);
+  const engineStateCopy = utility.loadEngine(utility.dumpEngine(engineState));
   const amount = query.subparameter === '' ? 1 : query.subparameter;
   let cycledEngineState;
-  for (let i = 0; i <= amount; i++) {
+  for (let i = 0; i < amount; i++) {
     cycledEngineState = engine.cycle(engineState);
   }
   if (query.dryrun) {
-    console.log(utility.compareEngines(engineState, cycledEngineState));
+    console.log(utility.compareEngines(engineStateCopy, cycledEngineState));
   } else {
     dumpEngineToFile(cycledEngineState, query.state);
   }
@@ -204,7 +220,11 @@ function display (query) {
  */
 function input (query) {
   const engineState = loadEngineFromFile(query.state);
-  engineState.keypad[parseInt(query.subcommand, 16)] = !query.no;
+  let keypad = engineState.get('keypad');
+
+  keypad[parseInt(query.subparameter, 16)] = !query.no;
+
+  dumpEngineToFile(engineState.set('keypad', keypad), query.state);
 }
 
 /**
@@ -213,9 +233,9 @@ function input (query) {
  * Usage: ./cli.js [options] inspect [suboptions] [component]
  *
  * component: The component of the engine to inspect, defaults to "all".
- *            Possible values: data,  data.[0-F], I,      timer,
- *                             sound, memory,     pc,     pointer,
- *                             stack, display,    keypad, all
+ *            Possible values: data,    I,      timer,   sound,
+ *                             memory,  pc,     pointer, stack,
+ *                             display, keypad, all
  *
  * Options:
  *   -s, --state <file>         The file containing the engine's state to
@@ -226,23 +246,21 @@ function input (query) {
  *   -f, --format <base>        Change the base in which to display
  *                              the engine's data, defaults to 10.
  *
- *   -r, --range [start]-[end]  For certain components, display only a portion
- *                              of it. Defaults to "-", which is from 0 until
- *                              the end.
+ *   -r, --range [start]-[end]  When inspecting memory or the display, show
+ *                              only a portion of it. Defaults to "-", which
+ *                              is from 0 until the end.
  */
 function inspect (query) {
   const engineState = loadEngineFromFile(query.state);
+  const componentToInspect = query.subparameter === ''
+    ? 'all'
+    : query.subparameter;
 
   const inspecters = {
     'data': (engineState) => {
       engineState.get('data').forEach((v, i) => {
         console.log(i.toString(16), v.toString(query.format));
       });
-    },
-    'data.X': (engineState) => {
-      const regIndex = parseInt(query.subcommand.split('.')[1], 16);
-      console.log(regIndex.toString(16),
-        engineState.get('data')[regIndex].toString(query.format));
     },
     'I': (engineState) => {
       console.log('I', engineState.get('I').toString(query.format));
@@ -256,12 +274,12 @@ function inspect (query) {
     'memory': (engineState) => {
       const start = query.range[0];
       const end = query.range[1] === -1 ? 4096 : query.range[1];
-      const result = engineState.get('memory')
+      const result = Array.from(engineState.get('memory'))
         .map((v, i) => {
           const base = query.format === 16 ? '0x' : '';
-          const pos = i.toString(query.format);
+          const pos = i;
           const value = v.toString(query.format);
-          return `${base}${pos} ${value}`;
+          return `${pos} ${base}${value}`;
         })
         .slice(start, end)
         .join('\n');
@@ -281,26 +299,27 @@ function inspect (query) {
     },
     'display': (engineState) => {
       const start = query.range[0];
-      const end = query.range[1] === -1 ? 64 : query.range[1];
-      return engineState.get('display')
+      const end = query.range[1] === -1 ? 2048 : query.range[1];
+      const result = engineState.get('display')
         .map((row, rowIndex) => {
           return row
             .map((pixel, colIndex) => `${colIndex},${rowIndex} ${pixel}`);
         })
         .reduce((a, v) => a.concat(v))
-        .slice(start, end);
+        .slice(start, end)
+        .join('\n');
+
+      console.log(result);
     },
     'keypad': (engineState) => {
       engineState.get('keypad').forEach((v, i) => {
-        console.log(i.toString(16));
+        console.log(i.toString(16), v);
       });
     }
   };
 
-  if (query.subparameter === 'all') {
+  if (componentToInspect === 'all') {
     Object.keys(inspecters).forEach(k => inspecters[k](engineState));
-  } else if (/data.[0-F]/i.test(query.subparameter)) {
-    inspecters['data.X'](engineState);
   } else {
     inspecters[query.subparameter](engineState);
   }
@@ -323,11 +342,12 @@ function help (query) {
     return helpSection
       .split('\n')
       .slice(1, -1)
-      .map(line => line.replace(/^\s*?\* /, ''))
+      .map(line => line.replace(/^\s*?\* ?/, ''))
       .join('\n');
   });
+  const topic = query.subparameter === '' ? 'short' : query.subparameter;
 
-  const requestedHelp = query.subparameter === 'short'
+  const requestedHelp = topic === 'short'
     ? cleanedHelp[0]
     : cleanedHelp
         .filter(v => v.split(' ')[0].toLowerCase() === query.subparameter)[0];
@@ -373,6 +393,7 @@ function edit (query) {
         console.log('Not committing, your modifications are still accessible',
           'in', tmp);
       }
+      process.exit(0);
     });
   });
 }
@@ -388,7 +409,7 @@ function loadEngineFromFile (file) {
 }
 
 function main () {
-  [query, args, subcommands] = init();
+  let [query, args, subcommands] = init();
   query = parseArgument(query, args);
   subcommands[query.subcommand](query);
 }
