@@ -5,7 +5,7 @@ test('skip because \'E\' key is not pressed', () => {
   let data = engine.get('data');
   data[8] = 0xE;
   let keypad = engine.get('keypad');
-  keypad[3] = 1;
+  keypad[3] = true;
   const engine_ = skipIfNotKeyPress(engine.set('data', data)
     .set('keypad', keypad).set('pc', 128), 8);
 
@@ -16,7 +16,7 @@ test('do not skip because \'E\' key is pressed', () => {
   let data = engine.get('data');
   data[9] = 0xE;
   let keypad = engine.get('keypad');
-  keypad[0xE] = 1;
+  keypad[0xE] = true;
   const engine_ = skipIfNotKeyPress(engine.set('data', data)
     .set('keypad', keypad).set('pc', 128), 9);
 
