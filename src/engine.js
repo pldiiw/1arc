@@ -109,7 +109,7 @@ function cycle (engine) {
   const executedInstructionEngine =
     instruction(currentInstruction)(DecSoundEngine);
 
-  const incPCEngine = DecSoundEngine.set('pc', engine.get('pc') + 2);
+  const incPCEngine = executedInstructionEngine.set('pc', engine.get('pc') + 2);
 
   return incPCEngine;
 }

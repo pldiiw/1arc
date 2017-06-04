@@ -108,7 +108,6 @@ describe('cycle 6', () => {
 });
 
 describe('cycle 7', () => {
-
   test('program counter is set to 0x20E', () => {
     engine = cycle(engine);
 

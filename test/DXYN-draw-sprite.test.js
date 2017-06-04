@@ -20,7 +20,6 @@ test('draw nice underscore-cross sprite', () => {
   expect(engine_.get('display')[6].slice(10, 18).join(' '))
     .toBe('true true true true false true false false');
   expect(engine_.get('data')[0xF]).toBe(0);
-
 });
 
 test('pixels are XORed when overwritten', () => {
