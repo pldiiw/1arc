@@ -98,15 +98,16 @@ function cycle (engine) {
     .slice(currentPC, currentPC + 2)
     .reduce((a, v, i) => a + (i === 0 ? v * 0x100 : v), 0);
 
-  const executedInstructionEngine = instruction(currentInstruction)(engine);
-
-  const currentTimer = executedInstructionEngine.get('timer');
-  const DecTimerEngine = executedInstructionEngine.set('timer',
+  const currentTimer = engine.get('timer');
+  const DecTimerEngine = engine.set('timer',
     currentTimer > 0 ? currentTimer - 1 : currentTimer);
 
   const currentSound = DecTimerEngine.get('sound');
   const DecSoundEngine = DecTimerEngine.set('sound',
     currentSound > 0 ? currentSound - 1 : currentSound);
+
+  const executedInstructionEngine =
+    instruction(currentInstruction)(DecSoundEngine);
 
   const incPCEngine = DecSoundEngine.set('pc', engine.get('pc') + 2);
 

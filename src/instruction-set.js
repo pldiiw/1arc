@@ -546,7 +546,7 @@ function drawSprite (engine, registerA, registerB, spriteLength) {
  */
 function clearDisplay (engine) {
   return engine.set('display',
-    Array.from({ length: 32 }).map( _ => Array(64).fill(false)));
+    Array.from({ length: 32 }).map(_ => Array(64).fill(false)));
 }
 
 /**
@@ -562,8 +562,39 @@ function setIFont (engine, register) {
   return engine.set('I', engine.get('data')[register] % 16 * 5);
 }
 
-function rightShift        (engine) { return engine; }
-function leftShift         (engine) { return engine; }
+/**
+ * Store in registerA the value of registerB shifted to the right by one bit.
+ * Set register F to the least significant bit prior to the shift.
+ * @param {Map} engine
+ * @param {number} registerA The register where the shifted value will be
+ * stored.
+ * @param {number} registerB The register holding to the value to shift.
+ * @return {Map} A new engine.
+ */
+function rightShift (engine, registerA, registerB) {
+  let data = engine.get('data');
+  data[0xF] = data[registerB] & 1;
+  data[registerA] = data[registerB] >>> 1;
+
+  return engine.set('data', data);
+}
+
+/**
+ * Store in registerA the value of registerB shifted to the left by one bit.
+ * Set register F to the most significant bit prior to the shift.
+ * @param {Map} engine
+ * @param {number} registerA The register where the shifted value will be
+ * stored.
+ * @param {number} registerB The register holding to the value to shift.
+ * @return {Map} A new engine.
+ */
+function leftShift (engine, registerA, registerB) {
+  let data = engine.get('data');
+  data[0xF] = data[registerB] >>> 7;
+  data[registerA] = data[registerB] << 1;
+
+  return engine.set('data', data);
+}
 
 const instructions = {
   '0000': idle,
