@@ -2,18 +2,22 @@
 //const utility = require('utility');
 
 let engineState = new Map([
-    ['data', new Uint8Array(16)],
-    ['I', 0],
-    ['timer', 0],
-    ['sound', 0],
-    ['memory', new Uint8Array(4096)],
-    ['pc', 0],
-    ['pointer', 0],
-    ['stack', new Uint16Array(16)],
-    ['display', Array(32).fill(Array(64).fill(false))],
-    ['keypad', Array(16).fill(false)]
-  ]);
+  ['data', new Uint8Array(16)],
+  ['I', 0],
+  ['timer', 0],
+  ['sound', 0],
+  ['memory', new Uint8Array(4096)],
+  ['pc', 0],
+  ['pointer', 0],
+  ['stack', new Uint16Array(16)],
+  ['display', Array(32).fill(Array(64).fill(false))],
+  ['keypad', Array(16).fill(false)]
+]);
 
+/**
+ * Initialize the UI's inputs, button actions, generate the UI components that
+ * needs to be and finally update the UI, making it ready to roll.
+ */
 function UIInit () {
   document.querySelector('#load-engine input').onchange(UILoadEngine);
   document.querySelector('#load-program input').onchange(UILoadProgram);
@@ -24,11 +28,19 @@ function UIInit () {
   UIGenerate();
 }
 
+/**
+ * Wrapper function that calls the subroutines to generate the display and the
+ * memory UI components.
+ */
 function UIGenerate () {
   UIDisplayGenerate();
   UIMemoryGenerate();
 }
 
+/**
+ * Wrapper function that calls the subroutines to update all UI components.
+ * (data, display, memory and keypad)
+ */
 function UIUpdate () {
   UIDataUpdate();
   UIDisplayUpdate();
@@ -36,6 +48,10 @@ function UIUpdate () {
   UIKeypadUpdate();
 }
 
+/**
+ * Should be triggered when clicking on the 'Load engine' button.
+ * Retrieve the uploaded file and restore the engine in it.
+ */
 function UILoadEngine () {
   let file = document.querySelector('#load-engine').files[0];
   let reader = FileReader();
@@ -43,10 +59,14 @@ function UILoadEngine () {
     const dumpedEngineState = event.target.result;
     engineState = utility.loadEngine(dumpedEngineState);
     UIUpdate();
-  }
+  };
   reader.readAsText(file);
 }
 
+/**
+ * Should be triggered when clicking on the 'Load program' button.
+ * Retrieve the uploaded program and load it inside the engine.
+ */
 function UILoadProgram () {
   let file = document.querySelector('#load-engine').files[0];
   let reader = FileReader();
@@ -54,10 +74,14 @@ function UILoadProgram () {
     const program = utility.removeArtefacts(event.target.result);
     engineState = engine.loadProgram(engineState, program);
     UIUpdate();
-  }
+  };
   reader.readAsText(file);
 }
 
+/**
+ * Should be triggered when clicking on the 'Save engine' button.
+ * Dump the current state and make the user download it.
+ */
 function UISaveEngine () {
   const dumpedEngineState = utility.dumpEngine(engineState);
   const engineDataURI =
@@ -72,20 +96,34 @@ function UISaveEngine () {
   document.body.removeChild(download);
 }
 
-function UIPause () {
+/**
+ * Should be triggered when clicking on the pause button.
+ * Does nothing, idle state for the UI.
+ */
+function UIPause () {}
 
-}
-
+/**
+ * Utility subroutine to run one engine cycle and update the UI at once.
+ */
 function UICycle () {
   engineState = engine.cycle(engineState);
   UIUpdate();
 }
 
+/**
+ * Should be triggered when clicking on the play button.
+ * Run one cycle on the current engine state and return to the 'paused' state.
+ */
 function UICycleOnce () {
   UICycle(engineState);
   document.querySelector('#pause').click();
 }
 
+/**
+ * Should be triggered when clicking on the fast-forward button.
+ * Run cycles on the current engine state at a rate of 60Hz until the
+ * fast-button is unchecked.
+ */
 function UICycleContinuously () {
   const FRAME_TIME = 1000 / 60;
   let now = 0;
@@ -108,6 +146,10 @@ function UICycleContinuously () {
   tick();
 }
 
+/**
+ * Generate the pixels of the display. Being an SVG element, each pixel is a
+ * rect.
+ */
 function UIDisplayGenerate () {
   let SVGDisplay = document.querySelector('#display');
   const SVGDisplayWidth = SVGDisplay.width.baseVal.value;
@@ -130,6 +172,10 @@ function UIDisplayGenerate () {
   });
 }
 
+/**
+ * Update the display UI compenent. It retrieves every pixels and fill it with
+ * black if it is set true in the engine, otherwise it is filled with white.
+ */
 function UIDisplayUpdate () {
   let SVGDisplay = document.querySelector('#display');
   const display = engineState.get('display');
@@ -142,11 +188,18 @@ function UIDisplayUpdate () {
   });
 }
 
+/**
+ * Wrapper function to update the data registers section and the other
+ * registers (pc, I, timer, ...) UI components.
+ */
 function UIDataUpdate () {
   UIDataRegistersUpdate();
   UIOtherRegistersUpdate();
 }
 
+/**
+ * Update the data registers' UI section.
+ */
 function UIDataRegistersUpdate () {
   let UIDataRegisters = document.querySelectorAll(
     '.data-registers-subsection samp');
@@ -159,6 +212,9 @@ function UIDataRegistersUpdate () {
   });
 }
 
+/**
+ * Update the other registers' UI section.
+ */
 function UIOtherRegistersUpdate () {
   let UIOtherRegisters = document.querySelectorAll(
     '.other-registers-subsection samp');
@@ -177,6 +233,9 @@ function UIOtherRegistersUpdate () {
   });
 }
 
+/**
+ * Generate all the cells of memory in the dedicated UI section.
+ */
 function UIMemoryGenerate () {
   let UIMemoryCellSection = document.querySelector('#cells');
   const memory = engineState.get('memory');
@@ -202,6 +261,9 @@ function UIMemoryGenerate () {
   });
 }
 
+/**
+ * Update every UI memory cell with its corresponding memory cell in the engine.
+ */
 function UIMemoryUpdate () {
   let UIMemoryCells = document.querySelectorAll('#cells div');
   const memory = engineState.get('memory');
@@ -224,8 +286,11 @@ function UIMemoryUpdate () {
   });
 }
 
+/*
+ * Update the keypad section
+ */
 function UIKeypadUpdate () {
-  let UIKeypadKeys = document.querySelectorAll('#keypad-section .key')
+  let UIKeypadKeys = document.querySelectorAll('#keypad-section .key');
   const keypad = engineState.get('keypad');
 
   Array.prototype.forEach.call(UIKeypadKeys, v => {
@@ -239,5 +304,4 @@ function UIKeypadUpdate () {
       v.classList.remove('highlight');
     }
   });
-
 }
