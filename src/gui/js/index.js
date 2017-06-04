@@ -234,27 +234,44 @@ function sleep(milliseconds) {
 }
 
 function defineInputs () {
-  down = false;
+  let down = false;
+  keyPress = []
   document.addEventListener('keydown', event => {
-    if(down) return;
-    down = true;
-    doInputsSwitch(event, 'keydown');
-  }, false);
+    event.preventDefault();
+    if(keyPress.indexOf(event.keyCode) == -1){
+      keyPress.push(event.keyCode);
+      doInputsSwitch(event, 'keydown');
+    } 
+  });
 
 
   document.addEventListener('keyup', event =>{
-    down = false;
-    doInputsSwitch(event, 'keyup');    
+    if(keyPress.indexOf(event.keyCode)!=-1){
+      doInputsSwitch(event, 'keyup');
+      keyPress.splice(keyPress.indexOf(event.keyCode),1);
+    }
   });
 }
 
 function doInputsSwitch(event, state) {
   var button = "";
+
     switch (event.keyCode) {
       case 32:
+      case 16:
         if(event.target == document.body && state == 'keydown') {
-          event.preventDefault();
-          document.querySelector("#cycle-once input").checked = true;
+          if(keyPress.indexOf(16)!=-1 && keyPress.indexOf(32)!=-1){
+            document.querySelector("#cycle-continuously input").checked = true;
+          } else if (event.keyCode == 32){
+            document.querySelector("#cycle-once input").checked = true;
+          }
+        }
+        if(state == 'keyup'){
+          if(keyPress.indexOf(16)!=-1 && keyPress.indexOf(32)!=-1){
+            document.querySelector("#cycle-continuously input").checked = false;
+          } else if(event.keyCode == 32){
+            document.querySelector("#cycle-once input").checked = false;
+          }
         }
         break;
       
@@ -324,17 +341,17 @@ function doInputsSwitch(event, state) {
 
       case 9: //tab
         if(event.target == document.body&& state == 'keydown') {
-          event.preventDefault();
           nextWidgetSelection();
         }
         break;
+        
       default:
-        console.log(event.keyCode);
+        break;
     }
     if(button!="" && state=='keydown'){
-      console.log("J'appui sur le bouton : "+button);
+      console.log("J'appui sur le bouton : "+button); //replace this lign by the key press function
     } else if(button!="" && state=='keyup') {
-      console.log("je relache le bouton : "+button);
+      console.log("je relache le bouton : "+button); //replace this lign by the key release function
     }
 }
 
@@ -357,6 +374,5 @@ function nextWidgetSelection(){
     }
   }
 }
-  //if(document.querySelector("#cycle-once input").checked = true)
 
 defineInputs();
