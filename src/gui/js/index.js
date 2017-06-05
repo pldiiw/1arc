@@ -238,7 +238,7 @@ function defineInputs () {
   keyPress = []
   engineKeypad = Array(16).fill(false);
   document.addEventListener('keydown', event => {
-    if(event.keycode == 32 || event.keycode == 16 || event.keycode == 9){
+    if(event.keyCode == 32 || event.keyCode == 16 || event.keyCode == 9){
       event.preventDefault();
     }
     if(keyPress.indexOf(event.keyCode) == -1){
