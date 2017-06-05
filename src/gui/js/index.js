@@ -219,7 +219,7 @@ function UIKeypadUpdate () {
 
   Array.prototype.forEach.call(UIKeypadKeys, v => {
     v.querySelector('samp').innerText =
-      keypad[parseInt(v.id.slice('-')[1], 16)] ? 1 : 0;
+      keypad[parseInt(v.id.slice(-1), 16)] ? 1 : 0;
   });
 
 }
@@ -236,8 +236,11 @@ function sleep(milliseconds) {
 function defineInputs () {
   let down = false;
   keyPress = []
+  engineKeypad = Array(16).fill(false);
   document.addEventListener('keydown', event => {
-    event.preventDefault();
+    if(event.keycode == 32 || event.keycode == 16 || event.keycode == 9){
+      event.preventDefault();
+    }
     if(keyPress.indexOf(event.keyCode) == -1){
       keyPress.push(event.keyCode);
       doInputsSwitch(event, 'keydown');
@@ -348,10 +351,10 @@ function doInputsSwitch(event, state) {
       default:
         break;
     }
-    if(button!="" && state=='keydown'){
-      console.log("J'appui sur le bouton : "+button); //replace this lign by the key press function
-    } else if(button!="" && state=='keyup') {
-      console.log("je relache le bouton : "+button); //replace this lign by the key release function
+    if(button!=""){
+      engineKeypad[parseInt(button.slice(-1),16)] = state=='keydown';
+      engineState = engineState.set("keypad", engineKeypad);
+      UIKeypadUpdate ()
     }
 }
 
