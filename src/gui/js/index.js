@@ -245,6 +245,7 @@ function defineInputs () {
       keyPress.splice(keyPress.indexOf(event.keyCode),1);
     }
   });
+  defineMouseInputs();
 }
 
 function doInputsSwitch(event, state) {
@@ -367,6 +368,20 @@ function nextWidgetSelection(){
       }
     }
   }
+}
+
+function defineMouseInputs(){
+  let UIKeypadKeys = document.querySelectorAll('#keypad-section .key')
+  for(let i=0;i<Object.keys(UIKeypadKeys).length;i++){
+    UIKeypadKeys[i].setAttribute("onmousedown","mousePress(\""+String(UIKeypadKeys[i].id)+"\", true)");
+    UIKeypadKeys[i].setAttribute("onmouseup","mousePress(\""+String(UIKeypadKeys[i].id)+"\", false)");
+  }
+}
+
+function mousePress(id,state){
+  engineKeypad[parseInt(id.slice(-1),16)] = state;
+  engineState = engineState.set("keypad", engineKeypad);
+  UIKeypadUpdate ()
 }
 
 defineInputs();
