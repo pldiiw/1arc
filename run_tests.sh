@@ -11,4 +11,4 @@ semistandard test/*.js |
 node --harmony node_modules/jest/bin/jest.js test/
 
 # Run bash tests if found (secondary)
-which bats > /dev/null && bats test/*.bats
+which bats > /dev/null && bats test/*.bats || true
