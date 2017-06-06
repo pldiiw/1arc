@@ -34,7 +34,7 @@ const utility = require('./utility.js');
 function init () {
   let query = {
     'state': '.engine_state.chip8.txt',
-    'subcommand': 'none',
+    'subcommand': 'help',
     'subparameter': '',
     'dryrun': false,
     'pixelon': 'x',
