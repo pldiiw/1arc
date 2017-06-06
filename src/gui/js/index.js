@@ -32,6 +32,7 @@ function UIInit () {
     .onclick = UIMemoryUpdate;
   UIGenerate();
   UIUpdate();
+  UIEditOnTheFlyEventsGenerate();
 }
 
 /**
@@ -314,4 +315,17 @@ function UIKeypadUpdate () {
       v.classList.remove('highlight');
     }
   });
+}
+
+function UIEditOnTheFlyEventsGenerate() {
+
+  Array.prototype.forEach.call(document.querySelectorAll("#cells div samp:first-child"), function(e, i) {
+      e.ondblclick = function() {
+        let memory = engineState.get('memory');
+        memory[i] = parseInt(prompt("Enter value"));
+        engineState = engineState.set('memory', memory);
+        UIMemoryUpdate();
+      };
+    }
+  );
 }
