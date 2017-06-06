@@ -41,16 +41,16 @@ a keyword but it is used to refine what you want from the subcommand.
 Here's an example of a call combining them all:
 
 ```
-$ ./cli.js -s engine_state.txt inspect -f hex memory
+$ ./cli.js -s engine_state.json inspect -f hex memory
 ```
 
 If we break it down, we have:
- * `-s engine_state.txt` is an option. `-s` is the switch and `engine_state`
+ * `-s engine_state.json` is an option. `-s` is the switch and `engine_state`
    the value passed to it. The `-s` option is used to give the file where the
-   current CHIP-8 engine lies. In this case, `engine_state.txt` is in the
+   current CHIP-8 engine lies. In this case, `engine_state.json` is in the
    current directory, so we just had to give its name. If this file was located
    in the `/home/chip8/.cache/` directory, then we would have written `-s
-   /home/chip8/.cache/engine_state.txt`.
+   /home/chip8/.cache/engine_state.json`.
  * `inspect` is the subcommand. In this case, it means that we want to look
    into the values of the current engine state.
  * `-f hex` is a suboption. It is the same syntax as the options, we have a
@@ -226,4 +226,4 @@ have the same syntax as the subtoptions.
 
  * `-s <file>` or `--state <file>` - This option is used to change the default
    file read when retrieving and saving the engine state. It defaults to the
-   `.engine_state.chip8.txt` file in the current directory.
+   `.engine_state.chip8.json` file in the current directory.

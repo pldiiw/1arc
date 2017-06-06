@@ -6,7 +6,7 @@
  *
  * Options:
  *   -s, --state <file>  The file where the engine's state resides.
- *                       (default: .engine_state.chip8.txt)
+ *                       (default: .engine_state.chip8.json)
  *
  * Subcommands:
  *   load [-d,--dry-run] <source-file>
@@ -33,7 +33,7 @@ const utility = require('./utility.js');
 
 function init () {
   let query = {
-    'state': '.engine_state.chip8.txt',
+    'state': '.engine_state.chip8.json',
     'subcommand': 'help',
     'subparameter': '',
     'dryrun': false,
@@ -136,7 +136,7 @@ function parseArgument (query, args) {
  *
  * Options:
  *   -s, --state <file>  Save new engine to file, instead of default.
- *                       (default: .engine_state.chip8.txt)
+ *                       (default: .engine_state.chip8.json)
  *
  * Suboptions:
  *   -d, --dry-run       Do not save the new engine to the state file. Can help
@@ -161,7 +161,7 @@ function load (query) {
  *
  * Options:
  *   -s, --state <file>  Where to retrieve and save back the engine's state.
- *                       (default: .engine_state.chip8.txt)
+ *                       (default: .engine_state.chip8.json)
  *
  * Suboptions:
  *   -d, --dry-run       Do not save the new engine, display the differences
@@ -189,7 +189,7 @@ function cycle (query) {
  *
  * Options:
  *   -s, --state <file>           The file containing the engine's state.
- *                                (default: .engine_state.chip8.txt)
+ *                                (default: .engine_state.chip8.json)
  *
  * Suboptions:
  *   -1, --pixel-on <character>   Use given character for non-transparent
@@ -213,7 +213,7 @@ function display (query) {
  *
  * Options:
  *   -s, --state <file>  Where to retrieve and save back the engine's state.
- *                       (default: .engine_state.chip8.txt)
+ *                       (default: .engine_state.chip8.json)
  *
  * Suboptions:
  *   -n, --no            Release the pressure on a key.
@@ -240,7 +240,7 @@ function input (query) {
  * Options:
  *   -s, --state <file>         The file containing the engine's state to
  *                              inspect.
- *                              (default: .engine_state.chip8.txt)
+ *                              (default: .engine_state.chip8.json)
  *
  * Suboptions:
  *   -f, --format <base>        Change the base in which to display
@@ -361,7 +361,7 @@ function help (query) {
  *
  * Options:
  *   -s, --state <file>  File path to the original engine you want to edit.
- *                       (default: .engine_state.chip8.txt)
+ *                       (default: .engine_state.chip8.json)
  */
 function edit (query) {
   const tmp = query.state + '-tmp';
