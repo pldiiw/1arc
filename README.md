@@ -16,23 +16,23 @@ the following people:
 
 Here's the pitch:
 
-The old CEO of an imaginary soda company, "Pota Cola", dies and brings with him
-the secrets of the recipe of their top selling soda. The last way of retrieving
-the recipe seems to be an old floppy disk with CHIP-8 code inside, labelled
-"Confidential".
-As the new CEO wants to get that recipe, he asked us to create a new CHIP-8
-interpreter/emulator (as you wish to call them) to decode this floppy and get
-that freaking recipe back to make the money flow again.
+> The old CEO of an imaginary soda company, "Pota Cola", dies and brings with him
+> the secrets of the recipe of their top selling soda. The last way of retrieving
+> the recipe seems to be an old floppy disk with CHIP-8 code inside, labelled
+> "Confidential".
+> As the new CEO wants to get that recipe, he asked us to create a new CHIP-8
+> interpreter/emulator (as you wish to call them) to decode this floppy and get
+> that freaking recipe back to make the money flow again.
 
 You can find the long version with the requirements in the subject file:
 [1ARC.pdf].
 
 ## Table of Contents
 
- * [Project hierarchy](#Project-hierarchy)
- * [Used technologies](#Used-technologies)
- * [User manual](#User-manual)
- * [License](#LICENSE)
+ * [Project hierarchy](#project-hierarchy)
+ * [Used technologies](#used-technologies)
+ * [User manual](#user-manual)
+ * [License](#license)
 
 ## Project hierarchy
 
@@ -59,7 +59,7 @@ The source code has been written in [JavaScript]. It was intended to run using
 
 To comment our code and make it useful, we've used [JSDoc], enabling us to
 produce a beautiful technical documentation/API reference that is guaranteed to
-be updated as it is tighly coupled with the code.
+be up to date as it is tighly coupled with the code.
 
 Also to make the code consistent, we've agreed to follow the [Semistandard]
 style guide. Having a tool that can automatically format the code for us is a
@@ -240,9 +240,8 @@ Amazing, right?
 
 You can dig a bit more into the CLI by typing `./bin/cli.js help`. And then
 `./bin/cli.js help <subcommand>` for any particular subcommand you're intrigued
-with.
-Also go read our design document about the CLI to learn every aspect of it:
-[cli.md].
+with. Also go read our design document about the CLI to learn every aspect of
+it: [cli.md].
 
 #### GUI
 
@@ -256,15 +255,18 @@ you need to know about CHIP-8: [Mastering CHIP-8 by Matthew Mikolay].
 We've compiled a CHIP-8 reference that is terser than this article, good for
 quick infos: [chip-8.md].
 
-Try to download some CHIP-8 games on the web and test them!
+To write CHIP-8 source code that cope with our interpreter, please respect the
+syntax described inside this document: [syntax.md].
+
+Try to download some CHIP-8 games from the web and test them!
 
 If you really want to dig it, go read all of our [design documents] to
 understand all of the inner workings of our implementation and maybe, if you're
-brave enough go the [technical one].
+brave enough go read the [technical ones].
 
 ## LICENSE
 
-See LICENSE file for more information.
+This software is under the MIT license. See [LICENSE] file for more information.
 
 [CHIP-8]: https://en.wikipedia.org/wiki/CHIP-8
 [@pldiiw]: https://github.com/pldiiw
@@ -285,3 +287,5 @@ See LICENSE file for more information.
 [chip-8.md]: ./doc/chip-8.md
 [design documents]: ./doc/design/README.md
 [technical one]: ./doc/technical/README.md
+[syntax.md]: ./doc/design/syntax.md
+[LICENSE]: ./LICENSE
