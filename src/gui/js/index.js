@@ -318,12 +318,32 @@ function UIKeypadUpdate () {
 }
 
 function UIEditOnTheFlyEventsGenerate() {
+//display
+  Array.prototype.forEach.call(document.querySelectorAll("rect"), function(e, i) {
+      e.ondblclick = function() {
+        let display = engineState.get('display');
+        console.log(i);
+        console.log("row" + Math.trunc((i / 64)))
+        console.log("col" + Math.trunc(i % 64))
+        console.log("val : " + display[(Math.trunc(i / 64))][(Math.trunc(i % 64))])
+        //console.log(display);
 
+        display[(Math.trunc(i / 64))][(Math.trunc(i % 64))] = !display[(Math.trunc(i / 64))][(Math.trunc(i % 64))];
+        engineState = engineState.set('display', display);
+        console.log("/////")
+        console.log(display[(Math.trunc((i / 64)))])
+        console.log(display[(Math.trunc((i / 64)))][(Math.trunc(i % 64))])
+        console.log(display[(Math.trunc((i / 64) + 1))])
+
+        document.querySelectorAll("rect")[i].style.fill="blue"
+        UIDisplayUpdate();
+      };
+    }
+  );
 //data-registers
   Array.prototype.forEach.call(document.querySelectorAll(".data-registers-subsection ol li samp"), function(e, i) {
       e.ondblclick = function() {
         let data = engineState.get('data');
-        console.log(data);
         data[i] = parseInt(prompt("Enter value"));
         engineState = engineState.set('data', data);
         UIDataUpdate();
