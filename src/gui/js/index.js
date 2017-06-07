@@ -319,6 +319,18 @@ function UIKeypadUpdate () {
 
 function UIEditOnTheFlyEventsGenerate() {
 
+//data-registers
+  Array.prototype.forEach.call(document.querySelectorAll(".data-registers-subsection ol li samp"), function(e, i) {
+      e.ondblclick = function() {
+        let data = engineState.get('data');
+        console.log(data);
+        data[i] = parseInt(prompt("Enter value"));
+        engineState = engineState.set('data', data);
+        UIDataUpdate();
+      };
+    }
+  );
+//memory
   Array.prototype.forEach.call(document.querySelectorAll("#cells div samp:first-child"), function(e, i) {
       e.ondblclick = function() {
         let memory = engineState.get('memory');
