@@ -20,8 +20,9 @@ define(['engine', 'utility'], (engine, utility) => {
       .onclick = UIDataUpdate;
     document.querySelector('#memory-section .base-widget')
       .onclick = UIMemoryUpdate;
-    defineInputs();
     UIGenerate();
+    defineInputs();
+    UIEditOnTheFlyEventsGenerate();
     UIUpdate();
   }
 
@@ -322,6 +323,47 @@ define(['engine', 'utility'], (engine, utility) => {
     });
   }
 
+  function UIEditOnTheFlyEventsGenerate () {
+    let ask = () => {
+      return parseInt(prompt('Enter new value (prefix 0x for hex):'));
+    };
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('#display rect'),
+      (pixel, i) => {
+        pixel.onclick = () => {
+          let display = engineState.get('display');
+          const x = Math.trunc(i % 64);
+          const y = Math.trunc(i / 64);
+          display[y][x] = !display[y][x];
+          engineState = engineState.set('display', display);
+          UIDisplayUpdate();
+        };
+      });
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.data-registers-subsection samp'),
+      (v, i) => {
+        v.ondblclick = () => {
+          let data = engineState.get('data');
+          data[i] = ask();
+          engineState = engineState.set('data', data);
+          UIDataRegistersUpdate();
+        };
+      });
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('#cells div samp:first-child'),
+      (v, i) => {
+        v.ondblclick = function () {
+          let memory = engineState.get('memory');
+          memory[i] = ask();
+          engineState = engineState.set('memory', memory);
+          UIMemoryUpdate();
+        };
+      });
+  }
+
   function defineInputs () {
     let processInput = event => {
       if (event.keyCode === 32 || event.keyCode === 16 || event.keyCode === 9) {
@@ -486,6 +528,7 @@ define(['engine', 'utility'], (engine, utility) => {
     UIOtherRegistersUpdate: UIOtherRegistersUpdate,
     UIMemoryGenerate: UIMemoryGenerate,
     UIMemoryUpdate: UIMemoryUpdate,
-    UIKeypadUpdate: UIKeypadUpdate
+    UIKeypadUpdate: UIKeypadUpdate,
+    UIEditOnTheFlyEventsGenerate: UIEditOnTheFlyEventsGenerate
   };
 });
