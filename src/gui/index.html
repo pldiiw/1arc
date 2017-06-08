@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CHIP-8 interpreter</title>
+  <link rel="stylesheet"
+    href="https://rawgit.com/filipelinhares/ress/master/dist/ress.min.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <div id="menu-section" class="main-component">
+    <label id="load-program">
+      <input type="file">
+      <span>Load program</span>
+    </label>
+    <label id="load-engine">
+      <input type="file">
+      <span>Load engine</span>
+    </label>
+    <label id="save-engine">
+      <input type="button">
+      <span>Save engine</span>
+    </label>
+    <label id="pause" for="pause-input">
+      <input type="radio" name="control" id="pause-input">
+      <span>P</span>
+    </label>
+    <label id="cycle-once" for="cycle-input">
+      <input type="radio" name="control" id="cycle-input">
+      <span>C</span>
+    </label>
+    <label id="cycle-continuously" for="cc-input">
+      <input type="radio" name="control" id="cc-input">
+      <span>CC</span>
+    </label>
+  </div>
+  <div id="data-section" class="main-component">
+    <div class="top-bar">
+      <div class="base-widget">
+        <input type="radio" name="base-data" id="data-binary" value="2">
+        <label for="data-binary" class="widget-label-box">2</label>
+        <input type="radio" name="base-data" id="data-decimal" value="10" checked>
+        <label for="data-decimal" class="widget-label-box">10</label>
+        <input type="radio" name="base-data" id="data-hexadecimal" value="16">
+        <label for="data-hexadecimal" class="widget-label-box">16</label>
+      </div>
+    </div>
+    <div class="data-registers-subsection">
+      <ol>
+        <li><p>0:</p><samp id="0"></samp></li>
+        <li><p>1:</p><samp id="1"></samp></li>
+        <li><p>2:</p><samp id="2"></samp></li>
+        <li><p>3:</p><samp id="3"></samp></li>
+        <li><p>4:</p><samp id="4"></samp></li>
+        <li><p>5:</p><samp id="5"></samp></li>
+        <li><p>6:</p><samp id="6"></samp></li>
+        <li><p>7:</p><samp id="7"></samp></li>
+        <li><p>8:</p><samp id="8"></samp></li>
+        <li><p>9:</p><samp id="9"></samp></li>
+        <li><p>A:</p><samp id="A"></samp></li>
+        <li><p>B:</p><samp id="B"></samp></li>
+        <li><p>C:</p><samp id="C"></samp></li>
+        <li><p>D:</p><samp id="D"></samp></li>
+        <li><p>E:</p><samp id="E"></samp></li>
+        <li><p>F:</p><samp id="F"></samp></li>
+      </ol>
+    </div>
+    <div class="other-registers-subsection">
+      <ol>
+        <li><p>Timer:</p><samp id="timer"></samp></li>
+        <li><p>Sound:</p><samp id="sound"></samp></li>
+        <li><p>I:</p><samp id="I"></samp></li>
+        <li><p>PC:</p><samp id="pc"></samp></li>
+        <li><p>Pointer:</p><samp id="pointer"></samp></li>
+        <li><p>Stack 1:</p><samp id="stack-1"></samp></li>
+        <li><p>Stack 2:</p><samp id="stack-2"></samp></li>
+        <li><p>Stack 3:</p><samp id="stack-3"></samp></li>
+        <li><p>Stack 4:</p><samp id="stack-4"></samp></li>
+        <li><p>Stack 5:</p><samp id="stack-5"></samp></li>
+        <li><p>Stack 6:</p><samp id="stack-6"></samp></li>
+        <li><p>Stack 7:</p><samp id="stack-7"></samp></li>
+        <li><p>Stack 8:</p><samp id="stack-8"></samp></li>
+        <li><p>Stack 9:</p><samp id="stack-9"></samp></li>
+        <li><p>Stack A:</p><samp id="stack-A"></samp></li>
+        <li><p>Stack B:</p><samp id="stack-B"></samp></li>
+        <li><p>Stack C:</p><samp id="stack-C"></samp></li>
+        <li><p>Stack D:</p><samp id="stack-D"></samp></li>
+        <li><p>Stack E:</p><samp id="stack-E"></samp></li>
+        <li><p>Stack F:</p><samp id="stack-F"></samp></li>
+      </ol>
+    </div>
+  </div>
+  <div id="display-section" class="main-component">
+    <svg id="display" width="100%" height="100%"
+      xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div id="memory-section" class="main-component">
+    <div class="top-bar">
+      <div class="base-widget">
+          <input type="radio" name="base-memory" id="binary-memory" value="2"><!--
+       --><label for="binary-memory" class="widget-label-box">2</label><!--
+       --><input type="radio" name="base-memory" id="decimal-memory" value="10" checked><!--
+       --><label for="decimal-memory" class="widget-label-box">10</label><!--
+       --><input type="radio" name="base-memory" id="hexadecimal-memory" value="16"><!--
+       --><label for="hexadecimal-memory" class="widget-label-box">16</label>
+      </div>
+    </div>
+    <div id="cells"></div>
+  </div>
+  <div id="keypad-section" class="main-component">
+    <div id="key-1" class="key">
+      <span>1</span>
+      <kbd>&</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-2" class="key">
+      <span>2</span>
+      <kbd>é</kbd>
+      <samp></samp>
+    </div><!--
+  --><div id="key-3" class="key">
+      <span>3</span>
+      <kbd>"</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-C" class="key">
+      <span>C</span>
+      <kbd>'</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-4" class="key">
+      <span>4</span>
+      <kbd>a</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-5" class="key">
+      <span>5</span>
+      <kbd>z</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-6" class="key">
+      <span>6</span>
+      <kbd>e</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-D" class="key">
+      <span>D</span>
+      <kbd>r</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-7" class="key">
+      <span>7</span>
+      <kbd>q</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-8" class="key">
+      <span>8</span>
+      <kbd>s</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-9" class="key">
+      <span>9</span>
+      <kbd>d</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-E" class="key">
+      <span>E</span>
+      <kbd>f</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-A" class="key">
+      <span>A</span>
+      <kbd>w</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-0" class="key">
+      <span>0</span>
+      <kbd>x</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-B" class="key">
+      <span>B</span>
+      <kbd>c</kbd>
+      <samp></samp>
+    </div><!--
+ --><div id="key-F" class="key">
+      <span>F</span>
+      <kbd>v</kbd>
+      <samp></samp>
+    </div>
+  </div>
+  <script data-main="js/index.js" src="js/require.min.js"></script>
+</body>
+</html>
