@@ -16,10 +16,10 @@ the following people:
 
 Here's the pitch:
 
-> The old CEO of an imaginary soda company, "Pota Cola", dies and brings with him
-> the secrets of the recipe of their top selling soda. The last way of retrieving
-> the recipe seems to be an old floppy disk with CHIP-8 code inside, labelled
-> "Confidential".
+> The old CEO of an imaginary soda company, "Pota Cola", dies and brings with
+> him the secrets of the recipe of their top selling soda. The last way of
+> retrieving the recipe seems to be an old floppy disk with CHIP-8 code inside,
+> labelled "Confidential".
 > As the new CEO wants to get that recipe, he asked us to create a new CHIP-8
 > interpreter/emulator (as you wish to call them) to decode this floppy and get
 > that freaking recipe back to make the money flow again.
@@ -204,9 +204,31 @@ Simple enough? Let's run it now!
 
 ### Installation
 
+#### From packaged version
+
 To install our CHIP-8 interpreter, go to
 https://github.com/pldiiw/1arc/releases and download the last version you can
 find. Extract it somewhere and then you're done, it's ready to rock.
+
+#### From source
+
+If you wish to install this software from source, you need the following
+dependencies:
+ * `git`: https://git-scm.com/
+ * `bash` or any other shell
+ * `nodejs`: https://nodejs.org/
+
+First, clone the repository: `git clone https://github.com/pldiiw/1arc`.
+
+Enter the repo: `cd 1arc`.
+
+Install all node dependencies: `npm i`.
+
+Run the tests to check that everything is alright: `npm run test`.
+
+Then, build the executables: `npm run build`.
+
+You will find your executables inside the `bin` directory.
 
 ### Running the code
 
