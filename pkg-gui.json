@@ -1,0 +1,6 @@
+{
+  "bin": "src/gui/app.js",
+  "pkg": {
+    "assets": "src/gui/**/*"
+  }
+}
