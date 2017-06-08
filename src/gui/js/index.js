@@ -339,6 +339,13 @@ function doInputsSwitch(event, state) {
           nextWidgetSelection();
         }
         break;
+      case 17:
+        if(state == 'keydown'){
+          showHelp();
+        } else if (state == 'keyup') {
+          hideHelp();
+        }
+        break;
         
       default:
         break;
@@ -382,6 +389,22 @@ function mousePress(id,state){
   engineKeypad[parseInt(id.slice(-1),16)] = state;
   engineState = engineState.set("keypad", engineKeypad);
   UIKeypadUpdate ()
+}
+
+function showHelp(){
+  const mainComponent = document.getElementsByClassName('main-component');
+  let elm;
+  for(let i=0;i<5;i++){
+    elm=document.createElement('p');
+    elm.className='help'
+    elm.textContent=mainComponent[i].id;
+    mainComponent[i].appendChild(elm)
+    console.log(mainComponent[i]);
+  }
+}
+
+function hideHelp(){
+
 }
 
 defineInputs();
