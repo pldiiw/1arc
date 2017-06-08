@@ -327,6 +327,15 @@ function UIEditOnTheFlyEventsGenerate() {
       };
     }
   );
+  Array.prototype.forEach.call(document.querySelectorAll("samp[id^='stack-']"), function(e, i) {
+      e.ondblclick = function() {
+        let stack = engineState.get('stack');
+        stack[i + 1] = parseInt(prompt("Enter value"));
+        engineState = engineState.set('stack', stack);
+        UIDataUpdate();
+      };
+    }
+  );
   Array.prototype.forEach.call(document.querySelectorAll(".data-registers-subsection ol li samp"), function(e, i) {
       e.ondblclick = function() {
         let data = engineState.get('data');
