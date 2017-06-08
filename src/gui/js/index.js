@@ -229,6 +229,13 @@ requirejs(['engine', 'utility'], (engine, utility) => {
           .get('stack')[parseInt(samp.id.split('-')[1], 16)].toString(base);
       } else {
         samp.innerText = engineState.get(samp.id).toString(base);
+
+        // Put sound in gyrophare mode if it should emit sound.
+        if (samp.id === 'sound' && engineState.get('sound') > 2) {
+          samp.parentElement.classList.add('gyrophare');
+        } else if (samp.id === 'sound' && engineState.get('sound') <= 2) {
+          samp.parentElement.classList.remove('gyrophare');
+        }
       }
 
       if (base === 2) {
