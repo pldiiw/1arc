@@ -220,7 +220,7 @@ The CLI, people's best friend. Or nerd's one, I don't remember the adage. In
 your terminal, go to the directory where the interpreter is installed and run:
 
 ```
-./bin/cli.js load <path-to-your-source-file>
+./bin/cli load <path-to-your-source-file>
 ```
 
 Where `<path-to-your-source-file>` is, well, your source file.
@@ -230,20 +230,45 @@ source code into it. This machine is saved as a `.json` file named by default
 `.engine_state.chip8.json`. Try to open it with a text editor and explore it a
 bit to see how is organized the virtual machine if you wish to!
 
-Now, let's run our code: `./bin/cli.js cycle 13`. This will run the 13 next
+Now, let's run our code: `./bin/cli cycle 13`. This will run the 13 next
 instructions, exactly how many we have in our code. You could put a bigger
 number, but that would just be wasting electricity.
 
-Finally, let's see how pretty "HEY": `./bin/cli.js display`.
+Finally, let's see how pretty "HEY": `./bin/cli display`.
 
 Amazing, right?
 
-You can dig a bit more into the CLI by typing `./bin/cli.js help`. And then
-`./bin/cli.js help <subcommand>` for any particular subcommand you're intrigued
+You can dig a bit more into the CLI by typing `./bin/cli help`. And then
+`./bin/cli help <subcommand>` for any particular subcommand you're intrigued
 with. Also go read our design document about the CLI to learn every aspect of
 it: [cli.md].
 
 #### GUI
+
+For some, a graphical interface may be easier to use. Execute `./bin/gui` to
+open it.
+
+Let's load our "hey" program inside it. Just click on the `Load program` button
+and select the source code file for our program.
+
+Once done, you may see some changes on the screen. Everything you have in front
+of you is every component and value that is inside the CHIP-8 virtual machine.
+At the bottom of the screen you can see memory, where values have been written.
+Select the `16` that is just above the cell section and scroll to the 512th
+cell. Reading the values, you may recognize every instruction of our "hey"
+program.
+
+To run the program, click on the button with the fast-forward icon (or press
+`Shift+Space`). If many things on the interface happens at once and that our
+"HEY" is displayed, that means that it worked. To stop the execution if it
+didn't by itself, click on the pause button (or press `Space`).
+
+You can do many things with the GUI. For example, click on one of the pixels of
+the display. Did it turned on or off? Awesome!
+
+The GUI let you edit any value in a easy manner, and give a convenient way to
+interact with the CHIP-8 virtual machine. Don't hesitate to tinker things at
+random to explore the possibilities of the CHIP-8 virtual machine.
 
 #### Going further
 
