@@ -6,5 +6,5 @@ test('call subroutine located at address 500', () => {
 
   expect(engine_.get('pointer')).toBe(5);
   expect(engine_.get('stack')[4]).toBe(100);
-  expect(engine_.get('pc')).toBe(500);
+  expect(engine_.get('pc')).toBe(498);
 });
