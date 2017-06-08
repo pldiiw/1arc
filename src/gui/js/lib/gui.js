@@ -483,7 +483,7 @@ define(['engine', 'utility'], (engine, utility) => {
     if (button !== '') {
       let keypad = engineState.get('keypad');
       const key = parseInt(button.slice(-1), 16);
-      keypad[key] = event.type === 'keydown';
+      keypad[key] = !keypad[key];
       engineState = engineState.set('keypad', keypad);
       UIKeypadUpdate();
     }
@@ -513,14 +513,13 @@ define(['engine', 'utility'], (engine, utility) => {
       document.querySelectorAll('#keypad-section .key'),
       (UIKey) => {
         UIKey.onmousedown = mousePress;
-        UIKey.onmouseup = mousePress;
       });
   }
 
   function mousePress (event) {
     let keypad = engineState.get('keypad');
     const key = parseInt(event.target.id.slice(-1), 16);
-    keypad[key] = event.type === 'mousedown';
+    keypad[key] = !keypad[key];
     engineState = engineState.set('keypad', keypad);
     UIKeypadUpdate();
   }
