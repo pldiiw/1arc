@@ -57,6 +57,9 @@ the project.
 The source code has been written in [JavaScript]. It was intended to run using
 [NodeJS] on Windows, MacOS and Linux and on web browsers.
 
+The CLI and GUI are packaged into executables using [pkg]. The GUI uses
+[Express] when packaged to launch a local webserver.
+
 To comment our code and make it useful, we've used [JSDoc], enabling us to
 produce a beautiful technical documentation/API reference that is guaranteed to
 be up to date as it is tighly coupled with the code.
@@ -314,3 +317,5 @@ This software is under the MIT license. See [LICENSE] file for more information.
 [technical one]: ./doc/technical/README.md
 [syntax.md]: ./doc/design/syntax.md
 [LICENSE]: ./LICENSE
+[pkg]: https://github.com/zeit/pkg
+[Express]: http://expressjs.com/
