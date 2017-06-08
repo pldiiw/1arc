@@ -1,0 +1,6 @@
+{
+  "bin": "src/cli.js",
+  "pkg": {
+    "assets": "src/cli.js"
+  }
+}

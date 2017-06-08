@@ -2,12 +2,13 @@
   "name": "1arc",
   "version": "0.0.0",
   "description": "CHIP-8 interpreter written in JS with a CLI and a GUI",
-  "main": "",
+  "main": "src/cli.js",
   "directories": {
     "doc": "doc",
     "test": "test"
   },
   "scripts": {
+    "build": "./build.sh",
     "test": "./run_tests.sh"
   },
   "repository": {
@@ -39,9 +40,13 @@
   "homepage": "https://github.com/pldiiw/1arc#readme",
   "devDependencies": {
     "jest": "^19.0.2",
+    "pkg": "^4.0.0",
     "semistandard": "^10.0.0"
   },
   "jest": {
     "testRegex": "test/.*\\.js$"
+  },
+  "optionalDependencies": {
+    "express": "^4.15.3"
   }
 }
