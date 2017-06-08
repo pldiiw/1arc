@@ -6,14 +6,14 @@ Here we will explain what is the purpose of the utility module.
 
 ## Abstract
 
-If we enable people to write CHIP-8 source code based on the syntax defined in
-[syntax.md](./syntax.md), we need a tool to convert these texts files into a
-format that we can hand out to the engine.
-Also, having debugging tools is a big plus when having to write and understand
-CHIP-8 code.
+The utility module is group of functions that have no place in the other
+modules, or that are used in higher modules.
 
-We answer these problems by providing tools that are accessible through this
-module.
+For example, we have enabled people to write CHIP-8 source code based on the
+syntax defined in [syntax.md](./syntax.md), thus we need a tool to convert
+these texts files into a format that we can hand out to the engine.
+
+The following sections dissect every tool that this module provides.
 
 ## Artefact removing
 
@@ -63,7 +63,7 @@ precisely at this state: a suite of hexadecimal digits.
 
 A linter is a tool that checks for inconsistencies in source code. What it does
 in our case is checking that a suite of instructions (see previous section)
-contains only instructions that actually exists, anything else.
+contains only instructions that actually exists, rejecting anything else.
 
 Here's how it achieves this:
 
@@ -79,6 +79,84 @@ digits against the provided Map. If the linter can found a key inside the
 instruction Map that match this set of four digits, then this is a correct
 instruction.
 
+It should also detect sprites.
+
 Any error is reported, but the linting should continue. Any incorrect
-instruction will make the linter return a null value after having check all the
-suite.
+instruction will make the linter return a null value after having checked all
+the suite.
+
+## Dump engine
+
+The utility module should also provide a `dumpEngine()` function. Given a
+CHIP-8 engine data structure instance, it should translate it to a readable
+JSON string, with every value the engine is containing written in it.
+
+The JSON file should look like this (here, all values are set to 0):
+
+```
+{
+  data: [
+    0,
+    0,
+    ...
+  ],
+  I: 0,
+  timer: 0,
+  sound: 0,
+  memory: [
+    0,
+    0,
+    ...
+  ],
+  pc: 0,
+  pointer: 0,
+  stack: [
+    0,
+    0,
+    ...
+  ],
+  display: [
+    [false, false, ...],
+    [false, false, ...],
+    ...
+  ],
+  keypad: [
+    false,
+    false,
+    ...
+  ]
+}
+```
+
+## Load engine
+
+If we dump engines, we need a way to reverse the process, restoring
+engines from previous dumps. This what the `loadEngine()` function does. It
+takes as a parameter a string containing a dumped engine, and manages to
+restore our previously dumped engine to an engine instance that is ready to be
+used.
+
+## Compare engines
+
+The last tool the utility module implements is the `compareEngines()` function.
+
+Its role is to return a string that contain all the differences between two
+given engines (not dumps, data structures).
+
+The format of the returned diff should be:
+
+```
+<component>: <engineA value> -> <engineB value>
+```
+
+Here's an example:
+
+```
+data[2]: 23 -> 243
+data[3]: 255 -> 4
+data[16]: 1 -> 0
+pc: 512 -> 514
+memory[200]: 3 -> 120
+display[4]: 0000000011110000000000000000000010010000000000000000000000000000
+         -> 0000000000001111000000000000000011110000000000000000000111111111
+```

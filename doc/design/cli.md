@@ -41,16 +41,16 @@ a keyword but it is used to refine what you want from the subcommand.
 Here's an example of a call combining them all:
 
 ```
-$ ./cli.js -s engine_state.txt inspect -f hex memory
+$ ./cli.js -s engine_state.json inspect -f hex memory
 ```
 
 If we break it down, we have:
- * `-s engine_state.txt` is an option. `-s` is the switch and `engine_state`
+ * `-s engine_state.json` is an option. `-s` is the switch and `engine_state`
    the value passed to it. The `-s` option is used to give the file where the
-   current CHIP-8 engine lies. In this case, `engine_state.txt` is in the
+   current CHIP-8 engine lies. In this case, `engine_state.json` is in the
    current directory, so we just had to give its name. If this file was located
    in the `/home/chip8/.cache/` directory, then we would have written `-s
-   /home/chip8/.cache/engine_state.txt`.
+   /home/chip8/.cache/engine_state.json`.
  * `inspect` is the subcommand. In this case, it means that we want to look
    into the values of the current engine state.
  * `-f hex` is a suboption. It is the same syntax as the options, we have a
@@ -86,11 +86,15 @@ Here's the list of all the possible subcommands:
  * `input` - Simulate the input of a keypad's key. For example, running
    `./cli.js input a` would retrieve the current engine state and set the `A`
    key as pressed, concluding the call by saving the engine state back.
- * `inspect` - This a low-level command. It simply show the bare data of the
+ * `inspect` - This a low-level command. It simply shows the bare data of the
    various components of the engine. Like the other commands, it retrieves the
    current state of the engine and prints out the data contained in the
    requested components. For example, you would do `./cli.js inspect memory` to
    get the bare binary data of the engine's memory.
+ * `edit` - This command copies the engine state file to a temporary new file,
+   that is then opened in the user's default editor to let him modify by hand
+   the values of the saved engine. When the user closes his editor, the tmp
+   file is copied back to the state file, overwriting the latter.
  * `help` - Show the help.
 
 ### Subparameters
@@ -105,7 +109,7 @@ The subparameters are given with their associated subcommand prefixed.
    dumping the engine state. If an amount of `-1` is given, it will run until
    it reaches the end of the engine's memory. If no value are passed, it
    defaults to 1.
- * `display` does not have any subparameter.
+ * `display` does not have any subparameters.
  * `input <key>` - Along with `input`, we have to give the key we want to
    simulate the pressure. It can be given in lowercase or uppercase. The
    possible values are: `0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f`. This is
@@ -113,14 +117,10 @@ The subparameters are given with their associated subcommand prefixed.
  * `inspect [component]` - As seen earlier in the document, the `inspect`
    subcommand takes an optional subparameter that indicates what part of the
    engine we want to examine. If no component is given, it is a if we passed
-   `all`.  
+   `all`.
    The possible values are:
    ```
    data
-   data.0 data.1 data.2 data.3 data.4
-   data.5 data.6 data.7 data.8 data.9
-   data.A data.B data.C data.D data.E
-   data.F
    I
    timer
    sound
@@ -132,6 +132,7 @@ The subparameters are given with their associated subcommand prefixed.
    keypad
    all
    ```
+ * `edit` does not have any subparameters.
  * `help [subcommand]` - Calling `help` with no subparameter displays the CLI
    syntax and the possible options and the subcommands along with their
    subparameter with a short description of what they does. When passing a
@@ -184,16 +185,17 @@ can be more readable to use long suboptions in some cases.
  * `-f <base>` or `--format <base>` - Let you choose in what base the value of
    the inspected is displayed. For example, if you want to get the value in
    hexadecimal instead of binary, you would use `-f hex` or even `-f 16`. It
-   defaults to the binary format. Here are the possible bases:
+   defaults to the decimal format. Here are the possible bases:
    ```
    16 hex
+   10 dec
     8 oct
     2 bin
    ```
- * `-r [start]-[end]` or `--range [start]-[end]` - For some components of the
-   engine, you may not want the entire value of it. A such case is when
-   inspecting the memory, all of it may not be portion you're looking for.
-   Here's how to use it:
+ * `-r [start]-[end]` or `--range [start]-[end]` - When inspecting the memory
+   or the display of the engine, you may not want the entire value of it. A
+   such case is when inspecting the memory, all of it may not be portion you're
+   looking for. Here's how to use it:
    ```
    $ ./cli.js inspect memory --range 98-100  # Log the 98th and 99th bytes of
                                              # memory
@@ -208,6 +210,10 @@ can be more readable to use long suboptions in some cases.
                                              # prefixed with '0x'
    ```
 
+#### Edit suboptions
+
+Edit doesn't have any suboptions.
+
 #### Help suboptions
 
 Help doesn't have any suboptions.
@@ -220,4 +226,4 @@ have the same syntax as the subtoptions.
 
  * `-s <file>` or `--state <file>` - This option is used to change the default
    file read when retrieving and saving the engine state. It defaults to the
-   `.engine_state.chip8.txt` file in the current directory.
+   `.engine_state.chip8.json` file in the current directory.

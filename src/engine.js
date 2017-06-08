@@ -9,7 +9,6 @@ const instruction = require('./instruction-set.js').instruction;
  * @return {Map} Empty engine
  */
 function initialize () {
-
   return new Map([
     ['data', new Uint8Array(16)],
     ['I', 0],
@@ -19,7 +18,7 @@ function initialize () {
     ['pc', 0],
     ['pointer', 0],
     ['stack', new Uint16Array(16)],
-    ['display', Array(32).fill(Array(64).fill(false))],
+    ['display', Array.from({ length: 32 }).map(_ => Array(64).fill(false))],
     ['keypad', Array(16).fill(false)]
   ]);
 }
@@ -30,7 +29,6 @@ function initialize () {
  * @return {Map} The engine with the font loaded.
  */
 function loadFont (engine) {
-
   const font = Uint8Array.from([
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -63,12 +61,13 @@ function loadFont (engine) {
  * @return {Map} The new engine, with program loaded.
  */
 function loadProgram (engine, program) {
-
   const parsedProgram = program.match(/.{1,2}/g).map(v => parseInt(v, 16));
 
   return engine.set('memory',
     engine.get('memory').map((v, i) => {
-      return i >= 512 && i < 512 + parsedProgram.length ? parsedProgram[i] : v;
+      return i >= 512 && i < 512 + parsedProgram.length
+        ? parsedProgram[i - 512]
+        : v;
     }));
 }
 
@@ -81,7 +80,6 @@ function loadProgram (engine, program) {
  * @return {Map} The engine ready to cycle.
  */
 function prepare (engine, program) {
-
   return loadProgram(loadFont(engine), program).set('pc', 0x200);
 }
 
@@ -92,26 +90,26 @@ function prepare (engine, program) {
  * during the cycle.
  */
 function cycle (engine) {
-
   // Return right away if we already reached the end of the memory.
   if (engine.get('pc') > 0xFFF) { return; }
 
   const currentPC = engine.get('pc');
   const currentInstruction = engine.get('memory')
     .slice(currentPC, currentPC + 2)
-    .reduce((a, v) => a + v.toString(16), '');
+    .reduce((a, v, i) => a + (i === 0 ? v * 0x100 : v), 0);
 
-  const executedInstructionEngine = instruction(currentInstruction)(engine);
-
-  const currentTimer = executedInstructionEngine.get('timer');
-  const DecTimerEngine = executedInstructionEngine.set('timer',
+  const currentTimer = engine.get('timer');
+  const DecTimerEngine = engine.set('timer',
     currentTimer > 0 ? currentTimer - 1 : currentTimer);
 
   const currentSound = DecTimerEngine.get('sound');
   const DecSoundEngine = DecTimerEngine.set('sound',
     currentSound > 0 ? currentSound - 1 : currentSound);
 
-  const incPCEngine = DecSoundEngine.set('pc', engine.get('pc') + 2);
+  const executedInstructionEngine =
+    instruction(currentInstruction)(DecSoundEngine);
+
+  const incPCEngine = executedInstructionEngine.set('pc', engine.get('pc') + 2);
 
   return incPCEngine;
 }
