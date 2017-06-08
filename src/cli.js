@@ -9,7 +9,7 @@
  *                       (default: .engine_state.chip8.json)
  *
  * Subcommands:
- *   load [-d,--dry-run] <source-file>
+ *   load [-b,--binary] [-d,--dry-run] <source-file>
  *     Load program into a new CHIP-8 engine.
  *   cycle [-d,--dry-run] [amount]
  *     Run one or multiple cycle, i.e. read next instruction(s).
@@ -37,6 +37,7 @@ function init () {
     'subcommand': 'help',
     'subparameter': '',
     'dryrun': false,
+    'binary': false,
     'pixelon': 'x',
     'pixeloff': 'o',
     'no': false,
@@ -68,8 +69,12 @@ function parseArgument (query, args) {
         i++;
         break;
       case '-d':
-      case '--dry-run' :
+      case '--dry-run':
         query.dryrun = true;
+        break;
+      case '-b':
+      case '--binary':
+        query.binary = true;
         break;
       case '-1':
       case '--pixel-on':
@@ -139,12 +144,15 @@ function parseArgument (query, args) {
  *                       (default: .engine_state.chip8.json)
  *
  * Suboptions:
+ *   -b, --binary        Indicate to the file parser that the source file
+ *                       specified is in a binary format, not text.
  *   -d, --dry-run       Do not save the new engine to the state file. Can help
  *                       to verify that a given CHIP-8 program is free of any
  *                       syntax error.
  */
 function load (query) {
-  const sourceCode = fs.readFileSync(query.subparameter, 'utf8');
+  const sourceCode = fs.readFileSync(query.subparameter,
+    query.binary ? 'hex' : 'utf8');
   const program = utility.removeArtefacts(sourceCode);
   const engineState = engine.prepare(engine.initialize(), program);
   if (!query.dryrun) {

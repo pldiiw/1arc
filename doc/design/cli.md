@@ -73,7 +73,11 @@ Here's the list of all the possible subcommands:
    comments, and looking for unknown or incomplete instructions -- initialize
    the CHIP-8 engine, feed the sanitized source code into the memory and save
    the engine state to a file. Further invocations of the CLI program will look
-   into that file and restores the state described into the memory.
+   into that file and restores the state described into the memory. In order to
+   maintain compatibility with older CHIP-8 program that are written directly
+   in binary instead of inside a text file, the load subcommand can take care
+   of converting these binary programs into a text format before putting the
+   program inside the new engine.
  * `cycle` - Run a single engine cycle. In other words, it retrieves the
    current state of the engine, reads the next instruction to be executed in
    the memory, executes it, modifying the engine state accordingly, and dumps
@@ -154,6 +158,9 @@ can be more readable to use long suboptions in some cases.
 
 #### Load suboptions
 
+ * `-b` or `--binary` - Used to indicate that the source file specified is in
+   binary foramt, and that it needs to be converted into the right format
+   before loading it inside the engine.
  * `-d` or `--dry-run` - Do everything the `load` does but does not dump the
    generated engine state at the end. It can help see if the source code given
    is free of any typo.
