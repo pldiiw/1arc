@@ -353,6 +353,22 @@ define(['engine', 'utility'], (engine, utility) => {
       });
 
     Array.prototype.forEach.call(
+      document.querySelectorAll(".other-registers-subsection samp"),
+      (v, i) => {
+        const componentName = /stack-/.test(v.id) ? 'stack' : v.id;
+        v.ondblclick = function() {
+          let component = engineState.get(componentName);
+          if (componentName === 'stack') {
+            component[parseInt(v.id.slice(-1), 16)] = ask();
+          } else {
+            component = ask();
+          }
+          engineState = engineState.set(componentName, component);
+          UIOtherRegistersUpdate();
+        };
+      });
+
+    Array.prototype.forEach.call(
       document.querySelectorAll('#cells div samp:first-child'),
       (v, i) => {
         v.ondblclick = function () {
