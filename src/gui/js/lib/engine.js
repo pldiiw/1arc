@@ -94,7 +94,7 @@ function prepare (engine, program) {
  */
 function cycle (engine) {
   // Return right away if we already reached the end of the memory.
-  if (engine.get('pc') > 0xFFF) { return; }
+  if (engine.get('pc') > 0xFFF) { return engine; }
 
   const currentPC = engine.get('pc');
   const currentInstruction = engine.get('memory')

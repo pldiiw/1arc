@@ -323,6 +323,9 @@ define(['engine', 'utility'], (engine, utility) => {
     });
   }
 
+/**
+ * Set up the events to permit editing values just by clicking on them.
+ */
   function UIEditOnTheFlyEventsGenerate () {
     let ask = () => {
       return parseInt(prompt('Enter new value (prefix 0x for hex):'));
@@ -380,6 +383,9 @@ define(['engine', 'utility'], (engine, utility) => {
       });
   }
 
+/**
+ * Set up all the key mapping.
+ */
   function defineInputs () {
     let processInput = event => {
       if (event.keyCode === 32 || event.keyCode === 16 || event.keyCode === 9) {
@@ -489,6 +495,9 @@ define(['engine', 'utility'], (engine, utility) => {
     }
   }
 
+/**
+ * Select the next base for all widgets.
+ */
   function nextWidgetSelection () {
     Array.prototype.forEach.call(
       document.querySelectorAll('.base-widget'),
@@ -508,6 +517,9 @@ define(['engine', 'utility'], (engine, utility) => {
       });
   }
 
+/**
+ * Set up the events for clicking on the keypad's keys.
+ */
   function defineMouseInputs () {
     Array.prototype.forEach.call(
       document.querySelectorAll('#keypad-section .key'),
@@ -544,6 +556,8 @@ define(['engine', 'utility'], (engine, utility) => {
     UIMemoryGenerate: UIMemoryGenerate,
     UIMemoryUpdate: UIMemoryUpdate,
     UIKeypadUpdate: UIKeypadUpdate,
-    UIEditOnTheFlyEventsGenerate: UIEditOnTheFlyEventsGenerate
+    UIEditOnTheFlyEventsGenerate: UIEditOnTheFlyEventsGenerate,
+    defineInputs: defineInputs,
+    defineMouseInputs: defineMouseInputs
   };
 });

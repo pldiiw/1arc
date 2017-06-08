@@ -37,7 +37,7 @@ function instruction (inst) {
 }
 
 /**
- * Does nothing, just return the engine. Used when reading a '0000'
+ * Does nothing, just return the engine. Used when reading a 'FFFF'
  * instruction.
  * @param {Map} engine
  * @return {Map} The same engine.
@@ -193,7 +193,7 @@ function xor (engine, registerA, registerB) {
  * @return {Map} A new engine.
  */
 function jump (engine, address) {
-  return engine.set('pc', address);
+  return engine.set('pc', address - 2);
 }
 
 /**
@@ -203,7 +203,7 @@ function jump (engine, address) {
  * @preturn {Map} A new engine.
  */
 function jump0 (engine, address) {
-  return engine.set('pc', engine.get('data')[0] + address);
+  return engine.set('pc', engine.get('data')[0] + address - 2);
 }
 
 /**
@@ -376,7 +376,7 @@ function call (engine, address) {
 
   return engine
     .set('pointer', pointer + 1)
-    .set('pc', address)
+    .set('pc', address - 2)
     .set('stack', stack);
 }
 
@@ -600,7 +600,7 @@ function leftShift (engine, registerA, registerB) {
 }
 
 const instructions = {
-  '0000': idle,
+  'FFFF': idle,
   '00E0': clearDisplay,
   '00EE': uncall,
   '1NNN': jump,
