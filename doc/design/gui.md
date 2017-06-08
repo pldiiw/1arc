@@ -55,7 +55,7 @@ The menu and engine control section is in charge of giving the user control
 over what the engine does. It is composed of 6 buttons:
 
  * `Load program` - Opens a dialog to let the user load a CHIP-8 program
-   contained in a text file.
+   contained in a text file. Note: Does not support programs in binary format.
  * `Load engine` - Opens a dialog to let the user load a previous dump of a
    CHIP-8 engine.
  * `Save engine` - Opens a dialog to let the user choose a file on its computer
