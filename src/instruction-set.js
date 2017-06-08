@@ -34,7 +34,7 @@ function instruction (inst) {
 }
 
 /**
- * Does nothing, just return the engine. Used when reading a '0000'
+ * Does nothing, just return the engine. Used when reading a 'FFFF'
  * instruction.
  * @param {Map} engine
  * @return {Map} The same engine.
@@ -597,7 +597,7 @@ function leftShift (engine, registerA, registerB) {
 }
 
 const instructions = {
-  '0000': idle,
+  'FFFF': idle,
   '00E0': clearDisplay,
   '00EE': uncall,
   '1NNN': jump,

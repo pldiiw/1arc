@@ -278,6 +278,11 @@ Here's a table of the font sprites and their corresponding sprite data:
  * `FX29` - Set register `I` to the memory address of the sprite data
    corresponding to the hexadecimal digit stored in register `VX`.
 
+### Specific to our implementation
+
+ * `FFFF` - Does nothing, just goes to the next instruction. Can be
+   sometimes useful, like when padding blocks of instructions.
+
 ## Resources
 
 Mastering CHIP-8 by Matthew Mikolay: http://mattmik.com/files/chip8/mastering/chip8.html

@@ -1,7 +1,7 @@
 let engine = require('../src/engine.js').initialize();
 const prepare = require('../src/engine.js').prepare;
 const cycle = require('../src/engine.js').cycle;
-const program = '6014710AF1157203F218';
+const program = '6014710AF1157203F218FFFFFFFFFFFFFFFF';
 
 describe('engine set up', () => {
   test('program counter is set to 0x200', () => {
