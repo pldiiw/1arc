@@ -10,7 +10,7 @@ let engineState = new Map([
   ['pc', 0],
   ['pointer', 0],
   ['stack', new Uint16Array(16)],
-  ['display', Array(32).fill(Array(64).fill(false))],
+  ['display', Array.from({ length: 32}).map(_ => Array(64).fill(false))],
   ['keypad', Array(16).fill(false)]
 ]);
 
@@ -318,29 +318,15 @@ function UIKeypadUpdate () {
 }
 
 function UIEditOnTheFlyEventsGenerate() {
-//display
   Array.prototype.forEach.call(document.querySelectorAll("rect"), function(e, i) {
       e.ondblclick = function() {
         let display = engineState.get('display');
-        console.log(i);
-        console.log("row" + Math.trunc((i / 64)))
-        console.log("col" + Math.trunc(i % 64))
-        console.log("val : " + display[(Math.trunc(i / 64))][(Math.trunc(i % 64))])
-        //console.log(display);
-
         display[(Math.trunc(i / 64))][(Math.trunc(i % 64))] = !display[(Math.trunc(i / 64))][(Math.trunc(i % 64))];
         engineState = engineState.set('display', display);
-        console.log("/////")
-        console.log(display[(Math.trunc((i / 64)))])
-        console.log(display[(Math.trunc((i / 64)))][(Math.trunc(i % 64))])
-        console.log(display[(Math.trunc((i / 64) + 1))])
-
-        document.querySelectorAll("rect")[i].style.fill="blue"
         UIDisplayUpdate();
       };
     }
   );
-//data-registers
   Array.prototype.forEach.call(document.querySelectorAll(".data-registers-subsection ol li samp"), function(e, i) {
       e.ondblclick = function() {
         let data = engineState.get('data');
@@ -350,7 +336,6 @@ function UIEditOnTheFlyEventsGenerate() {
       };
     }
   );
-//memory
   Array.prototype.forEach.call(document.querySelectorAll("#cells div samp:first-child"), function(e, i) {
       e.ondblclick = function() {
         let memory = engineState.get('memory');
