@@ -230,6 +230,9 @@ Then, build the executables: `npm run build`.
 
 You will find your executables inside the `bin` directory.
 
+If you prefer to run directly the sources, run `node --harmony src/cli.js` to
+use to CLI and open with your web browser `src/gui/index.html` to use the GUI.
+
 ### Running the code
 
 Before running the code, copy and paste it into a file of your choice. It will
