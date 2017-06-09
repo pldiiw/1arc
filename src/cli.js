@@ -122,12 +122,12 @@ function parseArgument (query, args) {
         break;
       case '-o':
       case '--output':
-        query.output = argumentToParse[i + 1]
+        query.output = argumentToParse[i + 1];
         i++;
         break;
       case '-t':
       case '--to':
-        query.to = argumentToParse[i + 1]
+        query.to = argumentToParse[i + 1];
         i++;
         break;
       default:

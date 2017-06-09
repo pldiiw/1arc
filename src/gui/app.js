@@ -1,4 +1,4 @@
-const spawn = require('child_process').spawn;
+const exec = require('child_process').exec;
 const express = require('express');
 
 let app = express();
@@ -23,4 +23,4 @@ if (process.platform === 'darwin') {
   cmd = 'xdg-open';
 }
 
-spawn(cmd, [url]);
+exec(cmd + ' ' + url);
