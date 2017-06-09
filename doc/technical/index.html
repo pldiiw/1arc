@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>1arc 0.0.0</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>1ARC Project - CHIP-8 Interpreter</h1><p>A <a href="https://en.wikipedia.org/wiki/CHIP-8">CHIP-8</a> interpreter/emulator written in JavaScript.</p>
+<h2>Synopsis</h2><p>This project was done in the context of the ASc1 cursus at SUPINFO. It involved
+the following people:</p>
+<ul>
+<li>Pierre-Louis DOURNEAU (<a href="https://github.com/pldiiw">@pldiiw</a>)</li>
+<li>Clément GRIMAUD (<a href="https://github.com/ehrakis">@ehrakis</a>)</li>
+<li>Ibrahim BAH-SALIFOU (<a href="https://github.com/silverthoon">@silverthoon</a>)</li>
+<li>Joffrey JANIEC (<a href="https://github.com/jjaniec">@jjaniec</a>)</li>
+<li>Juan ESTRADA (<a href="https://github.com/heversio">@heversio</a>)</li>
+</ul>
+<p>(Nicknames were given for reference when browsing the git log)</p>
+<p>Here's the pitch:</p>
+<blockquote>
+<p>The old CEO of an imaginary soda company, &quot;Pota Cola&quot;, dies and brings with
+him the secrets of the recipe of their top selling soda. The last way of
+retrieving the recipe seems to be an old floppy disk with CHIP-8 code inside,
+labelled &quot;Confidential&quot;.
+As the new CEO wants to get that recipe, he asked us to create a new CHIP-8
+interpreter/emulator (as you wish to call them) to decode this floppy and get
+that freaking recipe back to make the money flow again.</p>
+</blockquote>
+<p>You can find the long version with the requirements in the subject file:
+<a href="./1ARC.pdf">1ARC.pdf</a>.</p>
+<h2>Table of Contents</h2><ul>
+<li><a href="#project-hierarchy">Project hierarchy</a></li>
+<li><a href="#used-technologies">Used technologies</a></li>
+<li><a href="#user-manual">User manual</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<h2>Project hierarchy</h2><p>The project is split into three subdirectories: <code>doc</code>, <code>src</code> and <code>test</code>.</p>
+<p>In the <code>doc</code> folder you will find a whole lot of documentation and design
+documents. There will be a <a href="./doc/README.md">README</a> there to walk you through. Note that the
+technical documentation is mainly derived from the comments in the source code.</p>
+<p>The <code>src</code> folder holds everything that's source code. You will find every
+module the documentation talked about: <code>engine</code>, <code>instruction-set</code>, <code>utility</code>,
+<code>cli</code> and <code>gui</code>.</p>
+<p>Eventually, the <code>test</code> folder. It contains the tests we've written to ensure
+that the code we roll out meet our expectations.</p>
+<h2>Used technologies</h2><p>We've gone monoglot, but used many tools to help us leverage all the aspects of
+the project.</p>
+<p>The source code has been written in <a href="https://fr.wikipedia.org/wiki/JavaScript">JavaScript</a>. It was intended to run using
+<a href="https://nodejs.org/en/">NodeJS</a> on Windows, MacOS and Linux and on web browsers.</p>
+<p>The CLI and GUI are packaged into executables using <a href="https://github.com/zeit/pkg">pkg</a>. The GUI uses
+<a href="http://expressjs.com/">Express</a> when packaged to launch a local webserver.</p>
+<p>To comment our code and make it useful, we've used <a href="http://usejsdoc.org/">JSDoc</a>, enabling us to
+produce a beautiful technical documentation/API reference that is guaranteed to
+be up to date as it is tighly coupled with the code. We generated markdown
+files from these comments using <a href="https://github.com/jsdoc2md/jsdoc-to-markdown">jsdoc2md</a>.</p>
+<p>Also to make the code consistent, we've agreed to follow the <a href="https://github.com/Flet/semistandard">Semistandard</a>
+style guide. Having a tool that can automatically format the code for us is a
+huge asset.</p>
+<p>Concerning the tests, we end up using <a href="https://facebook.github.io/jest/">Jest</a>, an open-source testing solution
+developped by people at Facebook that got some hype in the last months. It
+works right out-of-the-box (conventions over configurations!) and is crazy fast.</p>
+<p>Finally, to track changes and guide us through merging the work each person in
+the group produces with the least headaches, we used <a href="https://git-scm.com/">Git</a>, a version control
+system you, I think, surely already know. All of this versioning orbited around
+a GitHub repository as a main remote. You may prefer to browse our work using
+their interface, as it is more pleasant to navigate from one file to other
+without the cumbersome of IDEs and, sometimes, the over-unadornedness of
+terminals. Anyway, here's a link if you prefer this mean:
+https://github.com/pldiiw/1arc</p>
+<h2>User manual</h2><p>From here, we will explain how to install and use this software.</p>
+<h3>What is CHIP-8?</h3><p>Lets begin with a brief description of what CHIP-8 is and what it looks like.</p>
+<p>CHIP-8 is an old programming language that was created in the middle of the
+70s, by some guy named Joseph Weisbecker. This is an interpreted language, so
+you write code, and you put it into some kind of virtual machine that has the
+role to make sense of this code, without compiling to binaries like other
+languages like C do.
+This is kind of crazy to know that already at that time they had thought of
+such technology, and that today we still build on these pillars. Thus,
+concerning CHIP-8, it is not <em>that</em> crazy when you look at a timeline and you
+see that Smalltalk appeared in 1972, one of the first languages to bring a
+very fast code-execute loop using the concept of interpreted languages, and
+laying down solid foundations for real object-oriented programming building on
+what Simula had done. Compared to Smalltalk, CHIP-8 holds a very mindset.
+It doesn't seek these crazy paradigms and reflexions. What CHIP-8 wants is just
+to bring an easy way to program little games without too much headaches in a
+very simple programming language, and on the edge keep that nerdy feeling of
+writing and executing code with hexadecimal digits all around.</p>
+<p>Speaking of which, let's crack some CHIP-8. Here's a very simple program:</p>
+<pre class="prettyprint source"><code>120C ; Jumping to the code
+
+;; Sprites
+90 90 F0 90 90 ; Letter 'H'
+90 90 60 60 60 ; Letter 'Y'
+
+;;; Code here!
+;; Setting our variables
+6000 6100 ; Setting the X,Y coordinates for the first letter
+6209 6300 ; Setting the X,Y coordinates for the second letter
+6413 6500 ; Setting the X,Y coordinates for the third letter
+660E ; Setting to draw letter E from built-in font
+
+;; Drawing our text
+A202 D015 ; Drawing the first letter
+F629 D235 ; Drawing the second letter
+A207 D455 ; Drawing the third letter</code></pre><p>Wow! Don't be overwhelmed, it's <em>super</em> easy, trust me! Actually, you might
+have figured it out, if you ran this code, you would get a cute &quot;HEY&quot; drawn
+onto your screen.</p>
+<p>Let's break it down very fast, after this we will install the interpreter so
+you can test this program right away.</p>
+<p>As you can see in the code excerpt, all the thing you tell the interpreter to
+do, the instructions, are written as a suite of hexadecimal digits. Each
+instruction is four digit-long. The code is formatted in a way that may help
+you distinguish every instruction from the other. The first instruction you see
+is <code>120C</code>. It is derived from the instruction <code>1NNN</code>, where is <code>N</code> is any hex
+digit you want. This one is used to jump the <em>&quot;needle&quot;</em> that read our code to
+somewhere else. Here we use it to jump over what are labelled as the &quot;sprites&quot;,
+to the real code, where our processing really begins. To draw things on the
+screen in CHIP-8, we use &quot;sprites&quot;. These are also suite of hexadecimal digits,
+but instead of being grouped by 4, they're grouped as pairs. These &quot;sprites&quot;,
+when converted into a binary number and put below the previous one, form a kind
+a drawing that is the thing we want to draw. Here, for the 'H' letter, we have:</p>
+<pre class="prettyprint source"><code>90 90 F0 90 90 ; Letter 'H'
+
+90 10010000
+90 10010000
+F0 11110000
+90 10010000
+90 10010000</code></pre><p>Can we see the 'H' in the 0s and 1s? Then you get it! You may be wondering why
+are we using only the first half of the numbers? You will your answers soon,
+don't panic.</p>
+<p>To build on that, let's see what's next: <code>6000</code>, <code>6100</code>, ... In fact the seven
+following instructions are kind of the same, and the comments don't help that
+much! You wrote that?
+More seriously, these instructions derive from the <code>6XNN</code> instruction, with
+<code>X</code> and <code>N</code>s any hex digits. The role of this instructions is to set one of
+our variables to a certain value. These variables are called registers. Their
+sole purpose is to store numbers, and you have 16 of them in CHIP-8, from <code>0</code>
+through <code>F</code>. Like the hexadecimal digits, easy to remember! Here, in <code>6000</code> we
+set the register <code>0</code> to the hex value <code>00</code>. I have to admit that is kind of
+useless because when a program begins, all variables are already set to 0
+defaults, but this is for the sake of clarity, so bear with me.
+This is the same case for <code>6209</code>, we fill the register <code>2</code> with the value <code>09</code>.
+If we looked into the virtual machine the CHIP-8 interpreter spins up to run
+this program, we would see at that state a list of registers with the 3rd
+(0 = 1st) one set to <code>9</code>. All these values we're preparing are for giving
+coordinates on the display to the part of the code that will draw our shiny
+letters.</p>
+<p>That's where we reach the last section of our code, the drawing! Here too, you
+may see some sort of pattern in the way these instructions are laid out:</p>
+<pre class="prettyprint source"><code>;; Drawing our text
+A202 D015 ; Drawing the first letter
+F629 D235 ; Drawing the second letter
+A207 D455 ; Drawing the third letter</code></pre><p>The first half of each these lines tells where the <em>&quot;needle&quot;</em> I've told you
+about earlier should be when we will be drawing the text. The second half is
+the actual drawing, from the mighty instruction <code>DXYN</code> (<code>X</code>, <code>Y</code>, <code>N</code> hex
+blabla). <code>X</code> and <code>Y</code> should be two registers that holds the coordinates of
+where we will draw sprite. In the first one we've specified <code>0</code> and <code>1</code>. We
+also could have used <code>0</code> for the two, as they're the same, they hold <code>00</code>.
+That's means that the sprite that we're going to draw will be on the top left
+of the screen, beginning at the very first pixel. The <code>N</code> is the length of the
+sprite we want to draw, its height. Here we draw sprites 5 lines high.</p>
+<p>Simple enough? Let's run it now!</p>
+<h3>Installation</h3><h4>From packaged version</h4><p>To install our CHIP-8 interpreter, go to
+https://github.com/pldiiw/1arc/releases and download the CLI and GUI
+corresponding to your OS of the latest version you can find and you're ready
+to rock.</p>
+<h4>From source</h4><p>If you wish to install this software from source, you need the following
+dependencies:</p>
+<ul>
+<li><code>git</code>: https://git-scm.com/</li>
+<li><code>bash</code> or any other shell</li>
+<li><code>nodejs</code>: https://nodejs.org/</li>
+</ul>
+<p>First, clone the repository: <code>git clone https://github.com/pldiiw/1arc</code>.</p>
+<p>Enter the repo: <code>cd 1arc</code>.</p>
+<p>Install all node dependencies: <code>npm i</code>.</p>
+<p>Run the tests to check that everything is alright: <code>npm run test</code>.</p>
+<p>Then, build the executables: <code>npm run build</code>.</p>
+<p>You will find your executables inside the <code>bin</code> directory.</p>
+<p>If you prefer to run directly the sources, run <code>node --harmony src/cli.js</code> to
+use to CLI and open with your web browser <code>src/gui/index.html</code> to use the GUI.</p>
+<h3>Running the code</h3><p>Before running the code, copy and paste it into a file of your choice. It will
+be your source file, the one we will hand out to the interpreter.</p>
+<p>From here, you two choices: running the calm Command Line Interface or the full
+blown Graphical User Interface.
+You will need a terminal to run the CLI, and a browser to run the GUI.</p>
+<h4>CLI</h4><p>The CLI, people's best friend. Or nerd's one, I don't remember the adage. In
+your terminal, go to the directory where the interpreter is installed and run:</p>
+<pre class="prettyprint source"><code>./1arc-cli load &lt;path-to-your-source-file></code></pre><p><em>Note</em>: On Windows, remove the <code>./</code> and add <code>.exe</code> at the end: <code>1arc-cli.exe</code></p>
+<p>Where <code>&lt;path-to-your-source-file&gt;</code> is, well, your source file.</p>
+<p>Executing this command will create a new CHIP-8 virtual machine and feed your
+source code into it. This machine is saved as a <code>.json</code> file named by default
+<code>.engine_state.chip8.json</code>. Try to open it with a text editor and explore it a
+bit to see how is organized the virtual machine if you wish to!</p>
+<p>Now, let's run our code: <code>./1arc-cli cycle 13</code>. This will run the 13 next
+instructions, exactly how many we have in our code. You could put a bigger
+number, but that would just be wasting electricity.</p>
+<p>Finally, let's see how pretty &quot;HEY&quot;: <code>./1arc-cli display</code>.</p>
+<p>Amazing, right?</p>
+<p>You can dig a bit more into the CLI by typing <code>./1arc-cli help</code>. And then
+<code>./1arc-cli help &lt;subcommand&gt;</code> for any particular subcommand you're intrigued
+with. Also go read our design document about the CLI to learn every aspect of
+it: <a href="./doc/design/cli.md">cli.md</a>.</p>
+<h4>GUI</h4><p>For some, a graphical interface may be easier to use. Execute <code>./1arc-gui</code> to
+open it.</p>
+<p>Let's load our &quot;hey&quot; program inside it. Just click on the <code>Load program</code> button
+and select the source code file for our program.</p>
+<p>Once done, you may see some changes on the screen. Everything you have in front
+of you is every component and value that is inside the CHIP-8 virtual machine.
+At the bottom of the screen you can see memory, where values have been written.
+Select the <code>16</code> that is just above the cell section and scroll to the 512th
+cell. Reading the values, you may recognize every instruction of our &quot;hey&quot;
+program.</p>
+<p>To run the program, click on the button with the fast-forward icon (or press
+<code>Shift+Space</code>). If many things on the interface happens at once and that our
+&quot;HEY&quot; is displayed, that means that it worked. To stop the execution if it
+didn't by itself, click on the pause button (or press <code>Space</code>).</p>
+<p>You can do many things with the GUI. For example, click on one of the pixels of
+the display. Did it turned on or off? Awesome!</p>
+<p>The GUI let you edit any value in a easy manner, and give a convenient way to
+interact with the CHIP-8 virtual machine. Don't hesitate to tinker things at
+random to explore the possibilities of the CHIP-8 virtual machine.</p>
+<h4>Going further</h4><p>You may want to lean more about CHIP-8. Here's some resources to help you.</p>
+<p>The first, is an article by Matthew Mikolay that will explain almost everything
+you need to know about CHIP-8: <a href="http://mattmik.com/files/chip8/mastering/chip8.html">Mastering CHIP-8 by Matthew Mikolay</a>.</p>
+<p>We've compiled a CHIP-8 reference that is terser than this article, good for
+quick infos: <a href="./doc/chip-8.md">chip-8.md</a>.</p>
+<p>To write CHIP-8 source code that cope with our interpreter, please respect the
+syntax described inside this document: <a href="./doc/design/syntax.md">syntax.md</a>.</p>
+<p>Try to download some CHIP-8 games from the web and test them!</p>
+<p>If you really want to dig it, go read all of our <a href="./doc/design/README.md">design documents</a> to
+understand all of the inner workings of our implementation and maybe, if you're
+brave enough go read the [technical ones].</p>
+<h2>LICENSE</h2><p>This software is under the MIT license. See <a href="./LICENSE">LICENSE</a> file for more information.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-engine.html">engine</a></li><li><a href="module-instruction-set.html">instruction-set</a></li><li><a href="module-utility.html">utility</a></li></ul><h3>Global</h3><ul><li><a href="global.html#convert">convert</a></li><li><a href="global.html#cycle">cycle</a></li><li><a href="global.html#display">display</a></li><li><a href="global.html#edit">edit</a></li><li><a href="global.html#engineState">engineState</a></li><li><a href="global.html#fs">fs</a></li><li><a href="global.html#help">help</a></li><li><a href="global.html#input">input</a></li><li><a href="global.html#inspect">inspect</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#requirejs">requirejs</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Jun 09 2017 13:26:43 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

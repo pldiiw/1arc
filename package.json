@@ -40,6 +40,7 @@
   "homepage": "https://github.com/pldiiw/1arc#readme",
   "devDependencies": {
     "jest": "^19.0.2",
+    "jsdoc": "^3.4.3",
     "pkg": "^4.0.0",
     "semistandard": "^10.0.0"
   },

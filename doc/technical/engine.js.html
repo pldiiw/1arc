@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module engine
+ */
+
+const instruction = require('./instruction-set.js').instruction;
+
+/**
+ * Generate an empty CHIP-8 engine.
+ * @return {Map} Empty engine
+ */
+function initialize () {
+  return new Map([
+    ['data', new Uint8Array(16)],
+    ['I', 0],
+    ['timer', 0],
+    ['sound', 0],
+    ['memory', new Uint8Array(4096)],
+    ['pc', 0],
+    ['pointer', 0],
+    ['stack', new Uint16Array(16)],
+    ['display', Array.from({ length: 32 }).map(_ => Array(64).fill(false))],
+    ['keypad', Array(16).fill(false)]
+  ]);
+}
+
+/**
+ * Load the built-in CHIP-8 font into memory.
+ * @param {Map} engine The engine in which the font should be loaded into.
+ * @return {Map} The engine with the font loaded.
+ */
+function loadFont (engine) {
+  const font = Uint8Array.from([
+    0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+    0x20, 0x60, 0x20, 0x20, 0x70, // 1
+    0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+    0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+    0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+    0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+    0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+    0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+    0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+    0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+    0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+    0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+    0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+    0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+    0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+    0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+  ]);
+
+  return engine.set('memory',
+    engine.get('memory').map((v, i) => font[i] ? font[i] : v));
+}
+
+/**
+ * Load a given CHIP-8 program into the engine's memory.
+ * @param {Map} engine The CHIP-8 engine in which we will feed the program
+ * into.
+ * @param {string} program The CHIP-8 program. It is a bare suite of
+ * instructions.
+ * @return {Map} The new engine, with program loaded.
+ */
+function loadProgram (engine, program) {
+  const parsedProgram = program.match(/.{1,2}/g).map(v => parseInt(v, 16));
+
+  return engine.set('memory',
+    engine.get('memory').map((v, i) => {
+      return i >= 512 &amp;&amp; i &lt; 512 + parsedProgram.length
+        ? parsedProgram[i - 512]
+        : v;
+    }));
+}
+
+/**
+ * Fill the CHIP-8 engine with the necessary data in order to get it ready to
+ * run.
+ * @param {Map} engine The CHIP-8 engine from which we set up everything.
+ * @param {string} program The program that will be loadid into the engine's
+ * memory.
+ * @return {Map} The engine ready to cycle.
+ */
+function prepare (engine, program) {
+  return loadProgram(loadFont(engine), program).set('pc', 0x200);
+}
+
+/**
+ * Run one cycle of CHIP-8 engine.
+ * @param {Map} engine The engine from which the cycle will be run against.
+ * @return {Map} A new CHIP-8 engine that take into account what happened
+ * during the cycle.
+ */
+function cycle (engine) {
+  // Return right away if we already reached the end of the memory.
+  if (engine.get('pc') > 0xFFF) { return engine; }
+
+  const currentPC = engine.get('pc');
+  const currentInstruction = engine.get('memory')
+    .slice(currentPC, currentPC + 2)
+    .reduce((a, v, i) => a + (i === 0 ? v * 0x100 : v), 0);
+
+  const currentTimer = engine.get('timer');
+  const DecTimerEngine = engine.set('timer',
+    currentTimer > 0 ? currentTimer - 1 : currentTimer);
+
+  const currentSound = DecTimerEngine.get('sound');
+  const DecSoundEngine = DecTimerEngine.set('sound',
+    currentSound > 0 ? currentSound - 1 : currentSound);
+
+  const executedInstructionEngine =
+    instruction(currentInstruction)(DecSoundEngine);
+
+  const incPCEngine = executedInstructionEngine.set('pc', engine.get('pc') + 2);
+
+  return incPCEngine;
+}
+
+module.exports = {
+  initialize: initialize,
+  loadFont: loadFont,
+  loadProgram: loadProgram,
+  prepare: prepare,
+  cycle: cycle
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-engine.html">engine</a></li><li><a href="module-instruction-set.html">instruction-set</a></li><li><a href="module-utility.html">utility</a></li></ul><h3>Global</h3><ul><li><a href="global.html#convert">convert</a></li><li><a href="global.html#cycle">cycle</a></li><li><a href="global.html#display">display</a></li><li><a href="global.html#edit">edit</a></li><li><a href="global.html#engineState">engineState</a></li><li><a href="global.html#fs">fs</a></li><li><a href="global.html#help">help</a></li><li><a href="global.html#input">input</a></li><li><a href="global.html#inspect">inspect</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#requirejs">requirejs</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Jun 09 2017 13:26:43 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

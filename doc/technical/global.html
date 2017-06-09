@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Global</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Global</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="engineState"><span class="type-signature"></span>engineState<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="gui_js_lib_gui.js.html">gui/js/lib/gui.js</a>, <a href="gui_js_lib_gui.js.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="fs"><span class="type-signature">(constant) </span>fs<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    CHIP-8 interpreter CLI tool.
+
+General usage:
+  ./cli.js [options] <subcommand> [suboptions] [subparameter]
+
+Options:
+  -s, --state <file>  The file where the engine's state resides.
+                      (default: .engine_state.chip8.json)
+
+Subcommands:
+  load [-b,--binary] [-d,--dry-run] <source-file>
+    Load program into a new CHIP-8 engine.
+  cycle [-d,--dry-run] [amount]
+    Run one or multiple cycle, i.e. read next instruction(s).
+  display [-1,--pixel-on <character>] [-0,--pixel-off <character>]
+    Print the engine's display.
+  input [-n,--no] <key>
+    Press or not a key of the engine's keypad.
+  inspect [-f,--format <base>] [-r,--range [start]-[end]] [component]
+    Show engine's components bare data.
+  edit
+    Open the state file in your favorite editor to edit it safely.
+  convert [-t,--to <encoding>] [-o,--output <file>] <source-file>
+    Little utility to convert CHIP-8 programs to raw binary or text.
+  help [subcommand]
+    Show the help.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="requirejs"><span class="type-signature"></span>requirejs<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    vim: et:ts=4:sw=4:sts=4
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-license">License:</dt>
+    <dd class="tag-license"><ul class="dummy"><li>RequireJS 2.3.3 Copyright jQuery Foundation and other contributors.
+Released under MIT license, https://github.com/requirejs/requirejs/blob/master/LICENSE</li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="gui_js_require.min.js.html">gui/js/require.min.js</a>, <a href="gui_js_require.min.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="convert"><span class="type-signature"></span>convert<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Convert subcommand - Convert program files from/to binary to/from text.
+
+Usage: ./cli.js [options] convert [suboptions] <source-file>
+
+source-file: The path to the file containing the CHIP-8 program to
+             translate.
+
+Suboptions:
+  -o, --output <file>  The file to same the converted program to. By
+                       default, outputs the program to stdout.
+
+  -t, --to <encoding>  The format to convert the program file to. The
+                       possible values are: bin, binary, txt, text. Using
+                       one of the encoding implitcly indicates that the
+                       input program file is in the other format.
+                       Defaults to text (alias: txt).
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line442">line 442</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="cycle"><span class="type-signature"></span>cycle<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Cycle subcommand - Execute engine's next instruction(s).
+
+Usage: ./cli.js [options] cycle [suboptions] [amount]
+
+amount: How many instructions to read, defaults to 1.
+
+Options:
+  -s, --state <file>  Where to retrieve and save back the engine's state.
+                      (default: .engine_state.chip8.json)
+
+Suboptions:
+  -d, --dry-run       Do not save the new engine, display the differences
+                      between them.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="display"><span class="type-signature"></span>display<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Display subcommand - Show the engine's display in a pretty format.
+
+Usage: ./cli.js [options] display [suboptions]
+
+Options:
+  -s, --state <file>           The file containing the engine's state.
+                               (default: .engine_state.chip8.json)
+
+Suboptions:
+  -1, --pixel-on <character>   Use given character for non-transparent
+                               pixels.
+  -0, --pixel-off <character>  Use given character for transparent pixels.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line222">line 222</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="edit"><span class="type-signature"></span>edit<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Edit subcommand - Open the state file in the default editor.
+
+Usage: ./cli.js [options] edit
+
+Options:
+  -s, --state <file>  File path to the original engine you want to edit.
+                      (default: .engine_state.chip8.json)
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line389">line 389</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="help"><span class="type-signature"></span>help<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Help subcommand - Show the help.
+
+Usage: ./cli.js help [subcommand]
+
+subcommand: Display detailed information about one particular subcommand,
+            defaults to "short".
+            Possible values: short, load, cycle, display, input, inspect
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line360">line 360</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="input"><span class="type-signature"></span>input<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Input subcommand - Simulate the input of a keypad's key.
+
+Usage: ./cli.js [options] input [suboptions] <key>
+
+key: The key to press, 0 through F.
+
+Options:
+  -s, --state <file>  Where to retrieve and save back the engine's state.
+                      (default: .engine_state.chip8.json)
+
+Suboptions:
+  -n, --no            Release the pressure on a key.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line244">line 244</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="inspect"><span class="type-signature"></span>inspect<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Inspect subcommand - Show the bare data of the engine's various components.
+
+Usage: ./cli.js [options] inspect [suboptions] [component]
+
+component: The component of the engine to inspect, defaults to "all".
+           Possible values: data,    I,      timer,   sound,
+                            memory,  pc,     pointer, stack,
+                            display, keypad, all
+
+Options:
+  -s, --state <file>         The file containing the engine's state to
+                             inspect.
+                             (default: .engine_state.chip8.json)
+
+Suboptions:
+  -f, --format <base>        Change the base in which to display
+                             the engine's data, defaults to 10.
+
+  -r, --range [start]-[end]  When inspecting memory or the display, show
+                             only a portion of it. Defaults to "-", which
+                             is from 0 until the end.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line276">line 276</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="load"><span class="type-signature"></span>load<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Load subcommand - Create a new CHIP-8 engine with the given source code fed
+into its memory and ready to be executed.
+
+Usage: ./cli.js [options] load [subptions] <source-file>
+
+source-file: Path to the file containing the CHIP-8 code you want to load
+             into the new engine.
+
+Options:
+  -s, --state <file>  Save new engine to file, instead of default.
+                      (default: .engine_state.chip8.json)
+
+Suboptions:
+  -b, --binary        Indicate to the file parser that the source file
+                      specified is in a binary format, not text.
+  -d, --dry-run       Do not save the new engine to the state file. Can help
+                      to verify that a given CHIP-8 program is free of any
+                      syntax error.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="cli.js.html">cli.js</a>, <a href="cli.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-engine.html">engine</a></li><li><a href="module-instruction-set.html">instruction-set</a></li><li><a href="module-utility.html">utility</a></li></ul><h3>Global</h3><ul><li><a href="global.html#convert">convert</a></li><li><a href="global.html#cycle">cycle</a></li><li><a href="global.html#display">display</a></li><li><a href="global.html#edit">edit</a></li><li><a href="global.html#engineState">engineState</a></li><li><a href="global.html#fs">fs</a></li><li><a href="global.html#help">help</a></li><li><a href="global.html#input">input</a></li><li><a href="global.html#inspect">inspect</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#requirejs">requirejs</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Jun 09 2017 13:26:43 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
