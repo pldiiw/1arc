@@ -207,8 +207,9 @@ Simple enough? Let's run it now!
 #### From packaged version
 
 To install our CHIP-8 interpreter, go to
-https://github.com/pldiiw/1arc/releases and download the last version you can
-find. Extract it somewhere and then you're done, it's ready to rock.
+https://github.com/pldiiw/1arc/releases and download the CLI and GUI
+corresponding to your OS of the latest version you can find and you're ready
+to rock.
 
 #### From source
 
@@ -248,8 +249,10 @@ The CLI, people's best friend. Or nerd's one, I don't remember the adage. In
 your terminal, go to the directory where the interpreter is installed and run:
 
 ```
-./bin/cli load <path-to-your-source-file>
+./1arc-cli load <path-to-your-source-file>
 ```
+
+_Note_: On Windows, remove the `./` and add `.exe` at the end: `1arc-cli.exe`
 
 Where `<path-to-your-source-file>` is, well, your source file.
 
@@ -258,22 +261,22 @@ source code into it. This machine is saved as a `.json` file named by default
 `.engine_state.chip8.json`. Try to open it with a text editor and explore it a
 bit to see how is organized the virtual machine if you wish to!
 
-Now, let's run our code: `./bin/cli cycle 13`. This will run the 13 next
+Now, let's run our code: `./1arc-cli cycle 13`. This will run the 13 next
 instructions, exactly how many we have in our code. You could put a bigger
 number, but that would just be wasting electricity.
 
-Finally, let's see how pretty "HEY": `./bin/cli display`.
+Finally, let's see how pretty "HEY": `./1arc-cli display`.
 
 Amazing, right?
 
-You can dig a bit more into the CLI by typing `./bin/cli help`. And then
-`./bin/cli help <subcommand>` for any particular subcommand you're intrigued
+You can dig a bit more into the CLI by typing `./1arc-cli help`. And then
+`./1arc-cli help <subcommand>` for any particular subcommand you're intrigued
 with. Also go read our design document about the CLI to learn every aspect of
 it: [cli.md].
 
 #### GUI
 
-For some, a graphical interface may be easier to use. Execute `./bin/gui` to
+For some, a graphical interface may be easier to use. Execute `./1arc-gui` to
 open it.
 
 Let's load our "hey" program inside it. Just click on the `Load program` button
