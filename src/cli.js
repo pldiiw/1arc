@@ -21,6 +21,8 @@
  *     Show engine's components bare data.
  *   edit
  *     Open the state file in your favorite editor to edit it safely.
+ *   convert [-t,--to <encoding>] [-o,--output <file>] <source-file>
+ *     Little utility to convert CHIP-8 programs to raw binary or text.
  *   help [subcommand]
  *     Show the help.
  */
@@ -42,7 +44,9 @@ function init () {
     'pixeloff': ' ',
     'no': false,
     'format': 10,
-    'range': [0, -1]
+    'range': [0, -1],
+    'output': '',
+    'to': 'text'
   };
   let args = process.argv;
   let subcommands = {
@@ -52,6 +56,7 @@ function init () {
     'input': input,
     'inspect': inspect,
     'edit': edit,
+    'convert': convert,
     'help': help
   };
 
@@ -113,6 +118,16 @@ function parseArgument (query, args) {
           .map(v => parseInt(v));
         query.range[0] = Number.isNaN(start) ? query.range[0] : start;
         query.range[1] = Number.isNaN(end) ? query.range[1] : end;
+        i++;
+        break;
+      case '-o':
+      case '--output':
+        query.output = argumentToParse[i + 1]
+        i++;
+        break;
+      case '-t':
+      case '--to':
+        query.to = argumentToParse[i + 1]
         i++;
         break;
       default:
@@ -404,6 +419,46 @@ function edit (query) {
       process.exit(0);
     });
   });
+}
+
+/**
+ * Convert subcommand - Convert program files from/to binary to/from text.
+ *
+ * Usage: ./cli.js [options] convert [suboptions] <source-file>
+ *
+ * source-file: The path to the file containing the CHIP-8 program to
+ *              translate.
+ *
+ * Suboptions:
+ *   -o, --output <file>  The file to same the converted program to. By
+ *                        default, outputs the program to stdout.
+ *
+ *   -t, --to <encoding>  The format to convert the program file to. The
+ *                        possible values are: bin, binary, txt, text. Using
+ *                        one of the encoding implitcly indicates that the
+ *                        input program file is in the other format.
+ *                        Defaults to text (alias: txt).
+ */
+function convert (query) {
+  let isToText = /t(e)?xt/.test(query.to);
+  let convertedProgram;
+
+  if (isToText) {
+    convertedProgram = Buffer.from(fs.readFileSync(query.subparameter, 'hex'));
+  } else {
+    const sourceProgram = fs.readFileSync(query.subparameter, 'utf8');
+    convertedProgram = Buffer.from(utility.removeArtefacts(sourceProgram)
+      .match(/.{1,2}/g)
+      .map(v => parseInt(v, 16)));
+  }
+
+  if (query.output === '') {
+    process.stdout.write(isToText
+      ? convertedProgram.toString()
+      : convertedProgram);
+  } else {
+    fs.writeFileSync(query.output, convertedProgram);
+  }
 }
 
 function dumpEngineToFile (engineState, file) {

@@ -99,6 +99,10 @@ Here's the list of all the possible subcommands:
    that is then opened in the user's default editor to let him modify by hand
    the values of the saved engine. When the user closes his editor, the tmp
    file is copied back to the state file, overwriting the latter.
+ * `convert` - Little utility subcommand to convert CHIP-8 programs from binary
+   to text back and forth. See `load` for more information on why it is needed.
+   Concerning text files, `convert` should takes of stripping artefacts
+   (comments, spaces, etc) before the conversion.
  * `help` - Show the help.
 
 ### Subparameters
@@ -137,6 +141,8 @@ The subparameters are given with their associated subcommand prefixed.
    all
    ```
  * `edit` does not have any subparameters.
+ * `convert <source-file>` - Convert awaits as a subparamater the path to a
+   file to convert.
  * `help [subcommand]` - Calling `help` with no subparameter displays the CLI
    syntax and the possible options and the subcommands along with their
    subparameter with a short description of what they does. When passing a
@@ -159,7 +165,7 @@ can be more readable to use long suboptions in some cases.
 #### Load suboptions
 
  * `-b` or `--binary` - Used to indicate that the source file specified is in
-   binary foramt, and that it needs to be converted into the right format
+   binary format, and that it needs to be converted into the right format
    before loading it inside the engine.
  * `-d` or `--dry-run` - Do everything the `load` does but does not dump the
    generated engine state at the end. It can help see if the source code given
@@ -220,6 +226,19 @@ can be more readable to use long suboptions in some cases.
 #### Edit suboptions
 
 Edit doesn't have any suboptions.
+
+### Convert suboptions
+
+ * `-o <file>` or `--output <file>` - Used to specified to which file the
+   converted program should be saved. By default, the converted program is
+   output to stdout.
+ * `-t <encoding>` or `--to <encoding>` - This suboption indicate from and to
+   which format the source file should be converted. The possible values are:
+   `bin, binary, txt, text`. When using `bin` or `binary`, the input file is
+   assumed to be a text file and that the convert subcommand should translate
+   it to a raw binary file. The opposite to this behaviour is done when using
+   `txt` or `text`. The default is `text`, so it converts raw binary program to
+   text ones.
 
 #### Help suboptions
 
