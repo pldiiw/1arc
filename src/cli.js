@@ -38,8 +38,8 @@ function init () {
     'subparameter': '',
     'dryrun': false,
     'binary': false,
-    'pixelon': 'x',
-    'pixeloff': 'o',
+    'pixelon': '■',
+    'pixeloff': ' ',
     'no': false,
     'format': 10,
     'range': [0, -1]
